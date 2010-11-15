@@ -1,0 +1,7 @@
+{
+  "name": "Google Graffiti Wall",
+  "version": "0.1",
+  "chrome_url_overrides": {
+    "newtab": "redirect.html"
+  }
+}
