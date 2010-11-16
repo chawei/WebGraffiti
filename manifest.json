@@ -1,7 +1,33 @@
 {
-  "name": "Google Graffiti Wall",
+  "name": "Web Graffiti",
   "version": "0.1",
-  "chrome_url_overrides": {
-    "newtab": "redirect.html"
-  }
+  "description": "Change pages styling according to the user's preferences.",
+  "icons": { "16": "icons/colors_icons.png",
+             "32": "icons/colors_icons.png",
+             "48": "icons/colors_icons.png",
+             "128": "icons/colors_icons.png" },
+  "page_action": 
+  {
+    "default_icon": "icons/colors_icons.png",
+    "default_title": "Change Colors",    
+    "popup": "popup.html"           
+  },
+  "background_page": "background_page.html",
+  "content_scripts": 
+   [
+	{
+	"run_at": "document_start",
+      	"matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"], 
+      	"js": ["convert.js"],
+      	"all_frames": true
+    	}
+   ],
+  "minimum_chrome_version": "4.0",
+  "options_page": "options.html",
+  "permissions": 
+  [
+  "tabs",
+  "http://*/*",
+  "https://*/*"
+  ]
 }
