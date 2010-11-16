@@ -43,6 +43,10 @@ function CurrentPage ()
 	chrome.tabs.sendRequest(me.CurrentTabId, {action: "removeCss"}, null);
     }
 
+	me.callDrawCanvas = function (){
+	chrome.tabs.sendRequest(me.CurrentTabId, {action: "drawCanvas"}, null);
+    }
+
     me.setIsOverridenOrNot =  function (path, overrideType){
 	me.blnOverrides[overrideType] = me.Overrides[overrideType].indexOf(path) != -1;
     }
@@ -93,13 +97,16 @@ function CurrentPage ()
 	setDefaultOption("OverrideFontName", "Arial");
     }
 
-    me.updatePageAction = function(tabId){
+    me.updatePageAction = function(tabId, changeInfo){
 		chrome.tabs.get(tabId, function (tab){
 		    me.CurrentTabId = tabId;
 		    me.Url = tab.url;
 		    me.Domain = extractDomain(tab.url);
 		    if(me.isStyleOverriden()){
 				me.callInjectCss();
+				if (changeInfo.status == "complete") {
+					me.callDrawCanvas();
+				}
 				me.displayOverriden(tabId);
 		    }
 		    else
@@ -107,7 +114,6 @@ function CurrentPage ()
 
 		       chrome.pageAction.show(tabId);
 		});
-
     }
 
     me.displayDefault = function(tabId){
@@ -133,17 +139,15 @@ function CurrentPage ()
 		var showFlash = loadOption("ShowFlash");
 
 		if(defaultBrowserColor != true){
-		
-		
 		    var css = 'html > body, html > body * {' + 
 		//	'background-color: '+ backgroundColor +' !important;' +
 		//	'color: ' + textColor + ' !important;' + 
 			"font-family: 'Reenie Beanie', arial, serif !important;" +
-			"font-size: 1.02em !important;" +
+			"font-size: 1.03em !important;" +
 			'text-shadow: 0 !important;' +
 			'-webkit-text-fill-color: none !important;}' +
 			'span{background:transparent !important; border:none !important;}' +
-			'input{border: none !important; background: none !important;}'+
+			'input{border: none !important; background: none !important; }'+
 			'div{border: none !important; border-bottom: none !important; border-top: none !important;}'+
 			'td{background:transparent !important; border: none !important; border-top: none !important; border-bottom: none !important;}'+
 			'html > body a:link, html > body a:link *,' +
@@ -180,6 +184,7 @@ function CurrentPage ()
     me.setDefaults();
     me.getOverrides();
     me.buildCssToInject();
+
 }
 
 function extractDomain(url){
@@ -212,8 +217,9 @@ chrome.extension.onRequest.addListener(
       case "overridePage":
 	  if(objCurrentPage.blnOverrides['OverridenPages'])
 	      objCurrentPage.manageOverride('OverridenPages', false, objCurrentPage.Url, 'remove', objCurrentPage.callRemoveCss);
-	  else
+	  else {
 	      objCurrentPage.manageOverride('OverridenPages', true, objCurrentPage.Url, 'add', objCurrentPage.callInjectCss);
+	  }
 	  break;
       case "overrideDomain":
 	  if(objCurrentPage.blnOverrides['OverridenDomains'])
@@ -230,9 +236,6 @@ chrome.extension.onRequest.addListener(
       }
   }
 );
-
-
-
 
 
 </script>

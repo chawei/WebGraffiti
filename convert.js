@@ -1,4 +1,3 @@
-
 var style_element;
 
 // draw freehand rect 
@@ -71,9 +70,35 @@ function injectCss(cssToInject){
 	cssNode.href = 'http://fonts.googleapis.com/css?family=Reenie+Beanie&subset=latin';
 	headID.appendChild(cssNode);
 	
+	style_element = document.createElement("style");
+    style_element.innerText = cssToInject;
+    document.documentElement.insertBefore(style_element, null);
+	
+	// remove logo
+	var logoDiv = document.getElementById('lga');
+	logoDiv.parentNode.removeChild(logoDiv);
+	
+	// create new text
+	var fontElement = document.getElementsByTagName('font')[0];
+	removeChildNodes(fontElement);
+	var newText = document.createTextNode('Who gives a shit about');
+	fontElement.appendChild(newText);
+	fontElement.style["font-size"] = '2em';
+	
+	// change button
+	var buttonSubmit = getElementsByClass(document,'lsbb','span');
+
+	var btn2 = buttonSubmit[1].childNodes[0];
+	btn2.value = "Wish Me Luck";
+	
+	var btn1 = buttonSubmit[0].childNodes[0];
+	btn1.value = "I do";
+
+}
+
+function drawCanvas() {
 	// draw freehand textfield
 	var canvasList = document.getElementsByTagName("canvas");
-
 	var inputs = getElementsByClass(document,'lst','input');
 	var inputX = Math.floor(findPosX(inputs[0]));
 	var inputY = Math.floor(findPosY(inputs[0]));
@@ -86,17 +111,21 @@ function injectCss(cssToInject){
 		
 		// change button
 		var buttonSubmit = getElementsByClass(document,'lsbb','span');
-		buttonSubmit[0].value = "I do";
-		drawFreehandRect( Math.floor(findPosX( buttonSubmit[0] )),Math.floor(findPosY( buttonSubmit[0] )),buttonSubmit[0].offsetWidth,buttonSubmit[0].offsetHeight);
 		
-		buttonSubmit[1].value = "Wish Me Luck";
-		drawFreehandRect( Math.floor(findPosX( buttonSubmit[1] )),Math.floor(findPosY( buttonSubmit[1] )),buttonSubmit[1].offsetWidth,buttonSubmit[1].offsetHeight);
+		var btn2 = buttonSubmit[1].childNodes[0];
+		drawFreehandRect( findPosX( btn2 ), findPosY( btn2 ),btn2.offsetWidth,btn2.offsetHeight);
+		
+		var btn1 = buttonSubmit[0].childNodes[0];
+		drawFreehandRect( findPosX( btn1 ), findPosY( btn1 ), btn1.offsetWidth,btn1.offsetHeight);
 	}
-	
-    style_element = document.createElement("style");
-    style_element.innerText = cssToInject;
-    document.documentElement.insertBefore(style_element, null);
+}
 
+function removeChildNodes(node)
+{
+  while (node.childNodes[0])
+  {
+    node.removeChild(node.childNodes[0]);
+  }
 }
 
 function getElementsByClass(node,searchClass,tag) {
@@ -157,10 +186,13 @@ function removeCss(){
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.action == "injectCss") {
-	injectCss(request.css);
+		injectCss(request.css);
+		//drawCanvas();
     } else if (request.action == "removeCss") {
-	removeCss();
-    }
+		removeCss();
+    } else if (request.action == "drawCanvas") {
+		drawCanvas();
+	}
 });
 
 

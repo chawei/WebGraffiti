@@ -1,6 +1,6 @@
 {
   "name": "Web Graffiti",
-  "version": "0.1",
+  "version": "0",
   "description": "Change pages styling according to the user's preferences.",
   "icons": { "16": "icons/colors_icons.png",
              "32": "icons/colors_icons.png",
