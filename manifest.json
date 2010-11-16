@@ -1,6 +1,6 @@
 {
   "name": "Web Graffiti",
-  "version": "0",
+  "version": "0.1",
   "description": "Change pages styling according to the user's preferences.",
   "icons": { "16": "icons/colors_icons.png",
              "32": "icons/colors_icons.png",
@@ -23,6 +23,11 @@
     	}
    ],
   "minimum_chrome_version": "4.0",
+
+  "chrome_url_overrides": {
+    "newtab": "redirect.html"
+  },
+
   "options_page": "options.html",
   "permissions": 
   [

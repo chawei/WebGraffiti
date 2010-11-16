@@ -69,14 +69,20 @@ function injectCss(cssToInject){
 	cssNode.media = 'screen';
 	cssNode.href = 'http://fonts.googleapis.com/css?family=Reenie+Beanie&subset=latin';
 	headID.appendChild(cssNode);
-	
 	style_element = document.createElement("style");
     style_element.innerText = cssToInject;
     document.documentElement.insertBefore(style_element, null);
 	
-	// remove logo
+	// replace img
 	var logoDiv = document.getElementById('lga');
-	logoDiv.parentNode.removeChild(logoDiv);
+	var img = logoDiv.getElementsByTagName('img')[0];
+	logoDiv.removeChild(img);
+	var newImg = document.createElement("img");
+	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/crap.png");
+	newImg.setAttribute('alt', 'na');
+//	newImg.setAttribute('height', '1px');
+//	newImg.setAttribute('width', '1px');
+	logoDiv.appendChild(newImg);
 	
 	// create new text
 	var fontElement = document.getElementsByTagName('font')[0];
@@ -87,10 +93,8 @@ function injectCss(cssToInject){
 	
 	// change button
 	var buttonSubmit = getElementsByClass(document,'lsbb','span');
-
 	var btn2 = buttonSubmit[1].childNodes[0];
 	btn2.value = "Wish Me Luck";
-	
 	var btn1 = buttonSubmit[0].childNodes[0];
 	btn1.value = "I do";
 
