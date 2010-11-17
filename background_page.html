@@ -47,6 +47,10 @@ function CurrentPage ()
 	chrome.tabs.sendRequest(me.CurrentTabId, {action: "drawCanvas"}, null);
     }
 
+	me.callCreateCanvas = function (){
+	chrome.tabs.sendRequest(me.CurrentTabId, {action: "createCanvas"}, null);
+    }
+
     me.setIsOverridenOrNot =  function (path, overrideType){
 	me.blnOverrides[overrideType] = me.Overrides[overrideType].indexOf(path) != -1;
     }
@@ -104,7 +108,10 @@ function CurrentPage ()
 		    me.Domain = extractDomain(tab.url);
 		    if(me.isStyleOverriden()){
 				me.callInjectCss();
+				me.callCreateCanvas();
 				if (changeInfo.status == "complete") {
+					// new canvas
+					
 					me.callDrawCanvas();
 				}
 				me.displayOverriden(tabId);
@@ -143,7 +150,7 @@ function CurrentPage ()
 		//	'background-color: '+ backgroundColor +' !important;' +
 		//	'color: ' + textColor + ' !important;' + 
 			"font-family: 'Reenie Beanie', arial, serif !important;" +
-			"font-size: 1.03em !important;" +
+			// "font-size: 1.03em !important;" +
 			'text-shadow: 0 !important;' +
 			'-webkit-text-fill-color: none !important;}' +
 			'span{background:transparent !important; border:none !important;}' +
@@ -184,6 +191,8 @@ function CurrentPage ()
     me.setDefaults();
     me.getOverrides();
     me.buildCssToInject();
+	
+	
 
 }
 

@@ -1,19 +1,37 @@
 var style_element;
+var canvasElement;
+
+var modes = {};
+
+window.addEventListener("resize", function() {
+	
+	canvasElement.height = Math.floor(window.innerHeight);
+	canvasElement.width = Math.floor(window.innerWidth);
+
+	drawCanvas();
+	
+}, false);
+
+function createCanvas(){
+	
+	modifyUI();
+	
+	canvasElement = document.createElement('canvas');
+	canvasElement.height= Math.floor(window.innerHeight);
+	canvasElement.width= Math.floor(window.innerWidth);
+	canvasElement.style.position = "absolute";
+	canvasElement.style.left = 0;
+	canvasElement.style.top = 0;
+//	convasElement.clear = false;
+	canvasElement.style.zIndex = -1;
+
+	document.body.appendChild(canvasElement);
+}
 
 // draw freehand rect 
 function drawFreehandRect(x, y, width, height){
 	
-	var newCanvas = document.createElement('canvas');
-	newCanvas.height= Math.floor(window.innerHeight);
-	newCanvas.width= Math.floor(window.innerWidth);
-	newCanvas.style.position = "absolute";
-	newCanvas.style.left = 0;
-	newCanvas.style.top = 0;
-	newCanvas.style.zIndex = -1;
-	
-	document.body.appendChild(newCanvas);
-		
-	var context=newCanvas.getContext("2d");
+	var context = canvasElement.getContext("2d");
 	
 	var gap = 2;
 	var freeFactor = 0.2;
@@ -60,7 +78,14 @@ function drawFreehandRect(x, y, width, height){
 }
 
 function injectCss(cssToInject){
-	
+
+	style_element = document.createElement("style");
+    style_element.innerText = cssToInject;
+    document.documentElement.insertBefore(style_element, null);
+}
+
+function modifyUI(){
+
 	// add font link <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie&subset=latin' rel='stylesheet' type='text/css'>
 	var headID = document.getElementsByTagName("head")[0];         
 	var cssNode = document.createElement('link');
@@ -69,9 +94,6 @@ function injectCss(cssToInject){
 	cssNode.media = 'screen';
 	cssNode.href = 'http://fonts.googleapis.com/css?family=Reenie+Beanie&subset=latin';
 	headID.appendChild(cssNode);
-	style_element = document.createElement("style");
-    style_element.innerText = cssToInject;
-    document.documentElement.insertBefore(style_element, null);
 	
 	// replace img
 	var logoDiv = document.getElementById('lga');
@@ -80,29 +102,33 @@ function injectCss(cssToInject){
 	var newImg = document.createElement("img");
 	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/crap.png");
 	newImg.setAttribute('alt', 'na');
-//	newImg.setAttribute('height', '1px');
-//	newImg.setAttribute('width', '1px');
 	logoDiv.appendChild(newImg);
 	
 	// create new text
 	var fontElement = document.getElementsByTagName('font')[0];
 	removeChildNodes(fontElement);
-	var newText = document.createTextNode('Who gives a shit about');
-	fontElement.appendChild(newText);
-	fontElement.style["font-size"] = '2em';
+	// var newText = document.createTextNode('WHO GIVE A SHIT ABOUT');
+	// fontElement.appendChild(newText);
+	// fontElement.style["font-size"] = '3em';
 	
 	// change button
 	var buttonSubmit = getElementsByClass(document,'lsbb','span');
 	var btn2 = buttonSubmit[1].childNodes[0];
 	btn2.value = "Wish Me Luck";
+	btn2.style["font-size"] = '1.5em';
 	var btn1 = buttonSubmit[0].childNodes[0];
 	btn1.value = "I do";
+	btn1.style["font-size"] = '1.5em';
 
 }
 
 function drawCanvas() {
+	
+	var context = canvasElement.getContext("2d");
+	
+//	alert(canvasElement.width+" "+canvasElement.height);
+	
 	// draw freehand textfield
-	var canvasList = document.getElementsByTagName("canvas");
 	var inputs = getElementsByClass(document,'lst','input');
 	var inputX = Math.floor(findPosX(inputs[0]));
 	var inputY = Math.floor(findPosY(inputs[0]));
@@ -110,18 +136,16 @@ function drawCanvas() {
 	var inputWidth = Math.floor(inputs[0].offsetWidth);
 	var inputHeight = Math.floor(inputs[0].offsetHeight);
 	
-	if(canvasList.length==0){
-		drawFreehandRect(inputX,inputY,inputWidth,inputHeight);
-		
-		// change button
-		var buttonSubmit = getElementsByClass(document,'lsbb','span');
-		
-		var btn2 = buttonSubmit[1].childNodes[0];
-		drawFreehandRect( findPosX( btn2 ), findPosY( btn2 ),btn2.offsetWidth,btn2.offsetHeight);
-		
-		var btn1 = buttonSubmit[0].childNodes[0];
-		drawFreehandRect( findPosX( btn1 ), findPosY( btn1 ), btn1.offsetWidth,btn1.offsetHeight);
-	}
+	drawFreehandRect(inputX,inputY,inputWidth,inputHeight);
+	
+	// change button
+	var buttonSubmit = getElementsByClass(document,'lsbb','span');
+	
+	var btn2 = buttonSubmit[1].childNodes[0];
+	drawFreehandRect( findPosX( btn2 ), findPosY( btn2 ),btn2.offsetWidth,btn2.offsetHeight);
+	
+	var btn1 = buttonSubmit[0].childNodes[0];
+	drawFreehandRect( findPosX( btn1 ), findPosY( btn1 ), btn1.offsetWidth,btn1.offsetHeight);
 }
 
 function removeChildNodes(node)
@@ -191,12 +215,14 @@ function removeCss(){
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.action == "injectCss") {
 		injectCss(request.css);
-		//drawCanvas();
     } else if (request.action == "removeCss") {
 		removeCss();
     } else if (request.action == "drawCanvas") {
 		drawCanvas();
+	} else if (request.action == "createCanvas") {
+		createCanvas();
 	}
+	
 });
 
 
