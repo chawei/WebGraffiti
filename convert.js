@@ -31,6 +31,16 @@ function createCanvas(){
 
 	document.body.appendChild(canvasElement);
 	var processingInstance = new Processing(canvasElement, sketchProc);
+	
+	// <embed type="audio/x-wav" src="" autostart="true" loop="true" hidden="true" id="music"></embed>
+	var sound = document.createElement('embed');
+	sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
+	sound.setAttribute("loop","false");
+	sound.setAttribute("autostart","true");
+	sound.setAttribute("type","audio/x-wav");
+	sound.setAttribute("hidden","true");
+	document.body.appendChild(sound);
+	
 }
 
 function injectCss(cssToInject) {
@@ -283,11 +293,10 @@ function sketchProc(processing) {
 	
 		  for(var i=0; i<totalDots; i++){
 		    var p = new Point( x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.1), y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.1) );
-				
+	
 		    currentAngle+=angleGap;
 		    dots.add(p);
 		  }
-
 			
 		  for(var j=0; j<dots.size(); j++){
 		    var p1,p2,p3,p4;
@@ -373,7 +382,7 @@ function sketchProc(processing) {
 	    this.value = 0;
 	    this.timer = 0;
 	    this.stage = 0;
-			this.peakTime = 15;
+			this.peakTime = 10;
 			this.yawnTime = this.peakTime+6;
 			
 		  this.update = function() {
