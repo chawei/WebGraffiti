@@ -50,6 +50,9 @@ function CurrentPage ()
 	me.callCreateCanvas = function (){
 	chrome.tabs.sendRequest(me.CurrentTabId, {action: "createCanvas"}, null);
     }
+	// me.callCreateBodyContainer = function(){
+	// 	chrome.tabs.sendRequest(me.CurrentTabId, {action: "createBodyContainer"}, null);
+	// }
 
     me.setIsOverridenOrNot =  function (path, overrideType){
 	me.blnOverrides[overrideType] = me.Overrides[overrideType].indexOf(path) != -1;
@@ -102,24 +105,24 @@ function CurrentPage ()
     }
 
     me.updatePageAction = function(tabId, changeInfo){
-		chrome.tabs.get(tabId, function (tab){
+			chrome.tabs.get(tabId, function (tab){
 		    me.CurrentTabId = tabId;
 		    me.Url = tab.url;
 		    me.Domain = extractDomain(tab.url);
 		    if(me.isStyleOverriden()){
-				me.callInjectCss();
-				me.callCreateCanvas();
-				if (changeInfo.status == "complete") {
-					// new canvas
-					
-					me.callDrawCanvas();
-				}
-				me.displayOverriden(tabId);
+					if (changeInfo.status == "loading") {
+						me.callInjectCss();
+					}
+					if (changeInfo.status == "complete") {
+						me.callCreateCanvas();
+						me.callDrawCanvas();
+					}
+					me.displayOverriden(tabId);
 		    }
 		    else
-			   me.displayDefault(tabId);
-
-		       chrome.pageAction.show(tabId);
+			  	me.displayDefault(tabId);
+			
+		chrome.pageAction.show(tabId);
 		});
     }
 
@@ -164,7 +167,8 @@ function CurrentPage ()
 			'html > body a:visited, html > body a:visited *,' +
 			'html > body a:visited:hover, html > body a:visited:hover *,' +
 			'html > body a:visited:active, html > body a:visited:active * {' +
-			'color:' +  visitedLinksColor + ' !important;}';
+			'color:' +  visitedLinksColor + ' !important;}'+
+			'.invisible {visibility: hidden;}';
 		}
 	
 	
