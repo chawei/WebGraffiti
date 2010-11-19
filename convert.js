@@ -222,15 +222,24 @@ function sketchProc(processing) {
 		
   };
 	
-	function Dust(x, y){
+	function Dust(x, y, moveToX, moveToY){
 
-		this.x = x;
-		this.y = y;
+		this.position = new processing.PVector(x,y);
+		this.targetPosition = new processing.PVector(moveToX,moveToY);
+		
 		this.radiusX = 10;
 		this.radiusY = 10;
 		this.scaleInt = new DIntegrator(0.01, 0.8, 0.05);
     this.scaleInt.setTarget(1.0);
 		
+		this.moving = function(){
+			console.log(this.position);
+			console.log(this.targetPosition);
+			var v = new processing.PVector(this.targetPosition.x-this.position.x, this.targetPosition.y-this.position.y);
+//			console.log(" "+v.normalize());
+			
+//			this.position.add(v.normalize());
+		}
 		
 		this.draw = function(){
 			
@@ -245,17 +254,18 @@ function sketchProc(processing) {
 	    {
 	      this.scaleInt.setTarget( Math.random()/3+1 );
 	    }
-	
+//			this.moving();
 			this.scaleInt.update();
 			this.radiusX = 11 * processing.map(this.scaleInt.value, 0, 1, 1, 2);
 			this.radiusY = 10 * processing.map(this.scaleInt.value, 0, 1, 1, 2);
 			
 			processing.beginShape();
 		
+		
 			for(var i=0; i<totalDots; i++){
 		
-				var xx = this.x + Math.cos(currentAngle)*this.radiusX*(1+Math.random()*0.07);
-				var yy = this.y + Math.sin(currentAngle)*this.radiusY*(1+Math.random()*0.07);
+				var xx = this.position.x + Math.cos(currentAngle)*this.radiusX*(1+Math.random()*0.07);
+				var yy = this.position.y + Math.sin(currentAngle)*this.radiusY*(1+Math.random()*0.07);
 				
 				processing.vertex(xx, yy);
 				currentAngle += angleGap;
@@ -275,7 +285,7 @@ function sketchProc(processing) {
 	
 	function modeDustSetup(){
 		dusts = new processing.ArrayList();
-		dusts.add(new Dust(100, 200));
+		dusts.add(new Dust(100, 100, 300, 200));
 		
 	}
 
