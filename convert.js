@@ -3,11 +3,22 @@ var canvasElement;
 
 var MODE = 1;
 
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+	if (request.action == "injectCss") {
+		injectCss(request.css);
+  } else if (request.action == "removeCss") {
+		removeCss();
+  } else if (request.action == "drawCanvas") {
+//		drawCanvas();
+	} else if (request.action == "createCanvas") {
+		createCanvas();
+	} 
+	
+});
+
 window.addEventListener("resize", function() {
-	
 	canvasElement.height = Math.floor(window.innerHeight);
-	canvasElement.width = Math.floor(window.innerWidth);
-	
+	canvasElement.width = Math.floor(window.innerWidth);  // assign width will clear the context
 //	drawCanvas();
 	
 }, false);
@@ -48,9 +59,18 @@ function injectCss(cssToInject) {
 	style_element = document.createElement("style");
   style_element.innerText = cssToInject;
   document.documentElement.insertBefore(style_element, null);
-
-	if(MODE==0)
+  
+  switch(window.location.hostname) {
+    case "encrypted.google.com":
+      MODE = 0;
+      break;
+    default:
+      MODE = 1;
+  }
+  
+	if(MODE==0) {
 		$('body center').addClass('invisible');
+	}
 }
 
 function modifyUI() {
@@ -72,7 +92,7 @@ function modifyUI() {
 	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/crap.png");
 	newImg.setAttribute('alt', 'na');
 	logoDiv.appendChild(newImg);
-	$('#lga').css('height', '285px');
+	$('#lga').css('height', '300px');
 	
 	// create new text
 	var fontElement = document.getElementsByTagName('font')[0];
@@ -87,7 +107,7 @@ function modifyUI() {
 	btn2.value = "Wish Me Luck";
 	btn2.style["font-size"] = '1.5em';
 	var btn1 = buttonSubmit[0].childNodes[0];
-//	btn1.value = "I";
+  //	btn1.value = "I";
 	btn1.style["font-size"] = '1.5em';
 
 }
@@ -102,10 +122,10 @@ function removeChildNodes(node)
 
 function getElementsByClass(node,searchClass,tag) {
 	
-    var classElements = new Array();
-    var els = node.getElementsByTagName(tag); // use "*" for all elements	
+  var classElements = new Array();
+  var els = node.getElementsByTagName(tag); // use "*" for all elements	
 
-    var elsLen = els.length;
+  var elsLen = els.length;
 
 	var pattern = new RegExp(searchClass);
     for (i = 0, j = 0; i < elsLen; i++) {
@@ -155,20 +175,6 @@ function removeCss(){
     style_element.parentNode.removeChild(style_element);
     history.go(0);
 }
-
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	if (request.action == "injectCss") {
-		injectCss(request.css);
-  } else if (request.action == "removeCss") {
-		removeCss();
-  } else if (request.action == "drawCanvas") {
-//		drawCanvas();
-	} else if (request.action == "createCanvas") {
-		createCanvas();
-	} 
-	
-});
-
 
 // processing jscode
 function sketchProc(processing) {  
@@ -276,6 +282,8 @@ function sketchProc(processing) {
 					this.moveCounter++;
 					if(this.moveCounter>50)
 						this.moveState=1;
+					
+					canvasElement.style.zIndex = -1; // let links clickable
 					break; 
 				case 1: // inward
 					if(this.location=='L'){
@@ -288,6 +296,8 @@ function sketchProc(processing) {
 						if(this.position.y>24)
 							this.moveState=2;
 					}
+					
+					canvasElement.style.zIndex = 10; // make the canvas stay on the top layer
 					break;
 				case 2: // halt
 					this.moveCounter+=2;
