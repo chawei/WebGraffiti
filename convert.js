@@ -284,7 +284,7 @@ function sketchProc(processing) {
 					}
 					else if(this.location=='T'){
 						this.position.y++;
-						if(this.position.y>50)
+						if(this.position.y>24)
 							this.moveState=2;
 					}
 					break;
@@ -303,8 +303,8 @@ function sketchProc(processing) {
 							this.position.x= processing.random(100,processing.width-100);
 							this.position.y=-30;							
 							this.moveState=0;
-							this.eyeX = 8;
-							this.eyeY = -10;
+							this.eyeX = -10;
+							this.eyeY = 10;
 						}
 					}
 					else if(this.location=='T'){
@@ -315,8 +315,8 @@ function sketchProc(processing) {
 							this.position.y=processing.random(100,processing.height-100);
 							this.position.x=-30;
 							this.moveState=0;
-							this.eyeX = -10;
-							this.eyeY = 12;
+							this.eyeX = 10;
+							this.eyeY = -10;
 						}
 					}
 					break;
@@ -369,11 +369,9 @@ function sketchProc(processing) {
 	function modeDustDraw(){
 		
 //		processing.background(255);
-		var context = canvasElement.getContext('2d');
-		context.clear = true;
-		context.clearRect( 0, 0, 1000, 800);
-		
-		
+		// var context = canvasElement.getContext('2d');
+		// context.clear = true;
+		// context.clearRect( 0, 0, 1000, 800);
 		
 		for(var i=0; i<dusts.size(); i++){
 			var dust = dusts.get(i);
