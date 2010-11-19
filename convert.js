@@ -242,8 +242,8 @@ function sketchProc(processing) {
 		this.moveState = 0; // 0 1 2 3
 		this.moveCounter = 0;
 		
-		this.eyeX = 0;
-		this.eyeY = -8;
+		this.eyeX = 10;
+		this.eyeY = -10;
 	
 		this.draw = function(){
 			
@@ -279,25 +279,25 @@ function sketchProc(processing) {
 					break; 
 				case 1: // inward
 					if(this.location=='L'){
-						this.position.x++;
+						this.position.x+=2;
 						if(this.position.x>24)
 							this.moveState=2;
 					}
 					else if(this.location=='T'){
-						this.position.y++;
+						this.position.y+=2;
 						if(this.position.y>24)
 							this.moveState=2;
 					}
 					break;
 				case 2: // halt
-					this.moveCounter+=3;
+					this.moveCounter+=2;
 					this.rollEyes();
 					if(this.moveCounter>200)
 						this.moveState=3;
 					break;
 				case 3: // outward
 					if(this.location=='L'){
-						this.position.x-=3;
+						this.position.x-=2;
 						if(this.position.x<-30){
 							this.moveCounter=0;
 							this.location = 'T'
@@ -309,16 +309,28 @@ function sketchProc(processing) {
 						}
 					}
 					else if(this.location=='T'){
-						this.position.y--;
+						this.position.y-=2;
 						if(this.position.y<-30){ // reset
 							this.moveCounter=0;
 							this.location = 'L'
-							this.position.y=processing.random(100,processing.height-100);
+							this.position.y=processing.random(100,800);
 							this.position.x=-30;
 							this.moveState=0;
 							this.eyeX = 10;
 							this.eyeY = -10;
 						}
+					}
+					break;
+				case 4: //escape
+					if(this.location=='L'){
+						this.position.x-=6;
+						if(this.position.x<-30)
+							this.moveState=3;
+					}
+					else if(this.location=='T'){
+						this.position.y-=6;
+						if(this.position.y<-30)
+							this.moveState=3;
 					}
 					break;
 			}
@@ -341,6 +353,7 @@ function sketchProc(processing) {
 		
 		this.drawEye = function(shiftX, shiftY, eyeX, eyeY, eyeW, eyeH){
 		
+		  // eye
 			var currentAngle = 0;
 		  var totalDots = 20;
 		  var angleGap = 2*Math.PI/totalDots;
@@ -359,20 +372,32 @@ function sketchProc(processing) {
 			}
 			processing.endShape();
 			
-			processing.fill(33);
-			processing.noStroke();
-			processing.ellipse(eyeX*(1+Math.random()*0.006), eyeY*(1+Math.random()*0.006), eyeW, eyeH);
+			// eye ball
+      processing.fill(33);
+      processing.noStroke();
+		
+			processing.ellipse(eyeX*(1+Math.random()*0.006), eyeY*(1+Math.random()*0.006), eyeW*(1+Math.random()*0.006), eyeH*(1+Math.random()*0.006));
 			processing.popMatrix();
 		}
 		
+		this.escape = function(){
+		  this.moveState = 4;
+		  console.log(this.moveState);
+		}
+		
+	}
+	
+	processing.mouseMoved = function() {
+	  var d = dusts.get(0);
+    d.escape();
 	}
 	
 	function modeDustDraw(){
 		
 //		processing.background(255);
-		// var context = canvasElement.getContext('2d');
-		// context.clear = true;
-		// context.clearRect( 0, 0, 1000, 800);
+    var context = canvasElement.getContext('2d');
+    context.clear = true;
+    context.clearRect( 0, 0, processing.width, processing.height);
 		
 		for(var i=0; i<dusts.size(); i++){
 			var dust = dusts.get(i);
