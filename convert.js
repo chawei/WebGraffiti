@@ -171,7 +171,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 // processing jscode
 function sketchProc(processing) {  
  
-  var mode = 0;  
+  var mode = 1;
 
 	var scaleInt;
 	var designateWidth = 600;
@@ -223,13 +223,45 @@ function sketchProc(processing) {
   };
 	
 	function Dust(x, y){
+
 		this.x = x;
 		this.y = y;
-
+		this.radiusX = 10;
+		this.radiusY = 10;
+		this.scaleInt = new DIntegrator(0.01, 0.8, 0.05);
+    this.scaleInt.setTarget(1.0);
+		
+		
 		this.draw = function(){
+			
 			processing.fill(33);
-			processing.noStroke();
-			drawFreehandEllipse(this.x, this.y, 20, 20);
+			processing.stroke(33);
+			
+			var currentAngle = 0;
+		  var totalDots = 20;
+		  var angleGap = 2*Math.PI/totalDots;
+			
+			if(this.scaleInt.value > this.scaleInt.target)
+	    {
+	      this.scaleInt.setTarget( Math.random()/3+1 );
+	    }
+	
+			this.scaleInt.update();
+			this.radiusX = 11 * processing.map(this.scaleInt.value, 0, 1, 1, 2);
+			this.radiusY = 10 * processing.map(this.scaleInt.value, 0, 1, 1, 2);
+			
+			processing.beginShape();
+		
+			for(var i=0; i<totalDots; i++){
+		
+				var xx = this.x + Math.cos(currentAngle)*this.radiusX*(1+Math.random()*0.07);
+				var yy = this.y + Math.sin(currentAngle)*this.radiusY*(1+Math.random()*0.07);
+				
+				processing.vertex(xx, yy);
+				currentAngle += angleGap;
+			}
+			processing.endShape(processing.CLOSE);
+		
 		}
 	}
 	
@@ -277,7 +309,7 @@ function sketchProc(processing) {
 	    }
 	  }
 	}
-
+	
 	function drawFreehandEllipse(x, y, w, h){
 	
 		  var currentAngle = 0;
@@ -293,7 +325,7 @@ function sketchProc(processing) {
 	
 		  for(var i=0; i<totalDots; i++){
 		    var p = new Point( x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.1), y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.1) );
-	
+				
 		    currentAngle+=angleGap;
 		    dots.add(p);
 		  }
@@ -376,6 +408,47 @@ function sketchProc(processing) {
 		  processing.endShape();
 
 		}
+		
+		function DIntegrator(value, damping, attraction) {
+			      
+		  this.value = value;
+		  this.vel = 0;
+		  this.accel = 0;
+		  this.force = 0;
+		  this.mass = 1;
+      
+		  this.damping = damping;
+		  this.attraction = attraction;
+		  this.targeting = true;
+		  this.target;
+
+		  this.set = function(v) {
+		    this.value = v;
+		  }
+
+		  this.update = function() {
+
+		    if (this.targeting) {
+		      this.force += this.attraction * (this.target - this.value);
+		    }
+				
+		    this.accel = this.force / this.mass;
+ 		    this.vel = (this.vel + this.accel) * this.damping;
+ 		    this.value += this.vel;
+ 
+ 		    this.force = 0;
+		  }
+
+		  this.setTarget = function(t) {
+		    this.targeting = true;
+		    this.target = t;
+		  }
+
+		  this.noTarget = function() {
+		    this.targeting = false;
+		  }
+		}
+		
 		
 		function Integrator() {
 			
