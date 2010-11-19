@@ -1,7 +1,7 @@
 var style_element;
 var canvasElement;
 
-var modes = {};
+var MODE = 1;
 
 window.addEventListener("resize", function() {
 	
@@ -17,8 +17,18 @@ function createBodyContainer(){
 }
 
 function createCanvas(){
-
-	modifyUI();
+	
+	if(MODE==0){
+		modifyUI();
+		// <embed type="audio/x-wav" src="" autostart="true" loop="true" hidden="true" id="music"></embed>
+		var sound = document.createElement('embed');
+		sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
+		sound.setAttribute("loop","false");
+		sound.setAttribute("autostart","true");
+		sound.setAttribute("type","audio/x-wav");
+		sound.setAttribute("hidden","true");
+		document.body.appendChild(sound);
+	}
 	
 	canvasElement = document.createElement('canvas');	
 	canvasElement.height= Math.floor(window.innerHeight);
@@ -31,16 +41,7 @@ function createCanvas(){
 
 	document.body.appendChild(canvasElement);
 	var processingInstance = new Processing(canvasElement, sketchProc);
-	
-	// <embed type="audio/x-wav" src="" autostart="true" loop="true" hidden="true" id="music"></embed>
-	var sound = document.createElement('embed');
-	sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
-	sound.setAttribute("loop","false");
-	sound.setAttribute("autostart","true");
-	sound.setAttribute("type","audio/x-wav");
-	sound.setAttribute("hidden","true");
-	document.body.appendChild(sound);
-	
+
 }
 
 function injectCss(cssToInject) {
@@ -48,8 +49,8 @@ function injectCss(cssToInject) {
   style_element.innerText = cssToInject;
   document.documentElement.insertBefore(style_element, null);
 
-//	$("body *").wrapAll("<div id='bodyContainer'></div>");
-	$('body center').addClass('invisible');
+	if(MODE==0)
+		$('body center').addClass('invisible');
 }
 
 function modifyUI(){
@@ -171,8 +172,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 // processing jscode
 function sketchProc(processing) {  
  
-  var mode = 1;
-
 	var scaleInt;
 	var designateWidth = 600;
 	var designateHeight = 30;
@@ -185,33 +184,38 @@ function sketchProc(processing) {
 	var btnSubmit, btnLuck;
 	
 	processing.setup = function(){
-		// draw freehand textfield
-		var inputs = getElementsByClass(document,'lst','input');
-		txtFieldX = Math.floor(findPosX(inputs[0]));
-		txtFieldY = Math.floor(findPosY(inputs[0]));
 		
-		txtFieldW = Math.floor(inputs[0].offsetWidth);
-		txtFieldH = Math.floor(inputs[0].offsetHeight);
-
-		// change button
-		var buttons = getElementsByClass(document,'lsbb','span');
-		btnSubmit = buttons[0].childNodes[0];
-		btnLuck = buttons[1].childNodes[0];
-		
-		switch(mode){
+		switch(MODE){
 			case 0:
+				// draw freehand textfield
+				var inputs = getElementsByClass(document,'lst','input');
+				txtFieldX = Math.floor(findPosX(inputs[0]));
+				txtFieldY = Math.floor(findPosY(inputs[0]));
+
+				txtFieldW = Math.floor(inputs[0].offsetWidth);
+				txtFieldH = Math.floor(inputs[0].offsetHeight);
+
+				// change button
+				var buttons = getElementsByClass(document,'lsbb','span');
+				btnSubmit = buttons[0].childNodes[0];
+				btnLuck = buttons[1].childNodes[0];
+				
 				modeYawnSetup();
-				break;			
+				break;
 		  case 1:
+				canvasElement.style.zIndex = 10;
 				modeDustSetup();
 				break;
 		}
+			
+		processing.smooth();
+		processing.frameRate(25);
 	}
 	
 	// Override draw function, by default it will be called 60 times per second  
   processing.draw = function() {
 		
-		switch(mode){
+		switch(MODE){
 			case 0:
 				modeYawnDraw();
 				break;			
@@ -222,61 +226,155 @@ function sketchProc(processing) {
 		
   };
 	
-	function Dust(x, y, moveToX, moveToY){
+	function Dust(x, y){
 
 		this.position = new processing.PVector(x,y);
-		this.targetPosition = new processing.PVector(moveToX,moveToY);
+//		this.targetPosition = new processing.PVector(moveToX,moveToY);
 		
+		this.location = 'L'; // left:'L', right:'R', top:'T'
+				
 		this.radiusX = 10;
 		this.radiusY = 10;
 		this.scaleInt = new DIntegrator(0.01, 0.8, 0.05);
     this.scaleInt.setTarget(1.0);
+
+		this.moveState = 0; // 0 1 2 3
+		this.moveCounter = 0;
 		
-		this.moving = function(){
-			console.log(this.position);
-			console.log(this.targetPosition);
-			var v = new processing.PVector(this.targetPosition.x-this.position.x, this.targetPosition.y-this.position.y);
-//			console.log(" "+v.normalize());
-			
-//			this.position.add(v.normalize());
-		}
-		
+		this.eyeX = 0;
+		this.eyeY = -8;
+	
 		this.draw = function(){
 			
-			processing.fill(33);
-			processing.stroke(33);
+			if(this.scaleInt.value > this.scaleInt.target)
+	      this.scaleInt.setTarget( Math.random()/3+1 );
+			this.scaleInt.update();
+			this.move();
+			var scale = processing.map(this.scaleInt.value, 0, 1, 1, 2);
+			this.radiusX = 10 * scale;
+			this.radiusY = 10 * scale;
+			var eyeW = 7; 
+			var eyeH = 7;
 			
+			switch(this.location){
+				case 'T':
+					this.drawEye( this.radiusX*1.2, 0, this.eyeX, this.eyeY, eyeW, eyeH);
+					this.drawEye(-this.radiusX*1.2, 0, this.eyeX, this.eyeY, eyeW, eyeH);
+					break;
+				case 'L':
+					this.drawEye( 0,  this.radiusX*1.2, this.eyeX, this.eyeY, eyeW, eyeH);
+					this.drawEye( 0, -this.radiusX*1.2, this.eyeX, this.eyeY, eyeW, eyeH);
+					break;
+			}
+		}
+		
+		this.move = function() {
+									
+			switch(this.moveState){
+				case 0: // outside
+					this.moveCounter++;
+					if(this.moveCounter>50)
+						this.moveState=1;
+					break; 
+				case 1: // inward
+					if(this.location=='L'){
+						this.position.x++;
+						if(this.position.x>24)
+							this.moveState=2;
+					}
+					else if(this.location=='T'){
+						this.position.y++;
+						if(this.position.y>50)
+							this.moveState=2;
+					}
+					break;
+				case 2: // halt
+					this.moveCounter+=3;
+					this.rollEyes();
+					if(this.moveCounter>200)
+						this.moveState=3;
+					break;
+				case 3: // outward
+					if(this.location=='L'){
+						this.position.x-=3;
+						if(this.position.x<-30){
+							this.moveCounter=0;
+							this.location = 'T'
+							this.position.x= processing.random(100,processing.width-100);
+							this.position.y=-30;							
+							this.moveState=0;
+							this.eyeX = 8;
+							this.eyeY = -10;
+						}
+					}
+					else if(this.location=='T'){
+						this.position.y--;
+						if(this.position.y<-30){ // reset
+							this.moveCounter=0;
+							this.location = 'L'
+							this.position.y=processing.random(100,processing.height-100);
+							this.position.x=-30;
+							this.moveState=0;
+							this.eyeX = -10;
+							this.eyeY = 12;
+						}
+					}
+					break;
+			}
+	}
+		this.rollEyes = function(){
+			// this.moveCounter   50-200
+			if(this.location=='L'){
+				if( this.moveCounter<125 )
+					this.eyeY+=0.5;
+				else
+					this.eyeY-=0.5;
+			}
+			else if(this.location=='T'){
+				if( this.moveCounter<125 )
+					this.eyeX+=0.5;
+				else
+					this.eyeX-=0.5;
+			}
+		}
+		
+		this.drawEye = function(shiftX, shiftY, eyeX, eyeY, eyeW, eyeH){
+		
 			var currentAngle = 0;
 		  var totalDots = 20;
 		  var angleGap = 2*Math.PI/totalDots;
 			
-			if(this.scaleInt.value > this.scaleInt.target)
-	    {
-	      this.scaleInt.setTarget( Math.random()/3+1 );
-	    }
-//			this.moving();
-			this.scaleInt.update();
-			this.radiusX = 11 * processing.map(this.scaleInt.value, 0, 1, 1, 2);
-			this.radiusY = 10 * processing.map(this.scaleInt.value, 0, 1, 1, 2);
+			processing.stroke(33);
+			processing.fill(255);
 			
+			processing.pushMatrix();
+			processing.translate(this.position.x+shiftX, this.position.y+shiftY);
 			processing.beginShape();
-		
-		
 			for(var i=0; i<totalDots; i++){
-		
-				var xx = this.position.x + Math.cos(currentAngle)*this.radiusX*(1+Math.random()*0.07);
-				var yy = this.position.y + Math.sin(currentAngle)*this.radiusY*(1+Math.random()*0.07);
-				
+				var xx = Math.cos(currentAngle)*this.radiusX*(1+Math.random()*0.07);
+				var yy = Math.sin(currentAngle)*this.radiusY*(1+Math.random()*0.07);
 				processing.vertex(xx, yy);
 				currentAngle += angleGap;
 			}
-			processing.endShape(processing.CLOSE);
-		
+			processing.endShape();
+			
+			processing.fill(33);
+			processing.noStroke();
+			processing.ellipse(eyeX*(1+Math.random()*0.006), eyeY*(1+Math.random()*0.006), eyeW, eyeH);
+			processing.popMatrix();
 		}
+		
 	}
 	
 	function modeDustDraw(){
-		processing.background(255);
+		
+//		processing.background(255);
+		var context = canvasElement.getContext('2d');
+		context.clear = true;
+		context.clearRect( 0, 0, 1000, 800);
+		
+		
+		
 		for(var i=0; i<dusts.size(); i++){
 			var dust = dusts.get(i);
 			dust.draw();
@@ -285,15 +383,11 @@ function sketchProc(processing) {
 	
 	function modeDustSetup(){
 		dusts = new processing.ArrayList();
-		dusts.add(new Dust(100, 100, 300, 200));
-		
+		dusts.add(new Dust(-30, processing.random(100,800)));
 	}
 
 	function modeYawnSetup(){
 		scaleInt = new Integrator();
-	  processing.smooth();
-		processing.frameRate(25);
-		
 		dots = new processing.ArrayList();
 	}
 	
@@ -374,7 +468,7 @@ function sketchProc(processing) {
 		  var gap = 2;
 		  var freeFactor = 0.2;
 		
-		  processing.stroke(processing.color(33,33,33));
+		  processing.stroke(33);
 
 		  processing.beginShape();
 		  processing.vertex(x,y);  
