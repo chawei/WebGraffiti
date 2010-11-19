@@ -53,8 +53,8 @@ function injectCss(cssToInject) {
 		$('body center').addClass('invisible');
 }
 
-function modifyUI(){
-
+function modifyUI() {
+  
 	// add font link <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie&subset=latin' rel='stylesheet' type='text/css'>
 	var headID = document.getElementsByTagName("head")[0];    
 	var cssNode = document.createElement('link');
@@ -72,6 +72,7 @@ function modifyUI(){
 	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/crap.png");
 	newImg.setAttribute('alt', 'na');
 	logoDiv.appendChild(newImg);
+	$('#lga').css('height', '285px');
 	
 	// create new text
 	var fontElement = document.getElementsByTagName('font')[0];
