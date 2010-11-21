@@ -1,7 +1,7 @@
 var style_element;
 var canvasElement;
 
-var MODE = 1;
+var MODE = 0;
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.action == "injectCss") {
@@ -89,7 +89,7 @@ function modifyUI() {
 	var img = logoDiv.getElementsByTagName('img')[0];
 	logoDiv.removeChild(img);
 	var newImg = document.createElement("img");
-	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/crap.png");
+	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/no_wiki_page5.png");
 	newImg.setAttribute('alt', 'na');
 	logoDiv.appendChild(newImg);
 	$('#lga').css('height', '300px');
@@ -332,15 +332,22 @@ function sketchProc(processing) {
 					}
 					break;
 				case 4: //escape
-					if(this.location=='L'){
-						this.position.x-=6;
-						if(this.position.x<-30)
-							this.moveState=3;
-					}
-					else if(this.location=='T'){
-						this.position.y-=6;
-						if(this.position.y<-30)
-							this.moveState=3;
+				  if(this.moveCounter<7){
+				    this.moveCounter++;
+				    this.eyeX = 7*(1+processing.random());
+				    this.eyeY = 7*(1+processing.random());
+			    }
+				  else{
+  					if(this.location=='L'){
+  						this.position.x-=9;
+  						if(this.position.x<-30)
+  							this.moveState=3;
+  					}
+  					else if(this.location=='T'){
+  						this.position.y-=9;
+  						if(this.position.y<-30)
+  							this.moveState=3;
+  					}
 					}
 					break;
 			}
@@ -392,7 +399,8 @@ function sketchProc(processing) {
 		
 		this.escape = function(){
 		  this.moveState = 4;
-		  console.log(this.moveState);
+		  this.scaleInt.setTarget(2);
+		  this.moveCounter = 0;
 		}
 		
 	}
