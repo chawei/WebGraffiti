@@ -51,6 +51,9 @@ function createCanvas(){
 	canvasElement.setAttribute('id','canvasId');
 
 	document.body.appendChild(canvasElement);
+	
+	
+	//requestFlickrLetter();
 	var processingInstance = new Processing(canvasElement, sketchProc);
 
 }
@@ -64,8 +67,12 @@ function injectCss(cssToInject) {
     case "encrypted.google.com":
       MODE = 0;
       break;
+    case "www.apple.com":
+      MODE = 2;
+      break;
     default:
       MODE = 1;
+      
   }
   
 	if(MODE==0) {
@@ -109,7 +116,38 @@ function modifyUI() {
 	var btn1 = buttonSubmit[0].childNodes[0];
   //	btn1.value = "I";
 	btn1.style["font-size"] = '1.5em';
+}
 
+chrome_getJSON = function(url, callback) {
+  console.log("sending RPC");
+  chrome.extension.sendRequest({action:'getJSON',url:url}, callback);
+}
+
+function requestFlickrLetter(){
+  // use chrome_getJSON instead of $.getJSON
+  chrome_getJSON("http://api.flickr.com/services/rest/?method=flickr.groups.pools.getPhotos&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&group_id=27034531@N00&tags=v&format=json&jsoncallback=?", 
+    function(data){ 
+      var photo_id = data.photos.photo[0].id;
+      chrome_getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&photo_id="+photo_id+"&format=json&jsoncallback=?",
+        function(json) {
+          alert(json.sizes.size[0].source);
+        }
+      );
+    }
+  );
+};
+
+function old_requestFlickrLetter(){
+  $.getJSON("http://api.flickr.com/services/rest/?method=flickr.groups.pools.getPhotos&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&group_id=27034531@N00&tags=v&format=json&jsoncallback=?", 
+    function(data){ 
+      var photo_id = data.photos.photo[0].id;
+      $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&photo_id="+photo_id+"&format=json&jsoncallback=?",
+        function(json) {
+          console.log(json.sizes.size[0].source);
+        }
+      );
+    }
+  );
 }
 
 function removeChildNodes(node)
@@ -406,8 +444,10 @@ function sketchProc(processing) {
 	}
 	
 	processing.mouseMoved = function() {
-	  var d = dusts.get(0);
-    d.escape();
+	  if(dusts!=null){
+	    var d = dusts.get(0);
+      d.escape();
+    }
 	}
 	
 	function modeDustDraw(){
