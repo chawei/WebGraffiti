@@ -1,7 +1,7 @@
 var style_element;
 var canvasElement;
 
-var MODE = 0;
+var MODE = -1;
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.action == "injectCss") {
@@ -23,8 +23,29 @@ window.addEventListener("resize", function() {
 	
 }, false);
 
-function createBodyContainer(){
-	
+function injectCss(cssToInject) {
+  style_element = document.createElement("style");
+  style_element.innerText = cssToInject;
+  document.documentElement.insertBefore(style_element, null);
+  
+  switch(window.location.hostname) {
+    case "encrypted.google.com":
+      MODE = 0;
+      break;
+    case "www.apple.com":
+      MODE = 2;
+      break;
+    default:
+      MODE = 1;   
+  }
+  
+	if(MODE==0) {
+		$('body center').addClass('invisible');
+	}
+	else if(MODE==2){
+	  //$('#news-link').attr('id', 'graffiti-news-link');
+	  $('#content').hide();
+	}
 }
 
 function createCanvas(){
@@ -39,7 +60,14 @@ function createCanvas(){
 		sound.setAttribute("type","audio/x-wav");
 		sound.setAttribute("hidden","true");
 		document.body.appendChild(sound);
-	}
+	}	else if(MODE==2){
+	  $('#news-link').addClass('invisible');
+	  $('#ticker-headline').after("<a id='graffiti-news-link' href=''>I am the King</a>");
+  	$('#graffiti-news-link').hide().html(msgForApple[0]).fadeIn();
+  	  
+  	setInterval("graffitiNewsLink()", 3000);
+
+  }
 	
 	canvasElement = document.createElement('canvas');	
 	canvasElement.height= Math.floor(window.innerHeight);
@@ -52,32 +80,22 @@ function createCanvas(){
 
 	document.body.appendChild(canvasElement);
 	
-	
-	//requestFlickrLetter();
 	var processingInstance = new Processing(canvasElement, sketchProc);
 
 }
 
-function injectCss(cssToInject) {
-	style_element = document.createElement("style");
-  style_element.innerText = cssToInject;
-  document.documentElement.insertBefore(style_element, null);
-  
-  switch(window.location.hostname) {
-    case "encrypted.google.com":
-      MODE = 0;
-      break;
-    case "www.apple.com":
-      MODE = 2;
-      break;
-    default:
-      MODE = 1;
-      
-  }
-  
-	if(MODE==0) {
-		$('body center').addClass('invisible');
-	}
+var msgForApple = [ "We Luv Apple", "But We Luv Freedom More", "Open IOS!!"];
+
+function graffitiNewsLink()
+{
+  var graffiti_link = $('#graffiti-news-link');
+  var currentMsg = graffiti_link.html();
+  if(currentMsg==msgForApple[0])
+    graffiti_link.hide().html(msgForApple[1]).fadeIn();
+  else if(currentMsg==msgForApple[1])
+    graffiti_link.hide().html(msgForApple[2]).fadeIn();
+  else
+    graffiti_link.hide().html(msgForApple[0]).fadeIn();
 }
 
 function modifyUI() {
