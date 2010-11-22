@@ -24,6 +24,7 @@ window.addEventListener("resize", function() {
 }, false);
 
 function injectCss(cssToInject) {
+  
   style_element = document.createElement("style");
   style_element.innerText = cssToInject;
   document.documentElement.insertBefore(style_element, null);
@@ -36,23 +37,19 @@ function injectCss(cssToInject) {
       MODE = 2;
       break;
     default:
-      MODE = 1;   
+      MODE = 1;
   }
-  
 	if(MODE==0) {
+	  
 		$('body center').addClass('invisible');
 	}
-	else if(MODE==2){
-	  //$('#news-link').attr('id', 'graffiti-news-link');
-	  $('#content').hide();
-	}
+
 }
 
 function createCanvas(){
 	
 	if(MODE==0){
 		modifyUI();
-		// <embed type="audio/x-wav" src="" autostart="true" loop="true" hidden="true" id="music"></embed>
 		var sound = document.createElement('embed');
 		sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
 		sound.setAttribute("loop","false");
@@ -60,22 +57,26 @@ function createCanvas(){
 		sound.setAttribute("type","audio/x-wav");
 		sound.setAttribute("hidden","true");
 		document.body.appendChild(sound);
-	}	else if(MODE==2){
-    $('#hero-image').fadeOut(500, function() {
-            $(this).attr('src', 'http://people.artcenter.edu/~tchien/assets/live_or_die.jpg')
-                .load(function() {
-                    $(this).fadeIn();
-                });
-        });
-        
-//    $('#hero-image').fadeOut("slow").attr('src','http://people.artcenter.edu/~tchien/assets/live_or_die.jpg').fadeIn();
-    
-    $('#news-link').addClass('invisible');
-    $('#ticker-headline').after("<a id='graffiti-news-link' href=''>I am the King</a>");
+	}	
+	else if(MODE==2){
+    // $('#hero-image').fadeOut(500, function() {
+    //   $(this).attr('src', 'http://people.artcenter.edu/~tchien/assets/live_or_die.jpg').load(function(){ $(this).fadeIn(); });
+    // });
+    	
+//    $('#news-link').addClass('invisible');
+    $('#news-link').attr('id','graffiti-news-link');
 	  $('#graffiti-news-link').hide().html(msgForApple[0]).fadeIn();  
 	  setInterval("graffitiNewsLink()", 3000);
-  }
-	
+  	  
+    var img = $('<img src="http://people.artcenter.edu/~tchien/assets/live_or_die2.png" style="position: absolute; top:30px; left:130px; display: none;"/>');
+    $('#content').css('position', 'relative');
+    $('#content').append(img);
+    img.delay(1000).fadeIn(3000);
+    document.getElementById('hero-image').parentNode.appendChild(img);
+    
+   
+  } 
+
 	canvasElement = document.createElement('canvas');	
 	canvasElement.height= Math.floor(window.innerHeight);
 	canvasElement.width= Math.floor(window.innerWidth);
@@ -86,6 +87,8 @@ function createCanvas(){
 	canvasElement.setAttribute('id','canvasId');
 
 	document.body.appendChild(canvasElement);
+	
+	console.log("canvas: "+canvasElement);
 	
 	var processingInstance = new Processing(canvasElement, sketchProc);
 
