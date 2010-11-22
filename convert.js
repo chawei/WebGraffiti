@@ -61,12 +61,19 @@ function createCanvas(){
 		sound.setAttribute("hidden","true");
 		document.body.appendChild(sound);
 	}	else if(MODE==2){
-	  $('#news-link').addClass('invisible');
-	  $('#ticker-headline').after("<a id='graffiti-news-link' href=''>I am the King</a>");
-  	$('#graffiti-news-link').hide().html(msgForApple[0]).fadeIn();
-  	  
-  	setInterval("graffitiNewsLink()", 3000);
-
+    $('#hero-image').fadeOut(500, function() {
+            $(this).attr('src', 'http://people.artcenter.edu/~tchien/assets/live_or_die.jpg')
+                .load(function() {
+                    $(this).fadeIn();
+                });
+        });
+        
+//    $('#hero-image').fadeOut("slow").attr('src','http://people.artcenter.edu/~tchien/assets/live_or_die.jpg').fadeIn();
+    
+    $('#news-link').addClass('invisible');
+    $('#ticker-headline').after("<a id='graffiti-news-link' href=''>I am the King</a>");
+	  $('#graffiti-news-link').hide().html(msgForApple[0]).fadeIn();  
+	  setInterval("graffitiNewsLink()", 3000);
   }
 	
 	canvasElement = document.createElement('canvas');	
