@@ -124,10 +124,11 @@ function modifyUI() {
 	var img = logoDiv.getElementsByTagName('img')[0];
 	logoDiv.removeChild(img);
 	var newImg = document.createElement("img");
-	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/no_wiki_page5.png");
+	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/sketch_ungoogleable.png");
 	newImg.setAttribute('alt', 'na');
+	newImg.setAttribute('width', 400);
 	logoDiv.appendChild(newImg);
-	$('#lga').css('height', '300px');
+	$('#lga').css('height', '240px');
 	
 	// create new text
 	var fontElement = document.getElementsByTagName('font')[0];
