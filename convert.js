@@ -43,27 +43,26 @@ function injectCss(cssToInject) {
 	  
 		$('body center').addClass('invisible');
 	}
-
 }
 
 function createCanvas(){
 	
 	if(MODE==0){
 		modifyUI();
-		var sound = document.createElement('embed');
-		sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
-		sound.setAttribute("loop","false");
-		sound.setAttribute("autostart","true");
-		sound.setAttribute("type","audio/x-wav");
-		sound.setAttribute("hidden","true");
-		document.body.appendChild(sound);
+    var sound = document.createElement('embed');
+    sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
+    sound.setAttribute("loop","false");
+    sound.setAttribute("autostart","true");
+    sound.setAttribute("type","audio/x-wav");
+    sound.setAttribute("hidden","true");
+    document.body.appendChild(sound);
 	}	
 	else if(MODE==2){
     // $('#hero-image').fadeOut(500, function() {
     //   $(this).attr('src', 'http://people.artcenter.edu/~tchien/assets/live_or_die.jpg').load(function(){ $(this).fadeIn(); });
     // });
-    	
 //    $('#news-link').addClass('invisible');
+
     $('#news-link').attr('id','graffiti-news-link');
 	  $('#graffiti-news-link').hide().html(msgForApple[0]).fadeIn();  
 	  setInterval("graffitiNewsLink()", 3000);
@@ -73,8 +72,6 @@ function createCanvas(){
     $('#content').append(img);
     img.delay(1000).fadeIn(3000);
     document.getElementById('hero-image').parentNode.appendChild(img);
-    
-   
   } 
 
 	canvasElement = document.createElement('canvas');	
@@ -87,9 +84,6 @@ function createCanvas(){
 	canvasElement.setAttribute('id','canvasId');
 
 	document.body.appendChild(canvasElement);
-	
-	console.log("canvas: "+canvasElement);
-	
 	var processingInstance = new Processing(canvasElement, sketchProc);
 
 }
@@ -123,60 +117,48 @@ function modifyUI() {
 	var logoDiv = document.getElementById('lga');
 	var img = logoDiv.getElementsByTagName('img')[0];
 	logoDiv.removeChild(img);
-	var newImg = document.createElement("img");
-	newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/sketch_ungoogleable.png");
-	newImg.setAttribute('alt', 'na');
-	newImg.setAttribute('width', 400);
-	logoDiv.appendChild(newImg);
-	$('#lga').css('height', '240px');
+  var newImg = document.createElement("img");
+  newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/sketch_ungoogleable.png");
+  newImg.setAttribute('alt', 'na');
+  newImg.setAttribute('width', 400);
+  logoDiv.appendChild(newImg);
+  
+//  $('#lga').css('height', '50px').css('font-size', '3em').css('margin', '100px 0 50px 0').html('UN-Googleable Wall');
 	
 	// create new text
 	var fontElement = document.getElementsByTagName('font')[0];
 	removeChildNodes(fontElement);
-	// var newText = document.createTextNode('WHO GIVE A SHIT ABOUT');
-	// fontElement.appendChild(newText);
-	// fontElement.style["font-size"] = '3em';
+  //var newText = document.createTextNode('UN-Googleable Wall');
+  //fontElement.appendChild(newText);
+  //fontElement.style["font-size"] = '3em';
 	
 	// change button
 	var buttonSubmit = getElementsByClass(document,'lsbb','span');
 	var btn2 = buttonSubmit[1].childNodes[0];
-	btn2.value = "Wish Me Luck";
+	btn2.value = "Lucky Me";
 	btn2.style["font-size"] = '1.5em';
+	
+  // $('span input.lsb').click(function(e) {
+  //   e.preventDefault();
+  //   var searchField = $('input.lst');
+  //     ungoogleablePost(searchField.val());
+  // });
+	
 	var btn1 = buttonSubmit[0].childNodes[0];
-  //	btn1.value = "I";
 	btn1.style["font-size"] = '1.5em';
 }
 
-chrome_getJSON = function(url, callback) {
-  console.log("sending RPC");
-  chrome.extension.sendRequest({action:'getJSON',url:url}, callback);
-}
-
-function requestFlickrLetter(){
-  // use chrome_getJSON instead of $.getJSON
-  chrome_getJSON("http://api.flickr.com/services/rest/?method=flickr.groups.pools.getPhotos&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&group_id=27034531@N00&tags=v&format=json&jsoncallback=?", 
-    function(data){ 
-      var photo_id = data.photos.photo[0].id;
-      chrome_getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&photo_id="+photo_id+"&format=json&jsoncallback=?",
-        function(json) {
-          alert(json.sizes.size[0].source);
-        }
-      );
-    }
-  );
-};
-
-function old_requestFlickrLetter(){
-  $.getJSON("http://api.flickr.com/services/rest/?method=flickr.groups.pools.getPhotos&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&group_id=27034531@N00&tags=v&format=json&jsoncallback=?", 
-    function(data){ 
-      var photo_id = data.photos.photo[0].id;
-      $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=5b5eb8b72c4cc8c3e6f2f5a319f814f4&photo_id="+photo_id+"&format=json&jsoncallback=?",
-        function(json) {
-          console.log(json.sizes.size[0].source);
-        }
-      );
-    }
-  );
+function ungoogleablePost(postStr){
+  
+  var post = $('<div class="post" style="color:#F90"></div>');
+  var ww = Math.random()*$('body').width();
+  var hh = Math.random()*$('body').height();
+  console.log("width: "+ww);
+  console.log("height: "+hh);
+  post.text(postStr).css('position', 'absolute').css('top', hh+'px').css('left', ww+'px').hide();
+  //$('body').css('position', 'relative');
+  $('body').append(post);
+  post.fadeIn();
 }
 
 function removeChildNodes(node)
@@ -303,7 +285,6 @@ function sketchProc(processing) {
 	function Dust(x, y){
 
 		this.position = new processing.PVector(x,y);
-//		this.targetPosition = new processing.PVector(moveToX,moveToY);
 		
 		this.location = 'L'; // left:'L', right:'R', top:'T'
 				
@@ -472,6 +453,12 @@ function sketchProc(processing) {
 		
 	}
 	
+	processing.keyReleased = function() {
+    if(processing.keyCode==processing.ESC || processing.key == processing.ESC){ 
+      scaleInt = new Integrator();
+    }
+	}
+	
 	processing.mouseMoved = function() {
 	  if(dusts!=null){
 	    var d = dusts.get(0);
@@ -480,8 +467,6 @@ function sketchProc(processing) {
 	}
 	
 	function modeDustDraw(){
-		
-//		processing.background(255);
     var context = canvasElement.getContext('2d');
     context.clear = true;
     context.clearRect( 0, 0, processing.width, processing.height);
@@ -498,8 +483,8 @@ function sketchProc(processing) {
 	}
 
 	function modeYawnSetup(){
-		scaleInt = new Integrator();
-		dots = new processing.ArrayList();
+    scaleInt = new Integrator();
+    dots = new processing.ArrayList();
 	}
 	
 	function modeYawnDraw(){
@@ -508,9 +493,9 @@ function sketchProc(processing) {
 	      processing.background(255);
 				processing.noFill();
 	      processing.stroke(33);
-				drawFreehandRect(txtFieldX, txtFieldY, txtFieldW, txtFieldH);
-				drawFreehandRect( findPosX( btnSubmit ), findPosY( btnSubmit ),btnSubmit.offsetWidth,btnSubmit.offsetHeight);
-				drawFreehandRect( findPosX( btnLuck ), findPosY( btnLuck ), btnLuck.offsetWidth,btnLuck.offsetHeight);
+				drawFreehandRect(txtFieldX, txtFieldY, txtFieldW, txtFieldH, false);
+				drawFreehandRect( findPosX( btnSubmit ), findPosY( btnSubmit ),btnSubmit.offsetWidth,btnSubmit.offsetHeight, true);
+				drawFreehandRect( findPosX( btnLuck ), findPosY( btnLuck ), btnLuck.offsetWidth,btnLuck.offsetHeight, true);
 	      scaleInt = null;
 				
 				$('body center').removeClass('invisible').hide().fadeIn();
@@ -574,20 +559,18 @@ function sketchProc(processing) {
 		  }
 		}
 		
-		function drawFreehandRect(x, y, w, h){
-
+		function drawFreehandRect(x, y, w, h, isBtn){
 		  var gap = 2;
 		  var freeFactor = 0.2;
-		
 		  processing.stroke(33);
-
+		  processing.fill(255, 255, 240);
 		  processing.beginShape();
 		  processing.vertex(x,y);  
-
 		  var currentX = x;
 		  var currentY = y;
-
-			   // MOUTH
+      var vertex = new Array();
+      
+  	  // MOUTH
 			// TOP 
 			while( currentX<(x+w) ){
 				var randomX = Math.random()*gap;
@@ -595,6 +578,7 @@ function sketchProc(processing) {
 				currentX += randomX;
 				currentY += randomY*freeFactor;
 				processing.vertex( currentX, currentY);
+				vertex[0] = new Point(currentX, currentY);
 			}
 			// RIGHT
 			while( currentY<(y+h) ){
@@ -603,6 +587,7 @@ function sketchProc(processing) {
 				currentX += randomX*freeFactor;
 				currentY += randomY;
 				processing.vertex( currentX, currentY);
+				vertex[1] = new Point(currentX, currentY);
 			}
 			// BOTTOM
 			while( currentX>x ){
@@ -611,6 +596,7 @@ function sketchProc(processing) {
 				currentX += randomX;
 				currentY += randomY*freeFactor;
 				processing.vertex( currentX, currentY);
+				vertex[2] = new Point(currentX, currentY);
 			}
 			// LEFT
 			while( currentY>y ){
@@ -619,9 +605,15 @@ function sketchProc(processing) {
 				currentX += randomX*freeFactor;
 				currentY += randomY;
 				processing.vertex( currentX, currentY);
+				vertex[3] = new Point(currentX, currentY);
 			}
 		  processing.endShape();
 
+      if(isBtn){
+        for(var i=0; i<3; i++){
+          processing.line(vertex[i].x, vertex[i].y, vertex[i].x+4, vertex[i].y+3);
+        }
+      }
 		}
 		
 		function DIntegrator(value, damping, attraction) {
@@ -677,20 +669,17 @@ function sketchProc(processing) {
 		    var tmpValue = 0;
 	
 		    switch(this.stage){
-	
 		      case 0:
 		        this.value = curveValue(this.timer-this.peakTime, this.peakTime);
 		        this.timer++;
 		        if(this.value==1)
 		          this.stage = 1;
 		        break;
-	
 		      case 1:
 		        this.timer++;
 		        if(this.timer==this.yawnTime)
 		          this.stage = 2;
 		        break;
-	
 		      case 2:
 		        this.value = curveValue(this.timer-this.yawnTime,this.peakTime+8);
 		        this.timer++; 
@@ -698,7 +687,6 @@ function sketchProc(processing) {
 		          this.stage = 3;
 		        break;
 		    }
-	
 		  }
 	
 		  function curveValue(x, xx){ // x range: -xx to xx, curveValue range: 0 - 1 - 0
