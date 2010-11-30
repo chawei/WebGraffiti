@@ -18,7 +18,7 @@
 	{
 	"run_at": "document_start",
       	"matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"], 
-      	"js": ["processing-0.9.7.js","jquery.js","convert.js"],
+      	"js": ["processing-0.9.7.js","p_base.js", "jquery.js", "wg_google.js", "convert.js"],
       	"all_frames": true
     	}
    ],
