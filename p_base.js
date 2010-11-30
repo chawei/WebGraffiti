@@ -1,3 +1,84 @@
+
+function WGButton(btn){
+  
+  var x = 10;//findPosX( btn );
+  var y = 10;//findPosY( btn );
+  var width = btn.offsetWidth;
+  var height = btn.offsetHeight;
+  var targetX = 0;
+  var targetY = 0;
+  var isMoving = false;
+  var htmlBtn = btn;
+  var moveBtn = btn.parentNode;
+  init();
+  
+  function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= Math.floor(height)+20;
+  	canvasElement.width= Math.floor(width)+20;
+  	
+  	canvasElement.style.position = "absolute";
+  	canvasElement.style.left = "-10px";
+  	canvasElement.style.top = "-10px";
+  	canvasElement.style.zIndex = 3;
+  	htmlBtn.appendChild(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+  
+  function sketchProc(processing) {
+    processing.setup = function() {
+      processing.smooth();
+  		processing.frameRate(10);
+  		this.drawFreehandRect( x, y, width, height, true);
+    }
+    processing.draw = function() {
+      
+      if(isMoving){
+        updatePosition();
+        processing.clear();
+        this.drawFreehandRect( x, y, width, height, true);
+      }
+      else if(Math.random()>0.98){
+        setTargetPosition();
+      }
+      
+    }
+    function setTargetPosition() {
+      var gap = 30;
+      targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
+      targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
+      
+      while( processing.abs(findPosX(moveBtn)+targetX-window.innerWidth/2)>200 ){
+        targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
+      }
+      while( findPosY(moveBtn)+targetY-window.innerHeight/2<30 ){
+        targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
+      }
+      moveBtn.style.left = findPosX(moveBtn) + "px";
+      moveBtn.style.top = findPosY(moveBtn) + "px";
+      moveBtn.style.position = 'absolute';
+      
+      isMoving = true;
+      
+      console.log("SET: "+targetX,targetY);
+    }
+    function updatePosition() {
+      if( targetX!=0 ) {
+        var newX = targetX>0 ? parseFloat(moveBtn.style.left)+1 : parseFloat(moveBtn.style.left)-1;
+        moveBtn.style.left = newX+"px";
+        targetX = targetX>0 ? (targetX-1) : (targetX+1);
+      }
+      if( targetY!=0 ) {
+            var newY = targetY>0 ? parseFloat(moveBtn.style.top)+1 : parseFloat(moveBtn.style.top)-1;
+            moveBtn.style.top = newY+"px";
+            targetY = targetY>0 ? targetY-1 : targetY+1;
+          }
+      if( targetX==0 && targetY==0)
+        isMoving = false;
+    }
+  }
+}
+
 Processing.prototype.drawFreehandEllipse = function(x, y, w, h, dots) {
   var currentAngle = 0;
   var totalDots = Math.floor( (w+h)/40 );
@@ -48,6 +129,7 @@ Processing.prototype.drawFreehandRect = function(x, y, w, h, isBtn) {
     this.fill(255, 255, 240);
   else
     this.fill(255);
+//  this.noFill();
   this.beginShape();
   this.vertex(x,y);  
   var currentX = x;

@@ -33,10 +33,17 @@ function WGGoogle() {
 			txtFieldH = Math.floor(inputs[0].offsetHeight);
 			// change button
 			var buttons = getElementsByClass(document,'lsbb','span');
-			btnSubmit = buttons[0].childNodes[0];
-			btnLuck = buttons[1].childNodes[0];
-			wgButtonSubmit = new WGButton(findPosX( btnSubmit ), findPosY( btnSubmit ),btnSubmit.offsetWidth,btnSubmit.offsetHeight);
-			wgButtonLuck = new WGButton(findPosX( btnLuck ), findPosY( btnLuck ),btnLuck.offsetWidth,btnLuck.offsetHeight);
+			btnSubmit = buttons[0];
+			btnSubmit.style.position = 'relative';
+			btnSubmit.childNodes[0].style.zIndex = 2;
+			btnLuck = buttons[1];
+			btnLuck.style.position = 'relative';
+			btnLuck.childNodes[0].style.zIndex = 2;
+	
+			wgButtonSubmit = new WGButton(btnSubmit);
+			wgButtonLuck = new WGButton(btnLuck);
+			
+			
 			modeYawnSetup();
 
   		processing.smooth();
@@ -73,8 +80,6 @@ function WGGoogle() {
   				processing.noFill();
   	      processing.stroke(33);
   				processing.drawFreehandRect(txtFieldX, txtFieldY, txtFieldW, txtFieldH, false);
-  	      wgButtonSubmit.draw();
-  	      wgButtonLuck.draw();
   	      scaleInt = null;
 
   				$('body center').removeClass('invisible').hide().fadeIn();
@@ -88,49 +93,7 @@ function WGGoogle() {
   	      processing.drawFreehandEllipse(txtFieldX+txtFieldW/2, txtFieldY+txtFieldH/2, processing.map(scaleInt.value, 0, 1, 1, 2)*txtFieldW, processing.map(scaleInt.value, 0, 1, 1, 5)*txtFieldH, dots);
   	    }
   	  }
-  	  else{
-  	    if(wgButtonSubmit.isMoving){
-  	      processing.background(255);
-  	      wgButtonSubmit.draw();
-          wgButtonLuck.draw();
-        }
-  	  }
   	}
-
-  	function WGButton(x,y,width,height,label){
-  	  this.x = x;
-  	  this.y = y;
-  	  this.width = width;
-  	  this.height = height;
-  	  this.label = label;
-  	  this.targetX = 0;
-  	  this.targetY = 0;
-  	  this.isMoving = false;
-
-  	  this.draw = function() {
-        if(this.isMoving){
-          this.updatePosition();
-        }
-        else if(Math.random()>0.99){
-          this.setTargetPosition();
-        }
-  	    processing.drawFreehandRect( this.x, this.y, this.width, this.height, true);
-  	  }
-  	  this.setTargetPosition = function() {
-  	    this.targetX = this.x+Math.random()*30;
-  	    this.targetY = this.y+Math.random()*30;;
-  	    this.isMoving = true;
-  	  }
-  	  this.updatePosition = function() {
-  	    if( processing.abs(this.x-this.targetX)>2 ){
-  	      this.x -= (this.x-this.targetX)/processing.abs(this.x-this.targetX);
-  	      this.y -= (this.y-this.targetY)/processing.abs(this.y-this.targetY);
-  	    }
-  	    else{
-  	      this.isMoving = false;
-  	    }
-  	  }
-  	}	
   }
   
   function modifyUI() {
