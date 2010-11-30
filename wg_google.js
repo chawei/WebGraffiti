@@ -1,5 +1,5 @@
 function WGGoogle() {
-  $('body center').addClass('invisible');
+//  $('body center').addClass('invisible');
   
   this.init = function() {
     modifyUI();
@@ -13,87 +13,55 @@ function WGGoogle() {
   }
   
   this.sketchProc = function(processing) {
-  	var scaleInt;
-  	var designateWidth = 600;
-  	var designateHeight = 30;
 
-  	var dots;
-  	var dusts;
-
-  	var txtFieldX, txtFieldY, txtFieldW, txtFieldH;
-
+  	var wgTxtfieldSearch;
   	var btnSubmit, btnLuck, wgButtonSubmit, wgButtonLuck;
 
   	processing.setup = function(){
 			// draw freehand textfield
-			var inputs = getElementsByClass(document,'lst','input');
-			txtFieldX = Math.floor(findPosX(inputs[0]));
-			txtFieldY = Math.floor(findPosY(inputs[0]));
-			txtFieldW = Math.floor(inputs[0].offsetWidth);
-			txtFieldH = Math.floor(inputs[0].offsetHeight);
+			var input = getElementsByClass(document,'ds','div')[0];
+			input.style.position = 'relative';
+			input.childNodes[0].style.zIndex = 2;
+			wgTxtfieldSearch = new WGTextfield(input);
+			
 			// change button
 			var buttons = getElementsByClass(document,'lsbb','span');
 			btnSubmit = buttons[0];
 			btnSubmit.style.position = 'relative';
-			btnSubmit.childNodes[0].style.zIndex = 2;
+			btnSubmit.childNodes[0].style.zIndex = 5;
 			btnLuck = buttons[1];
 			btnLuck.style.position = 'relative';
-			btnLuck.childNodes[0].style.zIndex = 2;
+			btnLuck.childNodes[0].style.zIndex = 5;
 	
 			wgButtonSubmit = new WGButton(btnSubmit);
 			wgButtonLuck = new WGButton(btnLuck);
 			
-			
-			modeYawnSetup();
-
   		processing.smooth();
   		processing.frameRate(25);
   	}
 
-  	// Override draw function, by default it will be called 60 times per second  
     processing.draw = function() {
-      modeYawnDraw();
+      // update button location
+      
+      // if(wgButtonSubmit.isMoving || wgButtonLuck.isMoving){
+      //   
+      // }
+      
+      
     };
+    
+    // processing.keyReleased = function() {
+    //       if(processing.keyCode==processing.ESC || processing.key == processing.ESC){
+    //         scaleInt = new Integrator();
+    //       }
+    //    }
 
-  	processing.keyReleased = function() {
-      if(processing.keyCode==processing.ESC || processing.key == processing.ESC){
-        scaleInt = new Integrator();
-      }
-  	}
-
-  	processing.mouseMoved = function() {
-  	  if(dusts!=null){
-  	    var d = dusts.get(0);
-        d.escape();
-      }
-  	}
-
-  	function modeYawnSetup(){
-      scaleInt = new Integrator();
-      dots = new processing.ArrayList();
-  	}
-
-  	function modeYawnDraw(){
-  		if(scaleInt!=null){
-  	    if(scaleInt.stage==3){
-  	      processing.background(255);
-  				processing.noFill();
-  	      processing.stroke(33);
-  				processing.drawFreehandRect(txtFieldX, txtFieldY, txtFieldW, txtFieldH, false);
-  	      scaleInt = null;
-
-  				$('body center').removeClass('invisible').hide().fadeIn();
-  	    }
-  	    else{
-  	      processing.background(255);
-  	      scaleInt.update();
-  //				processing.noFill();
-          processing.fill(255, 255, 240);
-  				processing.stroke(33);
-  	      processing.drawFreehandEllipse(txtFieldX+txtFieldW/2, txtFieldY+txtFieldH/2, processing.map(scaleInt.value, 0, 1, 1, 2)*txtFieldW, processing.map(scaleInt.value, 0, 1, 1, 5)*txtFieldH, dots);
-  	    }
-  	  }
-  	}
+    // processing.mouseMoved = function() {
+    //   if(dusts!=null){
+    //     var d = dusts.get(0);
+    //         d.escape();
+    //       }
+    // }
   }
   
   function modifyUI() {

@@ -1,8 +1,56 @@
+function WGTextfield(txtField){
+  
+  var x = 300;
+  var y = 80;
+  var width = txtField.offsetWidth;
+  var height = txtField.offsetHeight;
+  var htmlTxtfield = txtField;
+  var scaleInt;
+	var dots;
+  init();
+  
+  function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= Math.floor(height)+160;
+  	canvasElement.width= Math.floor(width)+600;
+  	canvasElement.style.position = "absolute";
+  	canvasElement.style.left = "-300px";
+  	canvasElement.style.top = "-80px";
+  	canvasElement.style.zIndex = -3;
+  	htmlTxtfield.appendChild(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+  
+  function sketchProc(processing) {
+    processing.setup = function() {
+      scaleInt = new Integrator();
+      dots = new processing.ArrayList();
+      processing.smooth();
+  		processing.frameRate(20);
+  		this.drawFreehandRect( x, y, width, height, false);
+    }
+    processing.draw = function() {
+      if(scaleInt!=null){
+  	    if(scaleInt.stage==3){
+  	      processing.clear();
+  				processing.drawFreehandRect(x, y, width, height, false);
+  	      scaleInt = null;
+  				$('body center').removeClass('invisible').hide().fadeIn();
+  	    }
+  	    else{
+  	      processing.clear();
+  	      scaleInt.update();
+  	      processing.drawFreehandEllipse( processing.width/2, processing.height/2, processing.map(scaleInt.value, 0, 1, 1, 1.5)*width, processing.map(scaleInt.value, 0, 1, 1, 3.5)*height, dots);
+  	    }
+  	  }
+    };
+  }
+}
+
 
 function WGButton(btn){
-  
-  var x = 10;//findPosX( btn );
-  var y = 10;//findPosY( btn );
+  var x = 10;
+  var y = 10;
   var width = btn.offsetWidth;
   var height = btn.offsetHeight;
   var targetX = 0;
@@ -16,11 +64,10 @@ function WGButton(btn){
     var canvasElement = document.createElement('canvas');	
   	canvasElement.height= Math.floor(height)+20;
   	canvasElement.width= Math.floor(width)+20;
-  	
   	canvasElement.style.position = "absolute";
   	canvasElement.style.left = "-10px";
   	canvasElement.style.top = "-10px";
-  	canvasElement.style.zIndex = 3;
+  	canvasElement.style.zIndex = -1;
   	htmlBtn.appendChild(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
@@ -38,7 +85,7 @@ function WGButton(btn){
         processing.clear();
         this.drawFreehandRect( x, y, width, height, true);
       }
-      else if(Math.random()>0.98){
+      else if(Math.random()>0.98) {
         setTargetPosition();
       }
       
@@ -51,16 +98,13 @@ function WGButton(btn){
       while( processing.abs(findPosX(moveBtn)+targetX-window.innerWidth/2)>200 ){
         targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       }
-      while( findPosY(moveBtn)+targetY-window.innerHeight/2<30 ){
+      while( findPosY(moveBtn)+targetY-window.innerHeight/2<30 || findPosY(moveBtn)+targetY-window.innerHeight/2>150 ){
         targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       }
       moveBtn.style.left = findPosX(moveBtn) + "px";
       moveBtn.style.top = findPosY(moveBtn) + "px";
       moveBtn.style.position = 'absolute';
-      
       isMoving = true;
-      
-      console.log("SET: "+targetX,targetY);
     }
     function updatePosition() {
       if( targetX!=0 ) {
