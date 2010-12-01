@@ -122,14 +122,13 @@ function WGButton(btn,left,top){
         processing.clear();
         this.drawFreehandRect( x, y, width, height, true);
       }
-      else if(Math.random()>0.98 && counter>40) {
+      else if(Math.random()>0.98) {
         setTargetPosition();
       }
-      if(reverseCount>0)
-        reverseCount--;
-//      console.log(counter);
-      if(counter<=45)
-        counter++;
+      // if(reverseCount>0)
+      //   reverseCount--;
+      // if(counter<=45)
+      //   counter++;
     
     }
     function setTargetPosition() {
@@ -140,13 +139,10 @@ function WGButton(btn,left,top){
       while( processing.abs(findPosX(moveBtn)+targetX-window.innerWidth/2)>200 ){
         targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       }
-      while( findPosY(moveBtn)+targetY-window.innerHeight/2<30 || findPosY(moveBtn)+targetY-window.innerHeight/2>150 ){
+      while( (findPosY(moveBtn)+targetY)<200 ||  (findPosY(moveBtn)+targetY)>600){
         targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       }
 
-      moveBtn.style.left = findPosX(moveBtn) + "px";
-      moveBtn.style.top = findPosY(moveBtn) + "px";
-      moveBtn.style.position = 'absolute';
       isMoving = true;
     }
     function updatePosition() {

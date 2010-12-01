@@ -10,8 +10,8 @@ function Dust(x, y, moveToX, moveToY){
   this.scaleInt.setTarget(1.0);
 	
 	this.moving = function(){
-		console.log(this.position);
-		console.log(this.targetPosition);
+    // console.log(this.position);
+    // console.log(this.targetPosition);
 		var v = new processing.PVector(this.targetPosition.x-this.position.x, this.targetPosition.y-this.position.y);
 //			console.log(" "+v.normalize());
 		

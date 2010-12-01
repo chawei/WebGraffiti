@@ -47,11 +47,11 @@ function WGGoogle() {
 
     processing.draw = function() {
 
-      // detect button collision
+      //detect button collision
       if(wgButtonSubmit.getMovingStatus() || wgButtonLuck.getMovingStatus()) {
         var checkX = checkOverlap(wgButtonSubmit.getBtnX(), btnSubmit.offsetWidth, wgButtonLuck.getBtnX(), btnLuck.offsetWidth, 0); 
         var checkY = checkOverlap(wgButtonSubmit.getBtnY(), btnSubmit.offsetHeight, wgButtonLuck.getBtnY(), btnLuck.offsetHeight, 0); 
-//         console.log(checkX,checkY);
+        
         if(checkX&&checkY){
           var tx1 = -1*wgButtonSubmit.getTargetX()*Math.round(Math.random()*10+6);
           var ty1 = -1*wgButtonSubmit.getTargetY()*Math.round(Math.random()*10+6);
@@ -60,8 +60,6 @@ function WGGoogle() {
   
           wgButtonSubmit.reverseMoving(tx1,ty1);
           wgButtonLuck.reverseMoving(tx2,ty2);
-//          wgButtonSubmit.reverseMoving(tx1,ty1);
-//          wgButtonLuck.reverseMoving(tx2,ty2);
         }
       }
       
