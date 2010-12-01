@@ -48,7 +48,7 @@ function WGTextfield(txtField){
 }
 
 
-function WGButton(btn){
+function WGButton(btn,left,top){
   var x = 10;
   var y = 10;
   var width = btn.offsetWidth;
@@ -58,8 +58,44 @@ function WGButton(btn){
   var isMoving = false;
   var htmlBtn = btn;
   var moveBtn = btn.parentNode;
+  var counter = 0;
+  var reverseCount = 0;
+  moveBtn.style.position = 'absolute';
+  moveBtn.style.left = left + "px";
+  moveBtn.style.top = top + "px";
   init();
   
+  this.getMovingStatus = function() {
+    return isMoving;
+  }
+  this.getBtnX = function() {
+    return findPosX(moveBtn);
+  }
+  this.getBtnY = function() {
+    return findPosY(moveBtn);
+  }
+  this.getTargetX = function() {
+    if(targetX!=0)
+      return targetX/Math.abs(targetX);
+    else
+      return 0;
+  }
+  this.getTargetY = function() {
+    if(targetY!=0)
+      return targetY/Math.abs(targetY);
+    else
+      return 0;
+  }
+
+  this.reverseMoving = function(newTargetX,newTargetY) {
+    if(reverseCount<=0){
+      targetX = newTargetX;
+      targetX = newTargetY;
+//      console.log("re:",targetX,targetY);
+      isMoving = true;
+      reverseCount = 20;
+    }
+  }
   function init() {
     var canvasElement = document.createElement('canvas');	
   	canvasElement.height= Math.floor(height)+20;
@@ -68,7 +104,7 @@ function WGButton(btn){
   	canvasElement.style.left = "-10px";
   	canvasElement.style.top = "-10px";
   	canvasElement.style.zIndex = -1;
-  	htmlBtn.appendChild(canvasElement);
+  	htmlBtn.appendChild(canvasElement);  
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
   
@@ -77,6 +113,7 @@ function WGButton(btn){
       processing.smooth();
   		processing.frameRate(10);
   		this.drawFreehandRect( x, y, width, height, true);
+  		counter = 0;
     }
     processing.draw = function() {
       
@@ -85,10 +122,15 @@ function WGButton(btn){
         processing.clear();
         this.drawFreehandRect( x, y, width, height, true);
       }
-      else if(Math.random()>0.98) {
+      else if(Math.random()>0.98 && counter>40) {
         setTargetPosition();
       }
-      
+      if(reverseCount>0)
+        reverseCount--;
+//      console.log(counter);
+      if(counter<=45)
+        counter++;
+    
     }
     function setTargetPosition() {
       var gap = 30;
@@ -101,6 +143,7 @@ function WGButton(btn){
       while( findPosY(moveBtn)+targetY-window.innerHeight/2<30 || findPosY(moveBtn)+targetY-window.innerHeight/2>150 ){
         targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       }
+
       moveBtn.style.left = findPosX(moveBtn) + "px";
       moveBtn.style.top = findPosY(moveBtn) + "px";
       moveBtn.style.position = 'absolute';
@@ -113,10 +156,10 @@ function WGButton(btn){
         targetX = targetX>0 ? (targetX-1) : (targetX+1);
       }
       if( targetY!=0 ) {
-            var newY = targetY>0 ? parseFloat(moveBtn.style.top)+1 : parseFloat(moveBtn.style.top)-1;
-            moveBtn.style.top = newY+"px";
-            targetY = targetY>0 ? targetY-1 : targetY+1;
-          }
+        var newY = targetY>0 ? parseFloat(moveBtn.style.top)+1 : parseFloat(moveBtn.style.top)-1;
+        moveBtn.style.top = newY+"px";
+        targetY = targetY>0 ? targetY-1 : targetY+1;
+      }
       if( targetX==0 && targetY==0)
         isMoving = false;
     }
@@ -336,6 +379,15 @@ function getElementsByClass(node,searchClass,tag) {
          }
     }
     return classElements;
+}
+
+function checkOverlap(x1, w1, x2, w2, buffer){
+  var result;
+  if(x1 < x2)
+    result = x2<(x1+w1-buffer);
+  else
+    result = x1<(x2+w2-buffer);
+  return result;
 }
 
 function findPosX(obj) {

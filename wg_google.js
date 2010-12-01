@@ -33,21 +33,39 @@ function WGGoogle() {
 			btnLuck.style.position = 'relative';
 			btnLuck.childNodes[0].style.zIndex = 5;
 	
-			wgButtonSubmit = new WGButton(btnSubmit);
-			wgButtonLuck = new WGButton(btnLuck);
+	    var btnSubmitLeft = findPosX(btnSubmit.parentNode);
+	    var btnSubmitTop = findPosY(btnSubmit.parentNode);
+	    var btnLuckLeft = findPosX(btnLuck.parentNode);
+	    var btnLuckTop = findPosY(btnLuck.parentNode);
+	    
+			wgButtonSubmit = new WGButton(btnSubmit, btnSubmitLeft, btnSubmitTop);
+			wgButtonLuck = new WGButton(btnLuck,btnLuckLeft,btnLuckTop);
 			
   		processing.smooth();
-  		processing.frameRate(25);
+  		processing.frameRate(10);
   	}
 
     processing.draw = function() {
-      // update button location
+
+      // detect button collision
+      if(wgButtonSubmit.getMovingStatus() || wgButtonLuck.getMovingStatus()) {
+        var checkX = checkOverlap(wgButtonSubmit.getBtnX(), btnSubmit.offsetWidth, wgButtonLuck.getBtnX(), btnLuck.offsetWidth, 0); 
+        var checkY = checkOverlap(wgButtonSubmit.getBtnY(), btnSubmit.offsetHeight, wgButtonLuck.getBtnY(), btnLuck.offsetHeight, 0); 
+//         console.log(checkX,checkY);
+        if(checkX&&checkY){
+          var tx1 = -1*wgButtonSubmit.getTargetX()*Math.round(Math.random()*10+6);
+          var ty1 = -1*wgButtonSubmit.getTargetY()*Math.round(Math.random()*10+6);
+          var tx2 = -1*wgButtonLuck.getTargetX()*Math.round(Math.random()*10+6);
+          var ty2 = -1*wgButtonLuck.getTargetY()*Math.round(Math.random()*10+6);
+  
+          wgButtonSubmit.reverseMoving(tx1,ty1);
+          wgButtonLuck.reverseMoving(tx2,ty2);
+//          wgButtonSubmit.reverseMoving(tx1,ty1);
+//          wgButtonLuck.reverseMoving(tx2,ty2);
+        }
+      }
       
-      // if(wgButtonSubmit.isMoving || wgButtonLuck.isMoving){
-      //   
-      // }
-      
-      
+
     };
     
     // processing.keyReleased = function() {
@@ -63,6 +81,8 @@ function WGGoogle() {
     //       }
     // }
   }
+  
+  
   
   function modifyUI() {
   	// add font link <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie&subset=latin' rel='stylesheet' type='text/css'>
