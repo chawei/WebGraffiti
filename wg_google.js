@@ -6,8 +6,8 @@ function WGGoogle() {
   this.init = function() {
 	
 		flagTxtfield = false;
-		flagBtn = false;
-		flagClock = true;
+		flagBtn = true;
+		flagClock = false;
 		
     modifyUI();
     
@@ -108,13 +108,13 @@ function WGGoogle() {
   	logoDiv.removeChild(img);
 		
 		// add new img
-		if(!flagClock) {
+
 	    var newImg = document.createElement("img");
 	    newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/sketch_ungoogleable.png");
 	    newImg.setAttribute('alt', 'na');
 	    newImg.setAttribute('width', 400);
 	    logoDiv.appendChild(newImg);
-		}
+
     //  $('#lga').css('height', '50px').css('font-size', '3em').css('margin', '100px 0 50px 0').html('UN-Googleable Wall');
 
   	// create new text

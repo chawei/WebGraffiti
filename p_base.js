@@ -1,5 +1,29 @@
+// function WGClock(parent,w,h){
+// 	var parentNode = parent;
+// 	var width = w;
+// 	var height = h;
+// 	init();
+// 	function init() {
+//     var canvasElement = document.createElement('canvas');	
+// 		canvasElement.width= width;
+//   	canvasElement.height= height;
+//   	canvasElement.style.position = "absolute";
+//   	canvasElement.style.zIndex = -3;
+//   	parentNode.appendChild(canvasElement);
+//   	var processingInstance = new Processing(canvasElement, sketchProc);
+//   }
+// 	function sketchProc(processing) {
+//     processing.setup = function() {
+// 			processing.smooth();
+//   		processing.frameRate(20);
+// 			
+//     }
+// 		processing.draw = function(){
+// 			
+// 		}
+// }
+
 function WGTextfield(txtField,flag){
-  
   var x = 300;
   var y = 80;
   var width = txtField.offsetWidth;
@@ -124,7 +148,7 @@ function WGButton(btn,left,top,mode){
 				processing.noLoop();
     }
     processing.draw = function() {
-      
+      console.log("d");
       if(isMoving){
         updatePosition();
         processing.clear();
@@ -177,6 +201,7 @@ Processing.prototype.drawFreehandEllipse = function(x, y, w, h, dots) {
     totalDots = 5;
     
   var angleGap = 2*Math.PI/totalDots;
+
   dots.clear();
   for(var i=0; i<totalDots; i++){
     var p = new Point( x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.1), y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.1) );
