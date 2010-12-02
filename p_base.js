@@ -76,6 +76,46 @@ function WGTextfield(txtField,flag){
   }
 }
 
+function WGCrack(element, cx, cy){
+	var parent = element;
+	var x = cx;
+	var y = cy;
+	var width = 100;
+	var height = 100;
+	var dots;
+	
+	init();
+	function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height = height;
+  	canvasElement.width = width;
+  	canvasElement.style.position = "absolute";
+  	canvasElement.style.left = x-width/2+"px";
+  	canvasElement.style.top = y-height/2+"px";
+//  	canvasElement.style.zIndex = -1;
+  	parent.appendChild(canvasElement);  
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+  
+  function sketchProc(processing) {
+		
+    processing.setup = function() {
+			dots = new processing.ArrayList();
+      processing.smooth();
+  		processing.frameRate(10);
+			processing.noFill();
+			processing.strokeWeight(0.3);
+			processing.stroke(33);
+			processing.drawFreehandEllipse(width/2, height/2, 30, 30, dots)
+	
+			processing.noLoop();
+    }
+    processing.draw = function() {
+	
+		}
+	}
+	
+}
 
 function WGButton(btn,left,top,mode){
   var x = 10;

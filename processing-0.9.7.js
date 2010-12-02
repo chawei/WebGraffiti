@@ -7608,8 +7608,13 @@
     };
 
     p.endShape = function endShape(mode){
-//      var closeShape = mode === PConstants.CLOSE;
-			var closeShape = true;
+	
+	// yuin's modification 
+  var closeShape = mode === PConstants.CLOSE;
+	var closeShape = true;
+	// yuin's modification end
+	
+ 			var closeShape = mode === PConstants.CLOSE;	
       var lineVertArray = [];
       var fillVertArray = [];
       var colorVertArray = [];

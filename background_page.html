@@ -106,6 +106,7 @@ function CurrentPage ()
 	    me.CurrentTabId = tabId;
 	    me.Url = tab.url;
 	    me.Domain = extractDomain(tab.url);
+		
 	    if(me.isStyleOverriden()){
 				if (changeInfo.status == "loading") {
 					me.callInjectCss();

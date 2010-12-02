@@ -33,6 +33,9 @@ function injectCss(cssToInject) {
     case "www.apple.com":
       webGraffiti = new WGApple();
       break;
+		case "twitter.com":
+			webGraffiti = new WGTwitter();
+			break;
     default:
       webGraffiti = new WGDust();
   }
