@@ -100,25 +100,36 @@ function WGCrack(element, cx, cy){
       processing.smooth();
   		processing.frameRate(10);
 			processing.noFill();
-			processing.strokeWeight(0.3);
+			processing.strokeWeight( processing.random(0.7,1.2) );
 			processing.stroke(33);
 			
 			var circles = Math.round(Math.random()*10+7);
 			var r = 20;
 			var delta = 2;
 			for(var i=1; i<=circles; i++) {
-				var arcs = Math.round(Math.random()*3+3);
+				var arcs = Math.round(Math.random()*4+4);
 				var arr = chunks(arcs);
 				var start = 0;
+				// arcs
 				for(var j=0; j<arcs; j++) {
 					var end = start + arr[j];
-					var radius = r + delta*i*(1+Math.random()/3);
+					var radius = r*processing.random(0.6,1.2) + delta*i*(1+Math.random()/3);
 					var dx = Math.random()>0.5 ? i*Math.random()/2: -1*i*Math.random()/2;
 					var dy = Math.random()>0.5 ? i*Math.random()/2: -1*i*Math.random()/2;
 					processing.drawFreehandArc(width/2+dx, height/2+dy, radius, radius, start*2*Math.PI, end*2*Math.PI);
+					
+					var lx1 = width/2+dx+radius*processing.cos(start*2*Math.PI)/2;
+					var ly1 = height/2+dy+radius*processing.sin(start*2*Math.PI)/2;
+					var lx2 = width/2+dx+radius*processing.cos(start*2*Math.PI)*(1+processing.random(-0.5,0.5));
+					var ly2 = height/2+dy+radius*processing.sin(start*2*Math.PI)*(1+processing.random(-0.5,0.5));
+					
+					processing.drawFreehandLine(lx1, ly1, lx2, ly2);
+								
 					start += arr[j];
 				}
+
 			}
+			
 			processing.noLoop();
     }
     processing.draw = function() {
@@ -245,11 +256,34 @@ function WGButton(btn,left,top,mode){
   }
 }
 
+Processing.prototype.drawFreehandLine = function(x1, y1, x2, y2) {
+		
+	var dist = this.dist(x1, y1, x2, y2);
+	var basic = 1.5;
+	var pieces = dist/basic;
+	
+	var dx = (x2-x1)/pieces;
+	var dy = (y2-y1)/pieces;
+	
+	this.strokeWeight( this.random(0.1,0.3) );
+	
+ 	this.beginShape();
+  this.vertex(x1,y1);
+	
+	for(var i=0; i<pieces; i++) {
+		var tx = x1 + dx*i + Math.random();
+		var ty = y1 + dy*i + Math.random();	
+		this.vertex( tx, ty);
+	}
+	
+	this.endShape();
+}
+
 Processing.prototype.drawFreehandEllipse = function(x, y, w, h, start, end) {
   var currentAngle = 0;
   var totalDots = Math.floor( (w+h)/40 );
 	if(totalDots<5)
-    totalDots = 180;
+    totalDots = 5;
   var angleGap = 2*Math.PI/totalDots;
 	var dots = new this.ArrayList();	
 
@@ -296,7 +330,7 @@ Processing.prototype.drawFreehandArc = function(x, y, w, h, start, end) {
   var currentAngle = 0;
   var totalDots = Math.floor( (w+h)/40 );
 	if(totalDots<5)
-    totalDots = 180;
+    totalDots = 40;
   var angleGap = 2*Math.PI/totalDots;
 	var dots = new this.ArrayList();	
 
@@ -328,7 +362,7 @@ Processing.prototype.drawFreehandRect = function(x, y, w, h, isBtn) {
     this.fill(255, 255, 240);
   else
     this.fill(255);
-//  this.noFill();
+
   this.beginShape();
   this.vertex(x,y);  
   var currentX = x;
