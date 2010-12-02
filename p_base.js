@@ -106,8 +106,11 @@ function WGCrack(element, cx, cy){
 			processing.noFill();
 			processing.strokeWeight(0.3);
 			processing.stroke(33);
-			processing.drawFreehandEllipse(width/2, height/2, 30, 30, dots)
-	
+			
+			var rand = Math.round(Math.random()*5+3);
+			for(var i=0; i<rand; i++) {
+				processing.drawFreehandEllipse(width/2, height/2, 10+i*5, 10+i*5, dots);
+			}
 			processing.noLoop();
     }
     processing.draw = function() {
