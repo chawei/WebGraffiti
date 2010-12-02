@@ -2,9 +2,9 @@ function WGTwitter() {
 	
 	var cracks;
 	
-  this.init = function(){
+  this.init = function() {
 		cracks = new Array();
-		setTimeout ( modifyUI, 3000 );
+		setTimeout ( modifyUI, 1500 );
 //  	modifyUI();
   }
   
@@ -16,7 +16,6 @@ function WGTwitter() {
     processing.draw = function(){
 
     }
-		
   }
   
 	function modifyUI() {	

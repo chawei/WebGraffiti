@@ -13,12 +13,12 @@
     "popup": "popup.html"           
   },
   "background_page": "background_page.html",
-  "content_scripts": 
+  "content_scripts":
    [
 	{
 	"run_at": "document_start",
       	"matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"], 
-      	"js": ["processing-0.9.7.js", "p_base.js", "jquery.js", 
+      	"js": ["processing-1.0.0.js", "p_base.js", "jquery.js", 
       	       "wg_google.js", "wg_dust.js", "wg_apple.js", 
       	       "wg_facebook.js", "wg_ungoogleable.js", "wg_twitter.js", "convert.js"],
       	"all_frames": true

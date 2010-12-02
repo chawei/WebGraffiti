@@ -30,7 +30,6 @@ function WGTextfield(txtField,flag){
   var height = txtField.offsetHeight;
   var htmlTxtfield = txtField;
   var scaleInt;
-	var dots;
 	var isActive = flag;
   init();
   
@@ -53,7 +52,6 @@ function WGTextfield(txtField,flag){
   		this.drawFreehandRect( x, y, width, height, false);
 			if(isActive) {
 	      scaleInt = new Integrator();
-	      dots = new processing.ArrayList();
 			}
 			else
 				processing.noLoop();
@@ -69,7 +67,7 @@ function WGTextfield(txtField,flag){
   	    else{
   	      processing.clear();
   	      scaleInt.update();
-  	      processing.drawFreehandEllipse( processing.width/2, processing.height/2, processing.map(scaleInt.value, 0, 1, 1, 1.5)*width, processing.map(scaleInt.value, 0, 1, 1, 3.5)*height, dots);
+  	      processing.drawFreehandEllipse( processing.width/2, processing.height/2, processing.map(scaleInt.value, 0, 1, 1, 1.5)*width, processing.map(scaleInt.value, 0, 1, 1, 3.5)*height, 0, 2*Math.PI);
   	    }
   	  }
     };
@@ -82,7 +80,6 @@ function WGCrack(element, cx, cy){
 	var y = cy;
 	var width = 100;
 	var height = 100;
-	var dots;
 	
 	init();
 	function init() {
@@ -100,16 +97,27 @@ function WGCrack(element, cx, cy){
   function sketchProc(processing) {
 		
     processing.setup = function() {
-			dots = new processing.ArrayList();
       processing.smooth();
   		processing.frameRate(10);
 			processing.noFill();
 			processing.strokeWeight(0.3);
 			processing.stroke(33);
 			
-			var rand = Math.round(Math.random()*5+3);
-			for(var i=0; i<rand; i++) {
-				processing.drawFreehandEllipse(width/2, height/2, 10+i*5, 10+i*5, dots);
+			var circles = Math.round(Math.random()*10+7);
+			var r = 20;
+			var delta = 2;
+			for(var i=1; i<=circles; i++) {
+				var arcs = Math.round(Math.random()*3+3);
+				var arr = chunks(arcs);
+				var start = 0;
+				for(var j=0; j<arcs; j++) {
+					var end = start + arr[j];
+					var radius = r + delta*i*(1+Math.random()/3);
+					var dx = Math.random()>0.5 ? i*Math.random()/2: -1*i*Math.random()/2;
+					var dy = Math.random()>0.5 ? i*Math.random()/2: -1*i*Math.random()/2;
+					processing.drawFreehandArc(width/2+dx, height/2+dy, radius, radius, start*2*Math.PI, end*2*Math.PI);
+					start += arr[j];
+				}
 			}
 			processing.noLoop();
     }
@@ -237,48 +245,80 @@ function WGButton(btn,left,top,mode){
   }
 }
 
-Processing.prototype.drawFreehandEllipse = function(x, y, w, h, dots) {
+Processing.prototype.drawFreehandEllipse = function(x, y, w, h, start, end) {
   var currentAngle = 0;
   var totalDots = Math.floor( (w+h)/40 );
 	if(totalDots<5)
-    totalDots = 5;
-    
+    totalDots = 180;
   var angleGap = 2*Math.PI/totalDots;
+	var dots = new this.ArrayList();	
 
-  dots.clear();
-  for(var i=0; i<totalDots; i++){
-    var p = new Point( x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.1), y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.1) );
-    currentAngle+=angleGap;
-    dots.add(p);
+  for(var i=0; i<totalDots; i++) {
+		if(currentAngle>=start && currentAngle<=end) {
+    	var p = new Point( x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.1), y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.1) );
+			dots.add(p);
+    }
+		currentAngle+=angleGap;
   }
 	
-  for(var j=0; j<dots.size(); j++){
-    var p1,p2,p3,p4;
-    p1 = dots.get(j);
-    if( j==dots.size()-3){
-      p2 = dots.get(j+1);
-      p3 = dots.get(j+2);
-      p4 = dots.get(0);
-    }
-    else if(j==dots.size()-2){
-      p2 = dots.get(j+1);
-      p3 = dots.get(0);
-      p4 = dots.get(1);
-      this.curve(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
-    }
-    else if(j==dots.size()-1){
-      p2 = dots.get(0);
-      p3 = dots.get(1);
-      p4 = dots.get(2);
-    }
-    else{
-      p2 = dots.get(j+1);
-      p3 = dots.get(j+2);
-      p4 = dots.get(j+3);
-    }
-    this.curve(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
-  }
+	if(dots.size()>=4) {
+  	for(var j=0; j<dots.size(); j++){
+	    var p1,p2,p3,p4;
+	    p1 = dots.get(j);
+	    if( j==dots.size()-3){
+	      p2 = dots.get(j+1);
+	      p3 = dots.get(j+2);
+	      p4 = dots.get(0);
+	    }
+	    else if(j==dots.size()-2){
+	      p2 = dots.get(j+1);
+	      p3 = dots.get(0);
+	      p4 = dots.get(1);
+	    }
+	    else if(j==dots.size()-1){
+	      p2 = dots.get(0);
+	      p3 = dots.get(1);
+	      p4 = dots.get(2);
+	    }
+	    else{
+	      p2 = dots.get(j+1);
+	      p3 = dots.get(j+2);
+	      p4 = dots.get(j+3);
+	    }
+	    this.curve(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
+	  }
+	}
+	dots = null;
 }
+
+
+Processing.prototype.drawFreehandArc = function(x, y, w, h, start, end) {
+  var currentAngle = 0;
+  var totalDots = Math.floor( (w+h)/40 );
+	if(totalDots<5)
+    totalDots = 180;
+  var angleGap = 2*Math.PI/totalDots;
+	var dots = new this.ArrayList();	
+
+  for(var i=0; i<totalDots; i++) {
+		if(currentAngle>=start && currentAngle<=end) {
+    	var p = new Point( x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.1), y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.1) );
+			dots.add(p);
+    }
+		currentAngle+=angleGap;
+  }
+	
+	this.beginShape();
+ 	for(var j=0; j<dots.size(); j++){
+    var p = dots.get(j);
+		this.vertex(p.x, p.y);
+  }
+	this.endShape();
+//		this.endShape(CLOSE);
+
+	dots = null;
+}
+
 
 Processing.prototype.drawFreehandRect = function(x, y, w, h, isBtn) {
   var gap = 2;
@@ -421,6 +461,26 @@ function Integrator() {
     return yValue;
   }
 
+}
+
+function chunks(cuts) { // 0-1
+	var avr = 1.0/cuts;
+	var array = new Array(cuts);
+	array[0] = 's';
+	for(var i=0; i<cuts; i++) {
+		array[i] = avr;
+	}
+
+	for(var j=0; j<cuts; j++) {
+		var diff = array[j] * Math.random()/2;
+		array[j] -= diff;
+		if(j==cuts-1)
+			array[0] += diff;
+		else
+			array[j+1] += diff;
+	}
+
+	return array;
 }
 
 /* Basic DOM functions 
