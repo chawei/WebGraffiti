@@ -1,4 +1,4 @@
-function WGTextfield(txtField){
+function WGTextfield(txtField,flag){
   
   var x = 300;
   var y = 80;
@@ -7,6 +7,7 @@ function WGTextfield(txtField){
   var htmlTxtfield = txtField;
   var scaleInt;
 	var dots;
+	var isActive = flag;
   init();
   
   function init() {
@@ -23,11 +24,15 @@ function WGTextfield(txtField){
   
   function sketchProc(processing) {
     processing.setup = function() {
-      scaleInt = new Integrator();
-      dots = new processing.ArrayList();
-      processing.smooth();
+			processing.smooth();
   		processing.frameRate(20);
   		this.drawFreehandRect( x, y, width, height, false);
+			if(isActive) {
+	      scaleInt = new Integrator();
+	      dots = new processing.ArrayList();
+			}
+			else
+				processing.noLoop();
     }
     processing.draw = function() {
       if(scaleInt!=null){
@@ -48,7 +53,7 @@ function WGTextfield(txtField){
 }
 
 
-function WGButton(btn,left,top){
+function WGButton(btn,left,top,mode){
   var x = 10;
   var y = 10;
   var width = btn.offsetWidth;
@@ -60,6 +65,7 @@ function WGButton(btn,left,top){
   var moveBtn = btn.parentNode;
   var counter = 0;
   var reverseCount = 0;
+	var isActive = mode;
   moveBtn.style.position = 'absolute';
   moveBtn.style.left = left + "px";
   moveBtn.style.top = top + "px";
@@ -114,6 +120,8 @@ function WGButton(btn,left,top){
   		processing.frameRate(10);
   		this.drawFreehandRect( x, y, width, height, true);
   		counter = 0;
+			if(isActive==false)
+				processing.noLoop();
     }
     processing.draw = function() {
       
