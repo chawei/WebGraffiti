@@ -100,10 +100,9 @@ function WGCrack(element, cx, cy){
       processing.smooth();
   		processing.frameRate(10);
 			processing.noFill();
-			processing.strokeWeight( processing.random(0.7,1.2) );
 			processing.stroke(33);
 			
-			var circles = Math.round(Math.random()*10+7);
+			var circles = Math.round(Math.random()*7+5);
 			var r = 20;
 			var delta = 2;
 			for(var i=1; i<=circles; i++) {
@@ -116,15 +115,18 @@ function WGCrack(element, cx, cy){
 					var radius = r*processing.random(0.6,1.2) + delta*i*(1+Math.random()/3);
 					var dx = Math.random()>0.5 ? i*Math.random()/2: -1*i*Math.random()/2;
 					var dy = Math.random()>0.5 ? i*Math.random()/2: -1*i*Math.random()/2;
+					processing.strokeWeight( processing.random(0.3,0.5) );
 					processing.drawFreehandArc(width/2+dx, height/2+dy, radius, radius, start*2*Math.PI, end*2*Math.PI);
 					
-					var lx1 = width/2+dx+radius*processing.cos(start*2*Math.PI)/2;
-					var ly1 = height/2+dy+radius*processing.sin(start*2*Math.PI)/2;
-					var lx2 = width/2+dx+radius*processing.cos(start*2*Math.PI)*(1+processing.random(-0.5,0.5));
-					var ly2 = height/2+dy+radius*processing.sin(start*2*Math.PI)*(1+processing.random(-0.5,0.5));
+					if(Math.random()>0.5) {
+						var lx1 = width/2+dx+radius*processing.cos(start*2*Math.PI)/2;
+						var ly1 = height/2+dy+radius*processing.sin(start*2*Math.PI)/2;
+						var lx2 = width/2+dx+radius*processing.cos(start*2*Math.PI)*(1+processing.random(-0.5,0.5));
+						var ly2 = height/2+dy+radius*processing.sin(start*2*Math.PI)*(1+processing.random(-0.5,0.5));
+						processing.strokeWeight( processing.random(0.1,0.2) );
+						processing.drawFreehandLine(lx1, ly1, lx2, ly2);
+					}
 					
-					processing.drawFreehandLine(lx1, ly1, lx2, ly2);
-								
 					start += arr[j];
 				}
 
@@ -259,20 +261,18 @@ function WGButton(btn,left,top,mode){
 Processing.prototype.drawFreehandLine = function(x1, y1, x2, y2) {
 		
 	var dist = this.dist(x1, y1, x2, y2);
-	var basic = 1.5;
+	var basic = 4;
 	var pieces = dist/basic;
 	
 	var dx = (x2-x1)/pieces;
 	var dy = (y2-y1)/pieces;
 	
-	this.strokeWeight( this.random(0.1,0.3) );
-	
  	this.beginShape();
   this.vertex(x1,y1);
 	
 	for(var i=0; i<pieces; i++) {
-		var tx = x1 + dx*i + Math.random();
-		var ty = y1 + dy*i + Math.random();	
+		var tx = x1 + dx*(i + this.random(2,4));
+		var ty = y1 + dy*(i + this.random(2,4));	
 		this.vertex( tx, ty);
 	}
 	
@@ -348,8 +348,6 @@ Processing.prototype.drawFreehandArc = function(x, y, w, h, start, end) {
 		this.vertex(p.x, p.y);
   }
 	this.endShape();
-//		this.endShape(CLOSE);
-
 	dots = null;
 }
 
