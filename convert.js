@@ -36,6 +36,9 @@ function injectCss(cssToInject) {
 		case "twitter.com":
 			webGraffiti = new WGTwitter();
 			break;
+		case "www.nytimes.com":
+			webGraffiti = new WGNYTimes();
+			break;
     default:
       webGraffiti = new WGDust();
   }
@@ -61,9 +64,4 @@ function createCanvas(){
 	document.body.appendChild(canvasElement);
 	var processingInstance = new Processing(canvasElement, webGraffiti.sketchProc);
 }
-
-
-
-
-
 

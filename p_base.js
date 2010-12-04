@@ -1,27 +1,115 @@
-// function WGClock(parent,w,h){
-// 	var parentNode = parent;
-// 	var width = w;
-// 	var height = h;
-// 	init();
+// function WGMonster(img) {
+// 	var parent = img.parentNode; 
+// 	var x = 0;
+// 	var y = 0;
+// 	var width;
+// 	var height;
+// 	
 // 	function init() {
 //     var canvasElement = document.createElement('canvas');	
-// 		canvasElement.width= width;
-//   	canvasElement.height= height;
+//   	canvasElement.height= Math.floor(height)+160;
+//   	canvasElement.width= Math.floor(width)+600;
 //   	canvasElement.style.position = "absolute";
+//   	canvasElement.style.left = "-300px";
+//   	canvasElement.style.top = "-80px";
 //   	canvasElement.style.zIndex = -3;
-//   	parentNode.appendChild(canvasElement);
+//   	htmlTxtfield.appendChild(canvasElement);
 //   	var processingInstance = new Processing(canvasElement, sketchProc);
 //   }
-// 	function sketchProc(processing) {
+//   
+//   function sketchProc(processing) {
 //     processing.setup = function() {
 // 			processing.smooth();
 //   		processing.frameRate(20);
-// 			
+//   		this.drawFreehandRect( x, y, width, height, false);
 //     }
-// 		processing.draw = function(){
-// 			
+//     processing.draw = function() {
+// 	
 // 		}
+// 	}
 // }
+
+function WGImage(divParent) {
+	var parent = divParent; 
+	var x = 0;
+	var y = 0;
+	var mx = 0;
+	var my = 0;
+	var dSize = 80;
+	var width = parent.find('img')[0].offsetWidth;
+	var height = parent.find('img')[0].offsetHeight;
+	var canvasElement;
+	var context;
+	var drop;
+	var drops;
+	init();
+	
+	function init() {
+    canvasElement = document.createElement('canvas');
+		canvasElement.width=width; 
+  	canvasElement.height=height;
+  	canvasElement.style.position = "absolute";
+  	canvasElement.style.left = 0;
+  	canvasElement.style.top = 0;
+  	canvasElement.style.zIndex = 3;
+  	parent[0].appendChild(canvasElement);
+		context = canvasElement.getContext('2d');
+		context.drawImage(parent.find('img')[0], 0, 0);
+//		setInterval(cleanImage, 500);
+		var processingInstance = new Processing(canvasElement, sketchProc);
+		x = -Math.random()*50;
+		y = 0;//
+		mx = 0; my = 10;
+		// var input = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height);
+		// var output = ctx.createImageData(canvasElement.width, canvasElement.height);
+		// var w = input.width, h = input.height;
+		// var inputData = input.data;
+		// var outputData = output.data;
+		// for(var i=0; i<w*h/2; i++) {
+		// 	outputData[i] = inputData[i+20];
+		// }
+		// ctx.putImageData(output, 0, 0);
+		// 
+	}
+// 	function cleanImage(){
+// //		context.clearRect(x,y,4,4);
+// 		context.fillStyle = '#ffffff';
+// 		context.fillRect(25,25,50,50);
+// 		x+=2;
+// 	}
+ 	function sketchProc(processing) {
+    processing.setup = function() {
+			processing.smooth();
+  		processing.frameRate(9);
+			drops = new processing.ArrayList();
+			var n = Math.round( Math.random()*1 +1);
+			for(var i=0; i<n; i++) {
+				var dw = dSize+processing.random(-10,10);
+				var dh = dSize+processing.random(-10,10);
+				var dx = processing.random(-50,-30);
+				var dy = height-dh/6*5;//processing.random(10,height-70);
+				var drop = new WGWaterDrop(dx,dy,dw,dh,processing);
+				drops.add(drop);
+			}
+    }
+    processing.draw = function() {
+			processing.fill(255,255,251);
+			processing.strokeWeight(0.1);
+			for(var i=0; i<drops.size(); i++) {
+				var drop = drops.get(i);
+				processing.pushMatrix();
+				processing.translate(x+drop.x+Math.random()*3,drop.y+y+Math.random()*3);
+				drop.draw();
+				processing.popMatrix();
+			}
+			x+=10;
+
+		}
+		
+	}
+}
+
+
 
 function WGTextfield(txtField,flag){
   var x = 300;
@@ -100,7 +188,7 @@ function WGCrack(element, cx, cy){
       processing.smooth();
   		processing.frameRate(10);
 			processing.noFill();
-			processing.stroke(33);
+			processing.stroke(0);
 			
 			var circles = Math.round(Math.random()*7+5);
 			var r = 20;
@@ -258,8 +346,94 @@ function WGButton(btn,left,top,mode){
   }
 }
 
-Processing.prototype.drawFreehandLine = function(x1, y1, x2, y2) {
+function WGWaterDrop(x,y,width,height,processing) {
+	this.x = x;
+	this.y = y;
+	var w = width;
+	var h = height;
+	var l = width/2; // line distant
+	var processing = processing;
+	var p1,p2,p3,p4,p5,p6,p7,p8;
+	init();
+	
+	function init() {
+		// var p1x = w/2 + processing.random(-w/10,w/10);
+		// var p1y = h/10 + processing.random(-h/20,h/20);
+		// var p2x = w/2 + processing.random(-w/20,w/20);
+		// var p2y = p1y + processing.random(h/10,h/4);
+		// var p4x = w/2 - processing.random(w/10,w/4);
+		// var p4y = h/4*3 + processing.random(-h/20,h/20);
+		// var p7x = w/2 + processing.random(w/10,w/4);
+		// var p7y = h/4*3 + processing.random(-h/20,h/20);
+		// 	
+		// var s2 = processing.random(-1,-0.5)*w/20; // slope of line2
+		// var p3x = p4x + processing.random(-1,-0.5)*w/12;
+		// var p3y = p4y + s2*(p4x-p3x);
+		// var p5x = p4x + processing.random(0.5,1)*w/12;
+		// var p5y = p4y + s2*(p4x-p5x);
+		// 	
+		// var s3 = processing.random(0.5,1)*w/20; // slope of line3
+		// var p6x = p7x + processing.random(-0.5,-1)*w/12;
+		// var p6y = p7y + s3*(p7x-p6x);
+		// var p8x = p7x + processing.random(0.5,1)*w/12;
+		// var p8y = p7y + s3*(p7x-p8x);
+		// 	
+		// p1 = new Point(p1x,p1y);
+		// p2 = new Point(p2x,p2y);
+		// p3 = new Point(p3x,p3y);
+		// p4 = new Point(p4x,p4y);
+		// p5 = new Point(p5x,p5y);
+		// p6 = new Point(p6x,p6y);
+		// p7 = new Point(p7x,p7y);
+		// p8 = new Point(p8x,p8y);
+		console.log('init');
+	}
+	
+	this.draw = function(){
 		
+		var p1x = w/2 + processing.random(-w/10,w/10);
+		var p1y = h/10 + processing.random(-h/20,h/20);
+		var p2x = w/2 + processing.random(-w/20,w/20);
+		var p2y = p1y + processing.random(h/10,h/4);
+		var p4x = w/2 - processing.random(w/10,w/4);
+		var p4y = h/4*3 + processing.random(-h/20,h/20);
+		var p7x = w/2 + processing.random(w/10,w/4);
+		var p7y = h/4*3 + processing.random(-h/20,h/20);
+	
+		var s2 = processing.random(-1,-0.5)*w/20; // slope of line2
+		var p3x = p4x + processing.random(-1,-0.5)*w/12;
+		var p3y = p4y + s2*(p4x-p3x);
+		var p5x = p4x + processing.random(0.5,1)*w/12;
+		var p5y = p4y + s2*(p4x-p5x);
+	
+		var s3 = processing.random(0.5,1)*w/20; // slope of line3
+		var p6x = p7x + processing.random(-0.5,-1)*w/12;
+		var p6y = p7y + s3*(p7x-p6x);
+		var p8x = p7x + processing.random(0.5,1)*w/12;
+		var p8y = p7y + s3*(p7x-p8x);
+	
+		p1 = new Point(p1x,p1y);
+		p2 = new Point(p2x,p2y);
+		p3 = new Point(p3x,p3y);
+		p4 = new Point(p4x,p4y);
+		p5 = new Point(p5x,p5y);
+		p6 = new Point(p6x,p6y);
+		p7 = new Point(p7x,p7y);
+		p8 = new Point(p8x,p8y);
+		
+		processing.beginShape();
+		processing.vertex(p1.x, p1.y);
+		processing.bezierVertex(p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
+		processing.bezierVertex(p5.x, p5.y, p6.x, p6.y, p7.x, p7.y);
+		processing.bezierVertex(p7.x, p7.y, p8.x, p8.y, p1.x, p1.y);
+		processing.endShape();
+	}
+	
+}
+
+
+Processing.prototype.drawFreehandLine = function(x1, y1, x2, y2) {
+
 	var dist = this.dist(x1, y1, x2, y2);
 	var basic = 4;
 	var pieces = dist/basic;
