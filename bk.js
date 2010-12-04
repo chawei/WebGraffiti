@@ -54,6 +54,89 @@ function Dust(x, y, moveToX, moveToY){
 
 
 
+function WGImage(divParent) {
+	var parent = divParent; 
+	var x = 0;
+	var y = 0;
+	var mx = 0;
+	var my = 0;
+	var dSize = 80;
+	var width = parent.width();//.offsetWidth;//.find('img')[0].offsetWidth;
+	var height = parent.height();//offsetHeight;//.find('img')[0].offsetHeight;
+	var canvasElement;
+	var context;
+	var drop;
+	var drops;
+	init();
+	
+	function init() {
+    canvasElement = document.createElement('canvas');
+		canvasElement.width=width; 
+  	canvasElement.height=height;
+  	canvasElement.style.position = "absolute";
+  	canvasElement.style.left = 0;
+  	canvasElement.style.top = 0;
+  	canvasElement.style.zIndex = 3;
+  	parent[0].appendChild(canvasElement);
+		context = canvasElement.getContext('2d');
+		parent.find('img').each(function(){
+			context.drawImage(this, $(this).position().left, $(this).position().top);
+		});
+	
+		// var processingInstance = new Processing(canvasElement, sketchProc);
+		// x = -Math.random()*50;
+		// y = 0;//
+		// mx = 0; my = 10;
+		
+		// var input = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height);
+		// var output = ctx.createImageData(canvasElement.width, canvasElement.height);
+		// var w = input.width, h = input.height;
+		// var inputData = input.data;
+		// var outputData = output.data;
+		// for(var i=0; i<w*h/2; i++) {
+		// 	outputData[i] = inputData[i+20];
+		// }
+		// ctx.putImageData(output, 0, 0);
+		// 
+	}
+// 	function cleanImage(){
+// //		context.clearRect(x,y,4,4);
+// 		context.fillStyle = '#ffffff';
+// 		context.fillRect(25,25,50,50);
+// 		x+=2;
+// 	}
+ 	function sketchProc(processing) {
+    processing.setup = function() {
+			processing.smooth();
+  		processing.frameRate(9);
+			drops = new processing.ArrayList();
+			var n = Math.round( Math.random()*1 +1);
+			for(var i=0; i<n; i++) {
+				var dw = dSize+processing.random(-10,10);
+				var dh = dSize+processing.random(-10,10);
+				var dx = processing.random(-50,-30);
+				var dy = height-dh/6*5;//processing.random(10,height-70);
+				var drop = new WGWaterDrop(dx,dy,dw,dh,processing);
+				drops.add(drop);
+			}
+    }
+    processing.draw = function() {
+			processing.fill(255,255,251);
+			processing.strokeWeight(0.1);
+			for(var i=0; i<drops.size(); i++) {
+				var drop = drops.get(i);
+				processing.pushMatrix();
+				processing.translate(x+drop.x+Math.random()*3,drop.y+y+Math.random()*3);
+				drop.draw();
+				processing.popMatrix();
+			}
+			x+=10;
+
+		}
+		
+	}
+}
+
 
 
 /**
