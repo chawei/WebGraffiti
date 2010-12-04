@@ -138,6 +138,17 @@ function WGImage(divParent) {
 }
 
 
+	// processing.fill(255,0,0);
+	// 	processing.ellipse(p1.x,p1.y,3,3);
+	// 	processing.ellipse(p2.x,p2.y,3,3);
+	// 	processing.ellipse(p3.x,p3.y,3,3);
+	// 	processing.ellipse(p4.x,p4.y,3,3);
+	// 	processing.ellipse(p5.x,p5.y,3,3);
+	// 	processing.ellipse(p6.x,p6.y,3,3);
+	// 	processing.ellipse(p7.x,p7.y,3,3);
+	// 	processing.ellipse(p8.x,p8.y,3,3);
+
+
 
 /**
  * http://www.openjs.com/scripts/events/keyboard_shortcuts/

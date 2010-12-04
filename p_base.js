@@ -31,7 +31,6 @@
 
 
 function WGImage(divParent) {
-	
 	var parent = divParent; 
 	var x = 0;
 	var y = 0;
@@ -44,27 +43,13 @@ function WGImage(divParent) {
 	var context, contextAnimation;
 	var drop;
 	var monster;
-	var isMouseOpen;
-	var isMouseLeft;
+	var isMouseOpening;
 	var drops;
 	init();
 	
-	function init() {
-		
-		// drops = new Array();
-		// var n = Math.round( Math.random()*30 +20);
-		// for(var i=0; i<n; i++) {
-		// 	var dw = dSize + ( Math.random()>0.5 ? Math.random()*10: Math.random()*(-10) );
-		// 	var dh = dSize + ( Math.random()>0.5 ? Math.random()*10: Math.random()*(-10) );
-		// 	var dx = Math.random()*width;
-		// 	var dy = Math.random()*(-40)-20;
-		// 	var drop = new WGWaterDrop(dx,dy,dw,dh);
-		// 	drops.push(drop);
-		// }	
-		
-		monster = new WGMonster(10,10,60,60);
+	function init() {		
+		monster = new WGMonster(10,10,50+Math.random(0,25),50+Math.random(0,25));
 		isMouseOpen = false;
-		isMouseLeft = false;
     canvasElement = document.createElement('canvas');
 		canvasElement.width=width; 
   	canvasElement.height=height;
@@ -95,40 +80,38 @@ function WGImage(divParent) {
  	function sketchProc(processing) {
     processing.setup = function() {
 			processing.smooth();
-  		processing.frameRate(10);
+  		processing.frameRate(30);
     }
     processing.draw = function() {
-			if(isMouseOpen) {
-				processing.fill(255,180);
-				processing.strokeWeight(0.5);
-				processing.noStroke();
-				processing.pushMatrix();
-				processing.translate(monster.x,monster.y);
-				monster.drawEating(processing,isMouseLeft);
-				processing.popMatrix();
-			}
+			processing.fill(255,120);
+			processing.strokeWeight(0.5);
+			processing.noStroke();
+			processing.pushMatrix();
+			processing.translate(monster.x,monster.y);
+			monster.drawEating(processing);
+			processing.popMatrix();
 		}
 	}
 	
 	function sketchProcAnimation(processing) {
     processing.setup = function() {
 			processing.smooth();
-  		processing.frameRate(10);
-			
+  		processing.frameRate(30);	
     }
     processing.draw = function() {
 			processing.clear();
 			processing.fill(255);
 			processing.strokeWeight(0.5);
 			
-			processing.pushMatrix();
-			processing.translate(monster.x,monster.y);
-			monster.drawMonter(processing,isMouseLeft,isMouseOpen);
-			processing.popMatrix();
+//			processing.pushMatrix();
+//			processing.translate(monster.x,monster.y);
+			monster.drawMonter(processing);
+//			processing.popMatrix();
 			
 			isMouseOpen = !isMouseOpen;
-			monster.x +=1;
+
 		}
+		
 	}
 	
 }
@@ -161,6 +144,8 @@ function WGTextfield(txtField,flag){
     processing.setup = function() {
 			processing.smooth();
   		processing.frameRate(20);
+			this.stroke(33);
+			this.noFill();
   		this.drawFreehandRect( x, y, width, height, false);
 			if(isActive) {
 	      scaleInt = new Integrator();
@@ -172,7 +157,9 @@ function WGTextfield(txtField,flag){
       if(scaleInt!=null){
   	    if(scaleInt.stage==3){
   	      processing.clear();
-  				processing.drawFreehandRect(x, y, width, height, false);
+					this.stroke(33);
+					this.noFill();
+  				processing.drawFreehandRect(x, y, width, height,false);
   	      scaleInt = null;
   				$('body center').removeClass('invisible').hide().fadeIn();
   	    }
@@ -317,6 +304,8 @@ function WGButton(btn,left,top,mode){
     processing.setup = function() {
       processing.smooth();
   		processing.frameRate(10);
+			this.stroke(33);
+		  this.fill(255, 255, 240);
   		this.drawFreehandRect( x, y, width, height, true);
   		counter = 0;
 			if(isActive==false)
@@ -326,6 +315,8 @@ function WGButton(btn,left,top,mode){
       if(isMoving){
         updatePosition();
         processing.clear();
+			  this.stroke(33);
+			  this.fill(255, 255, 240);
         this.drawFreehandRect( x, y, width, height, true);
       }
       else if(Math.random()>0.98) {
@@ -368,45 +359,70 @@ function WGButton(btn,left,top,mode){
   }
 }
 
-function WGMonster(x,y,width,height) {
-	this.x = x;
-	this.y = y;
+function WGMonster(xx,yy,width,height) {
+	this.x = xx;
+	this.y = yy;
 	var w = width;
 	var h = height;
 	var l = width/2; // line distant
 	var p1,p2,p3,p4,p5,p6,p7,p8;
+	var mouseSize = 0; // 0 1 2 3 
+	var isMouseOpening = true;
+	var mx = 0; // 1 0 -1
+  var my = 1; // 1 0 -1
+	var steps = 0;
 	
 	console.log('init monster');
 	
-	this.drawEating = function(processing,isMouseLeft){
-		if(isMouseLeft) { // left mouse
-			processing.rect(p4.x-2,p4.y-h/6,w/10,8);
+	this.setMoving = function(processing){
+		if(mx==0){
+			my = 0;
+			mx = (this.x+w/2)<processing.width/2 ? 1: -1;
+			steps = (mx==1) ? Math.round( processing.random(0,processing.width-this.x-w+w/2) ) : Math.round( processing.random(0,this.x+w/2) );
 		}
-		else{ // right mouse
-			processing.rect(p7.x-w/6,p7.y-h/6,w/6,8);
+		else{
+			mx = 0;
+			my = (this.y+h/2)<processing.height/2 ? 1: -1;
+			steps = (my==1) ? Math.round( processing.random(0,processing.height-this.y-h+h/2) ): Math.round( processing.random(0,this.y+h/2) );
 		}
 	}
 	
-	this.drawMonter = function(processing,isMouseLeft,isMouseOpen){
+	this.drawEating = function(processing){
+		if(mouseSize==3){
+			var mh = mouseSize*w/7;
+			if(mx==-1) { // left mouse				
+				var xx = p4.x;
+				var yy = p4.y - mh;
+				processing.drawFreehandRect(xx-4,yy,mh+4,mh,false);
+			}
+			else{ // right mouse
+				var xx = p7.x - mh;
+				var yy = p7.y - mh;			
+				processing.drawFreehandRect(xx,yy,mh+4,mh,false);
+			}
+		}
+	}
+	
+	this.drawMonter = function(processing){
 		
-		var p1x = w/2 + processing.random(-w/10,w/10);
-		var p1y = h/10 + processing.random(-h/20,h/20);
+		var p1x = w/2 + processing.random(-w/18,w/18);
+		var p1y = h/10 + processing.random(-h/18,h/18);
 		var p2x = w/2 + processing.random(-w/20,w/20);
-		var p2y = p1y + processing.random(h/10,h/4);
-		var p4x = w/2 - processing.random(w/10,w/4);
-		var p4y = h/4*3 + processing.random(-h/20,h/20);
-		var p7x = w/2 + processing.random(w/10,w/4);
-		var p7y = h/4*3 + processing.random(-h/20,h/20);
+		var p2y = p1y + processing.random(h/20,h/8);
+		var p4x = w/2 - w/5 - processing.random(w/20,w/8);
+		var p4y = h/4*3 + h/5 + processing.random(-h/20,h/20);
+		var p7x = w/2 + w/5 + processing.random(w/20,w/8);
+		var p7y = h/4*3 + h/5 + processing.random(-h/20,h/20);
 	
 		var s2 = processing.random(-1,-0.5)*w/20; // slope of line2
-		var p3x = p4x + processing.random(-1,-0.5)*w/12;
+		var p3x = p4x - w/15 + processing.random(-1,-0.5)*w/10;
 		var p3y = p4y + s2*(p4x-p3x);
-		var p5x = p4x + processing.random(0.5,1)*w/12;
+		var p5x = p4x + w/15 + processing.random(0.5,1)*w/10;
 		var p5y = p4y + s2*(p4x-p5x);
 		var s3 = processing.random(0.5,1)*w/20; // slope of line3
-		var p6x = p7x + processing.random(-0.5,-1)*w/12;
+		var p6x = p7x - w/15 + processing.random(-0.5,-1)*w/10;
 		var p6y = p7y + s3*(p7x-p6x);
-		var p8x = p7x + processing.random(0.5,1)*w/12;
+		var p8x = p7x + w/15 + processing.random(0.5,1)*w/10;
 		var p8y = p7y + s3*(p7x-p8x);
 		
 		p1 = new Point(p1x,p1y);
@@ -418,6 +434,25 @@ function WGMonster(x,y,width,height) {
 		p7 = new Point(p7x,p7y);
 		p8 = new Point(p8x,p8y);
 		
+	processing.fill(255);
+	processing.stroke(180);
+	processing.strokeWeight(1);
+	processing.pushMatrix();
+	processing.translate(this.x,this.y);
+	if(mx==0) {
+		if(my==1) {
+			processing.translate(w/2,h/2);
+			processing.rotate(processing.PI/2);
+			processing.translate(-w/2,-h/2);
+		}
+		else{
+			processing.translate(w/2,h/2);
+			processing.rotate(-processing.PI/2);
+			processing.translate(-w/2,-h/2);
+		}
+	}
+
+						
 		processing.beginShape();
 		processing.vertex(p1.x, p1.y);
 		processing.bezierVertex(p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
@@ -425,29 +460,56 @@ function WGMonster(x,y,width,height) {
 		processing.bezierVertex(p7.x, p7.y, p8.x, p8.y, p1.x, p1.y);
 		processing.endShape();
 		
-		if(isMouseOpen) {
-			processing.stroke(33);
+		var mh = mouseSize*w/7;
+		if(mouseSize>0) {
 			processing.noFill();
-			if(isMouseLeft) { // left mouse
-				processing.clear(p4.x-2,p4.y-h/6,w/10,8);
+			if(mx==-1) { // left mouse				
+				var xx = p4.x;
+				var yy = p4.y - mh;
+				processing.clear(xx-4,yy,mh+4,mh);
 				processing.beginShape();
-				processing.vertex(p4.x-2,p4.y-h/6);
-				processing.vertex(p4.x-2+w/10,p4.y-h/6);
-				processing.vertex(p4.x-2+w/10,p4.y-h/6+8);
-				processing.vertex(p4.x-2,p4.y-h/6+8);
+				processing.vertex(xx,yy);
+				processing.vertex(xx+mh,yy);
+				processing.vertex(xx+mh,yy+mh);
+				processing.vertex(xx,yy+mh);
 				processing.endShape();
 			}
 			else{ // right mouse
-				processing.clear(p7.x-w/6,p7.y-h/6,w/6,8);
+				var xx = p7.x - mh;
+				var yy = p7.y - mh;			
+				processing.clear(xx,yy,mh+4,mh);
 				processing.beginShape();
-				processing.vertex(p7.x,p7.y-h/6);
-				processing.vertex(p7.x-w/6,p7.y-h/6);
-				processing.vertex(p7.x-w/6,p7.y-h/6+8);
-				processing.vertex(p7.x-w/6+w/6,p7.y-h/6+8);
+				processing.vertex(xx+mh,yy);
+				processing.vertex(xx,yy);
+				processing.vertex(xx,yy+mh);
+				processing.vertex(xx+mh,yy+mh);
 				processing.endShape();
 			}
 		}
 		
+	
+	processing.popMatrix();
+				
+		if(isMouseOpening){
+			if(mouseSize==3)
+				isMouseOpening = false;
+			else
+				mouseSize++;
+		}
+		else{
+			if(mouseSize==0)
+				isMouseOpening = true;
+			else
+				mouseSize--;
+		}
+		
+		if(steps>0){
+			this.x += mx;
+			this.y += my;
+			steps--;
+		}
+		else
+			this.setMoving(processing);
 	}
 	
 }
@@ -547,14 +609,9 @@ Processing.prototype.drawFreehandArc = function(x, y, w, h, start, end) {
 }
 
 
-Processing.prototype.drawFreehandRect = function(x, y, w, h, isBtn) {
+Processing.prototype.drawFreehandRect = function(x, y, w, h, hasLeg) {
   var gap = 2;
   var freeFactor = 0.2;
-  this.stroke(33);
-  if(isBtn)
-    this.fill(255, 255, 240);
-  else
-    this.fill(255);
 
   this.beginShape();
   this.vertex(x,y);  
@@ -601,11 +658,12 @@ Processing.prototype.drawFreehandRect = function(x, y, w, h, isBtn) {
 	}
   this.endShape();
 
-  if(isBtn){
-    for(var i=0; i<3; i++){
-      this.line(vertex[i].x, vertex[i].y, vertex[i].x+4, vertex[i].y+3);
-    }
-  }
+  if(hasLeg){
+	  for(var i=0; i<3; i++){
+	    this.line(vertex[i].x, vertex[i].y, vertex[i].x+4, vertex[i].y+3);
+	  }
+	}
+
 }
 
 function Point(x,y){

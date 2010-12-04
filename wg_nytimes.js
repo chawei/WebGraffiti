@@ -30,10 +30,10 @@ function WGNYTimes() {
 		// var masheadImg = new WGImage(mastheadDiv);
 		// mastheadDiv.find('img').css('visibility', 'hidden');
 		
-		// var originalDivRight = $('#TopRight');
-		// originalDivRight.css('position', 'relative');
-		// adImageRight = new WGImage(originalDivRight);
-		// originalDivRight.find('img').css('visibility', 'hidden');
+		var originalDivRight = $('#TopRight');
+		originalDivRight.css('position', 'relative');
+		adImageRight = new WGImage(originalDivRight);
+		originalDivRight.find('img').css('visibility', 'hidden');
 	}
 	
 }
