@@ -20,15 +20,15 @@ function WGNYTimes() {
   
 	function modifyUI() {	
 
-		// var originalDivLeft = $('#TopLeft');
-		// originalDivLeft.css('position', 'relative');
-		// adImageLeft = new WGImage(originalDivLeft);
-		// originalDivLeft.find('img').css('visibility', 'hidden');
+		var originalDivLeft = $('#TopLeft');
+		originalDivLeft.css('position', 'relative');
+		adImageLeft = new WGImage(originalDivLeft);
+		originalDivLeft.find('img').css('visibility', 'hidden');
 		
-		var mastheadDiv = $('#masthead');
-		mastheadDiv.css('position','relative');
-		var masheadImg = new WGImage(mastheadDiv);
-		mastheadDiv.find('img').css('visibility', 'hidden');
+		// var mastheadDiv = $('#masthead');
+		// mastheadDiv.css('position','relative');
+		// var masheadImg = new WGImage(mastheadDiv);
+		// mastheadDiv.find('img').css('visibility', 'hidden');
 		
 		// var originalDivRight = $('#TopRight');
 		// originalDivRight.css('position', 'relative');
