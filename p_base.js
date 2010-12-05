@@ -53,7 +53,7 @@ function WGImage(divParent) {
 		var mx = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
 	  var my = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
 	
-		frameRate = Math.round(Math.random()*25)+10;
+		frameRate = Math.round(Math.random()*20)+12;
 		
 		monster = new WGMonster(mx,my,mSize,mSize);
 		isMouseOpen = false;

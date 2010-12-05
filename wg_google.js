@@ -4,13 +4,13 @@ function WGGoogle() {
 	var flagTxtfield, flagBtn, flagClock;
 	
   this.init = function() {
-	
+		
 		flagTxtfield = false;
 		flagBtn = true;
 		flagClock = false;
 		
     modifyUI();
-    
+
 		if(flagTxtfield){
 			var sound = document.createElement('embed');
 	    sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
@@ -23,7 +23,7 @@ function WGGoogle() {
   }
   
   this.sketchProc = function(processing) {
-
+		
   	var wgTxtfieldSearch;
   	var btnSubmit, btnLuck, wgButtonSubmit, wgButtonLuck;
 
@@ -49,16 +49,13 @@ function WGGoogle() {
 			wgButtonSubmit = new WGButton(btnSubmit, btnSubmitLeft, btnSubmitTop, flagBtn);
 			wgButtonLuck = new WGButton(btnLuck, btnLuckLeft, btnLuckTop, flagBtn);
 		
-			// draw clock
-			if(flagClock){
-				
-			}
 		 	processing.smooth();
 		 	processing.frameRate(10);
+	
 		}
 
     processing.draw = function() {
-
+	console.log("p draw");
       //detect button collision
 			if(flagBtn) {
 	      if(wgButtonSubmit.getMovingStatus() || wgButtonLuck.getMovingStatus()) {
