@@ -1,6 +1,7 @@
-function WGFacebook() {
+function WGYahoo() {
 	
 	var adImage;
+	var adImage;	
 	
   this.init = function() {
   	setTimeout ( modifyUI, 3000 );
@@ -18,7 +19,7 @@ function WGFacebook() {
   
 	function modifyUI() {	
 
-		var originalDiv = $('#pagelet_adbox');
+		var originalDiv = $('#addiv');
 		originalDiv.css('position', 'relative');
 		adImage = new WGImage(originalDiv);
 		originalDiv.find('img').css('visibility', 'hidden');

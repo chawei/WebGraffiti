@@ -45,10 +45,17 @@ function WGImage(divParent) {
 	var monster;
 	var isMouseOpening;
 	var drops;
+	var frameRate;
 	init();
 	
-	function init() {		
-		monster = new WGMonster(10,10,50+Math.random(0,25),50+Math.random(0,25));
+	function init() {
+		var mSize = Math.round( width/4 + Math.random()*width/5 );
+		var mx = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
+	  var my = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
+	
+		frameRate = Math.round(Math.random()*25)+10;
+		
+		monster = new WGMonster(mx,my,mSize,mSize);
 		isMouseOpen = false;
     canvasElement = document.createElement('canvas');
 		canvasElement.width=width; 
@@ -56,7 +63,7 @@ function WGImage(divParent) {
   	canvasElement.style.position = "absolute";
   	canvasElement.style.left = 0;
   	canvasElement.style.top = 0;
-  	canvasElement.style.zIndex = -4;
+  	canvasElement.style.zIndex = 1;
   	parent[0].appendChild(canvasElement);
 		context = canvasElement.getContext('2d');
 		parent.find('img').each(function(){
@@ -70,33 +77,29 @@ function WGImage(divParent) {
   	canvasAnimation.style.position = "absolute";
   	canvasAnimation.style.left = 0;
   	canvasAnimation.style.top = 0;
-  	canvasAnimation.style.zIndex = -3;
+  	canvasAnimation.style.zIndex = 2;
   	parent[0].appendChild(canvasAnimation);
 		contextAnimation = canvasAnimation.getContext('2d');
 		var processingInstanceAnimation = new Processing(canvasAnimation, sketchProcAnimation);
-		x = 0; y = -30;
 	}
 
  	function sketchProc(processing) {
     processing.setup = function() {
 			processing.smooth();
-  		processing.frameRate(30);
+  		processing.frameRate(frameRate);
     }
     processing.draw = function() {
 			processing.fill(255,120);
-			processing.strokeWeight(0.5);
 			processing.noStroke();
-			processing.pushMatrix();
-			processing.translate(monster.x,monster.y);
 			monster.drawEating(processing);
-			processing.popMatrix();
+
 		}
 	}
 	
 	function sketchProcAnimation(processing) {
     processing.setup = function() {
 			processing.smooth();
-  		processing.frameRate(30);	
+  		processing.frameRate(frameRate);	
     }
     processing.draw = function() {
 			processing.clear();
@@ -388,6 +391,21 @@ function WGMonster(xx,yy,width,height) {
 	}
 	
 	this.drawEating = function(processing){
+		processing.pushMatrix();
+		processing.translate(this.x,this.y);
+		if(mx==0) {
+			if(my==1) {
+				processing.translate(w/2,h/2);
+				processing.rotate(processing.PI/2);
+				processing.translate(-w/2,-h/2);
+			}
+			else{
+				processing.translate(w/2,h/2);
+				processing.rotate(-processing.PI/2);
+				processing.translate(-w/2,-h/2);
+			}
+		}
+		
 		if(mouseSize==3){
 			var mh = mouseSize*w/7;
 			if(mx==-1) { // left mouse				
@@ -401,6 +419,7 @@ function WGMonster(xx,yy,width,height) {
 				processing.drawFreehandRect(xx,yy,mh+4,mh,false);
 			}
 		}
+		processing.popMatrix();
 	}
 	
 	this.drawMonter = function(processing){

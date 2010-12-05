@@ -1,6 +1,5 @@
 function WGNYTimes() {
 	
-	var adUrl;
 	var adImageLeft;
 	var adImageRight;	
 	
@@ -11,7 +10,7 @@ function WGNYTimes() {
   function sketchProc(processing) {
     var x, y, width, height, label;
     processing.setup = function(){
-			
+			processing.noLoop();
     }
     processing.draw = function(){
 			
