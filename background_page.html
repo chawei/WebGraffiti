@@ -42,7 +42,11 @@ function CurrentPage ()
   me.callRemoveCss = function (){
    chrome.tabs.sendRequest(me.CurrentTabId, {action: "removeCss"}, null);
   }
-
+  
+  me.callInitWG = function (){
+   	chrome.tabs.sendRequest(me.CurrentTabId, {action: "initWG"}, null);
+  }
+  
 	me.callDrawCanvas = function (){
    	chrome.tabs.sendRequest(me.CurrentTabId, {action: "drawCanvas"}, null);
   }
@@ -112,6 +116,7 @@ function CurrentPage ()
 					me.callInjectCss();
 				}
 				if (changeInfo.status == "complete") {
+				  me.callInitWG();
 					me.callCreateCanvas();
 					me.callDrawCanvas();
 				}
@@ -182,7 +187,7 @@ function CurrentPage ()
 	}
   me.setDefaults();
   me.getOverrides();
-//  me.buildCssToInject();
+  // me.buildCssToInject();
 }
 
 function extractDomain(url){

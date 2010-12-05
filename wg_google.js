@@ -55,7 +55,7 @@ function WGGoogle() {
 		}
 
     processing.draw = function() {
-	console.log("p draw");
+	    //console.log("p draw");
       //detect button collision
 			if(flagBtn) {
 	      if(wgButtonSubmit.getMovingStatus() || wgButtonLuck.getMovingStatus()) {
@@ -101,6 +101,7 @@ function WGGoogle() {
 
   	// remove img
   	var logoDiv = document.getElementById('lga');
+  	logoDiv.setAttribute('style', 'height: 205px');
   	var img = logoDiv.getElementsByTagName('img')[0];
   	logoDiv.removeChild(img);
 		

@@ -9,9 +9,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		removeCss();
   } else if (request.action == "drawCanvas") {
     // drawCanvas();
+	} else if (request.action == "initWG") {
+		initWG();
 	} else if (request.action == "createCanvas") {
-		createCanvas();
-	}
+  	createCanvas();
+  }
 });
 
 window.addEventListener("resize", function() {
@@ -22,13 +24,43 @@ window.addEventListener("resize", function() {
 
 
 function injectCss(cssToInject) {
+  switch(window.location.hostname) {
+    case "encrypted.google.com":
+  		cssToInject = 'html > body, html > body * {' + 
+  			"font-family: 'Reenie Beanie', arial, serif !important;" +
+  			'text-shadow: 0 !important;' +
+  			'-webkit-text-fill-color: none !important;}' +
+  			'span{background:transparent !important; border:none !important;}' +
+  			'input{border: none !important; background: none !important; }'+
+  			'div{border: none !important; border-bottom: none !important; border-top: none !important;}'+
+  			'td{background:transparent !important; border: none !important; border-top: none !important; border-bottom: none !important;}'+
+  			'html > body a:link, html > body a:link *,' +
+  			'html > body a:link:hover, html > body a:link:hover *,' +
+  			'html > body a:link:active, html > body a:link:active * {' +
+  			'html > body a:visited, html > body a:visited *,' +
+  			'html > body a:visited:hover, html > body a:visited:hover *,' +
+  			'html > body a:visited:active, html > body a:visited:active * {' +
+  			'.invisible {visibility: hidden;}';
+  		cssToInject += 'html > body img { display:none !important; }';
+  		cssToInject += 'html > body object { display:none !important;}';
+      break;
+  }
+  
   styleElement = document.createElement("style");
   styleElement.innerText = cssToInject;
   document.documentElement.insertBefore(styleElement, null);
   
+}
+
+function removeCss(){
+  styleElement.parentNode.removeChild(styleElement);
+  history.go(0);
+}
+
+function initWG() {
   switch(window.location.hostname) {
     case "encrypted.google.com":
-      webGraffiti = new WGGoogle(); 
+      webGraffiti = new WGGoogle();
       break;
     case "www.apple.com":
       webGraffiti = new WGApple();
@@ -51,11 +83,6 @@ function injectCss(cssToInject) {
     default:
       webGraffiti = new WGDust();
   }
-}
-
-function removeCss(){
-  styleElement.parentNode.removeChild(styleElement);
-  history.go(0);
 }
 
 function createCanvas(){

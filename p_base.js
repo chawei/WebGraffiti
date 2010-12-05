@@ -307,9 +307,9 @@ function WGButton(btn,left,top,mode){
     processing.setup = function() {
       processing.smooth();
   		processing.frameRate(10);
-			this.stroke(33);
-		  this.fill(255, 255, 240);
-  		this.drawFreehandRect( x, y, width, height, true);
+			processing.stroke(33);
+		  processing.fill(255, 255, 240);
+  		processing.drawFreehandRect( x, y, width, height, true);
   		counter = 0;
 			if(isActive==false)
 				processing.noLoop();
@@ -318,9 +318,9 @@ function WGButton(btn,left,top,mode){
       if(isMoving){
         updatePosition();
         processing.clear();
-			  this.stroke(33);
-			  this.fill(255, 255, 240);
-        this.drawFreehandRect( x, y, width, height, true);
+			  processing.stroke(33);
+			  processing.fill(255, 255, 240);
+        processing.drawFreehandRect( x, y, width, height, true);
       }
       else if(Math.random()>0.98) {
         setTargetPosition();
