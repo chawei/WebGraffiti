@@ -117,12 +117,12 @@ function CurrentPage ()
 					me.callInjectCss();
 				}
 				if (changeInfo.status == "complete") {
-					if (me.isInit == false) {
+//					if (me.isInit == false) {
 				  	me.callInitWG();
 						me.callCreateCanvas();
 						me.callDrawCanvas();
 						me.isInit = true;
-					}
+//					}
 				}
 				me.displayOverriden(tabId);
 	    }

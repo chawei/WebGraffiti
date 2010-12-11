@@ -1,10 +1,3 @@
-- function WGButton()
-
-  - Add mouseOver listener to change background color
-  - Add mouseClick listener to change background color
-	- span: wg_btn_outer (absolute)
-	    - span: wg_btn_inner (relative)
-			  - button 
 	
 - Refractor WGDust() into its own class
 

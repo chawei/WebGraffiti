@@ -25,16 +25,17 @@ function WGFacebook() {
   	cssNode.rel = 'stylesheet';
   	cssNode.media = 'screen';
   	cssNode.href = 'http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold';
-//		cssNode.href = 'http://fonts.googleapis.com/css?family=Covered+By+Your+Grace';
   	headID.appendChild(cssNode);	
-		var buttons = $('.like_link');//.slice(0,3);
+		var buttons = $('.like_link').slice(0,3);
 		
 		buttons.each(function() {
 			new WGButton($(this), $(this).position().left, $(this).position().top, true);
 		});
 
-		
-		
+		var profileImgs = $('.uiProfilePhoto').slice(0,7);
+		profileImgs.each(function() {
+			new WGButton($(this), $(this).position().left, $(this).position().top, true);
+		});
 	
 		// var originalDiv = $('#pagelet_adbox');
 		// originalDiv.css('position', 'relative');

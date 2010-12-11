@@ -1174,6 +1174,11 @@
     p.mousePressed    = undef;
     p.mouseReleased   = undef;
     p.mouseScrolled   = undef;
+
+		// YUIN
+		p.mouseOut        = undef;
+		// YUIN ENDS
+
     p.key             = undef;
     p.keyCode         = undef;
     p.keyPressed      = function(){};  // needed to remove function checks
@@ -6707,6 +6712,29 @@
       }
       return color;
     };
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Compositin by YUIN
+    ////////////////////////////////////////////////////////////////////////////
+	
+		p.globalCompositeOperation = function(type) {
+			curContext.globalCompositeOperation = "destination-out";
+		}
+		p.saveContext = function() {
+			curContext.save();
+		}
+		p.restoreContext = function(type) {
+			curContext.restore();
+		}
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Compositin by YUIN END
+		////////////////////////////////////////////////////////////////////////////
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////
     // Canvas-Matrix manipulation
@@ -15790,6 +15818,11 @@
     });
 
     attach(curElement, "mouseout", function(e) {
+	// YUIN 
+			if (typeof p.mouseOut === "function") {
+        p.mouseOut();
+      }
+	// YUIN ENDS
     });
 
     attach(curElement, "mousedown", function(e) {

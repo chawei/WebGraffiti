@@ -49,7 +49,7 @@ function injectCss(cssToInject) {
 		case "www.facebook.com":
   		cssToInject = 'html > body, html > body * {' + 
   //			"font-family: 'Reenie Beanie', arial, serif !important;" +
-				"font-family: 'Droid Sans', arial, serif !important;" +
+//				"font-family: 'Droid Sans', arial, serif !important;" +
 				// "font-size: 0.99em; !important"+
   			'text-shadow: 0 !important;' +
   			'-webkit-text-fill-color: none !important;}' +
