@@ -35,4 +35,10 @@ function WGNYTimes() {
 	
 	}
 	
+	this.createMonster = function(img) {
+		var newImage = new WGImage(img);
+		img.css('visibility', 'hidden');
+		
+	}
+	
 }
