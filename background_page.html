@@ -25,6 +25,7 @@ function CurrentPage ()
   me.Url;
   me.Domain;
   me.CurrentTabId;
+	me.isInit = false;
 
 	me.getOverrides = function (){
 		me.Overrides['OverridenDomains'] = JSON.parse(localStorage["OverridenDomains"]);
@@ -116,9 +117,12 @@ function CurrentPage ()
 					me.callInjectCss();
 				}
 				if (changeInfo.status == "complete") {
-				  me.callInitWG();
-					me.callCreateCanvas();
-					me.callDrawCanvas();
+					if (me.isInit == false) {
+				  	me.callInitWG();
+						me.callCreateCanvas();
+						me.callDrawCanvas();
+						me.isInit = true;
+					}
 				}
 				me.displayOverriden(tabId);
 	    }

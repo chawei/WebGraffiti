@@ -246,29 +246,31 @@ function WGCrack(element, cx, cy){
 function WGButton(btn,left,top,mode){
   var x = 10;
   var y = 10;
-  var width = btn.offsetWidth;
-  var height = btn.offsetHeight;
+  var width = btn.width();
+  var height = btn.height();
   var targetX = 0;
   var targetY = 0;
   var isMoving = false;
-  var htmlBtn = btn;
-  var moveBtn = btn.parentNode;
+	var htmlBtn = btn;
+  var moveBtn;
+	var nativeMovingBtn;
+
   var counter = 0;
   var reverseCount = 0;
 	var isActive = mode;
-  moveBtn.style.position = 'absolute';
-  moveBtn.style.left = left + "px";
-  moveBtn.style.top = top + "px";
+
   init();
   
   this.getMovingStatus = function() {
     return isMoving;
   }
   this.getBtnX = function() {
-    return findPosX(moveBtn);
+    //return findPosX(moveBtn);
+		return moveBtn.position().left;
   }
   this.getBtnY = function() {
-    return findPosY(moveBtn);
+    //return findPosY(moveBtn);
+		return moveBtn.position().top;
   }
   this.getTargetX = function() {
     if(targetX!=0)
@@ -291,15 +293,26 @@ function WGButton(btn,left,top,mode){
       reverseCount = 20;
     }
   }
+
   function init() {
+		htmlBtn.wrap('<span class="wg_btn_inner" />');
+		htmlBtn.css('position', 'absolute').css('z-index', 5);
+		var innerBtn = htmlBtn.parent('.wg_btn_inner');
+		innerBtn.css('position', 'relative');
+		innerBtn.wrap('<span class="wg_btn_outer" />');
+		var outerBtn = innerBtn.parent('.wg_btn_outer');
+		outerBtn.css('position', 'absolute').css('left', left+'px').css('top', top+'px');
+		moveBtn = outerBtn;
+		
     var canvasElement = document.createElement('canvas');	
   	canvasElement.height= Math.floor(height)+20;
   	canvasElement.width= Math.floor(width)+20;
   	canvasElement.style.position = "absolute";
   	canvasElement.style.left = "-10px";
   	canvasElement.style.top = "-10px";
-  	canvasElement.style.zIndex = -1;
-  	htmlBtn.appendChild(canvasElement);  
+  	canvasElement.style.zIndex = 1;
+  	innerBtn.append(canvasElement);
+		nativeMovingBtn = moveBtn[0];
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
   
@@ -320,6 +333,7 @@ function WGButton(btn,left,top,mode){
         processing.clear();
 			  processing.stroke(33);
 			  processing.fill(255, 255, 240);
+				//console.log(x,y,width,height);
         processing.drawFreehandRect( x, y, width, height, true);
       }
       else if(Math.random()>0.98) {
@@ -336,24 +350,24 @@ function WGButton(btn,left,top,mode){
       targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       
-      while( processing.abs(findPosX(moveBtn)+targetX-window.innerWidth/2)>200 ){
-        targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
-      }
-      while( (findPosY(moveBtn)+targetY)<200 ||  (findPosY(moveBtn)+targetY)>600){
-        targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
-      }
+      // while( processing.abs(findPosX(nativeMovingBtn)+targetX-window.innerWidth/2)>200 ){
+      //   targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
+      // }
+      // while( (findPosY(nativeMovingBtn)+targetY)<200 ||  (findPosY(nativeMovingBtn)+targetY)>600){
+      //   targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
+      // }
 
       isMoving = true;
     }
     function updatePosition() {
       if( targetX!=0 ) {
-        var newX = targetX>0 ? parseFloat(moveBtn.style.left)+1 : parseFloat(moveBtn.style.left)-1;
-        moveBtn.style.left = newX+"px";
+        var newX = targetX>0 ? parseFloat(nativeMovingBtn.style.left)+1 : parseFloat(nativeMovingBtn.style.left)-1;
+        nativeMovingBtn.style.left = newX+"px";
         targetX = targetX>0 ? (targetX-1) : (targetX+1);
       }
       if( targetY!=0 ) {
-        var newY = targetY>0 ? parseFloat(moveBtn.style.top)+1 : parseFloat(moveBtn.style.top)-1;
-        moveBtn.style.top = newY+"px";
+        var newY = targetY>0 ? parseFloat(nativeMovingBtn.style.top)+1 : parseFloat(nativeMovingBtn.style.top)-1;
+        nativeMovingBtn.style.top = newY+"px";
         targetY = targetY>0 ? targetY-1 : targetY+1;
       }
       if( targetX==0 && targetY==0)

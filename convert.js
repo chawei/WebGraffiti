@@ -44,6 +44,27 @@ function injectCss(cssToInject) {
   		cssToInject += 'html > body img { display:none !important; }';
   		cssToInject += 'html > body object { display:none !important;}';
       break;
+		case "www.facebook.com":
+  		cssToInject = 'html > body, html > body * {' + 
+  //			"font-family: 'Reenie Beanie', arial, serif !important;" +
+				"font-family: 'Droid Sans', arial, serif !important;" +
+				// "font-size: 0.99em; !important"+
+  			'text-shadow: 0 !important;' +
+  			'-webkit-text-fill-color: none !important;}' +
+  			// 'span{background:transparent !important; border:none !important;}' +
+  			// 'input{border: none !important; background: none !important; }'+
+  			// 'div{border: none !important; border-bottom: none !important; border-top: none !important;}'+
+  			// 'td{background:transparent !important; border: none !important; border-top: none !important; border-bottom: none !important;}'+
+  			'html > body a:link, html > body a:link *,' +
+  			'html > body a:link:hover, html > body a:link:hover *,' +
+  			'html > body a:link:active, html > body a:link:active * {' +
+  			'html > body a:visited, html > body a:visited *,' +
+  			'html > body a:visited:hover, html > body a:visited:hover *,' +
+  			'html > body a:visited:active, html > body a:visited:active * {' +
+  			'.invisible {visibility: hidden;}';
+  		cssToInject += 'html > body img { display:none !important; }';
+  		cssToInject += 'html > body object { display:none !important;}';
+      break;
   }
   
   styleElement = document.createElement("style");
@@ -69,7 +90,7 @@ function initWG() {
 			webGraffiti = new WGTwitter();
 			break;
 		case "www.facebook.com":
-			webGraffiti = new WGTwitter();
+			webGraffiti = new WGFacebook();
 			break;
 		case "www.nytimes.com":
 			webGraffiti = new WGNYTimes();

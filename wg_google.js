@@ -35,6 +35,7 @@ function WGGoogle() {
 			wgTxtfieldSearch = new WGTextfield(input, flagTxtfield);
 	
 			// draw button
+			/*
 			var buttons = getElementsByClass(document,'lsbb','span');
 			btnSubmit = buttons[0];
 			btnSubmit.style.position = 'relative';
@@ -48,6 +49,12 @@ function WGGoogle() {
 	    var btnLuckTop = findPosY(btnLuck.parentNode);
 			wgButtonSubmit = new WGButton(btnSubmit, btnSubmitLeft, btnSubmitTop, flagBtn);
 			wgButtonLuck = new WGButton(btnLuck, btnLuckLeft, btnLuckTop, flagBtn);
+			*/
+			
+			var buttons = $('.lsbb input');
+			buttons.each(function() {
+				new WGButton($(this), $(this).position().left, $(this).position().top, flagBtn);
+			});
 		
 		 	processing.smooth();
 		 	processing.frameRate(10);
@@ -57,6 +64,7 @@ function WGGoogle() {
     processing.draw = function() {
 	    //console.log("p draw");
       //detect button collision
+			/*
 			if(flagBtn) {
 	      if(wgButtonSubmit.getMovingStatus() || wgButtonLuck.getMovingStatus()) {
 	        var checkX = checkOverlap(wgButtonSubmit.getBtnX(), btnSubmit.offsetWidth, wgButtonLuck.getBtnX(), btnLuck.offsetWidth, 0); 
@@ -71,6 +79,7 @@ function WGGoogle() {
 	        }
 	      }
 			}
+			*/
     };
 
     // processing.keyReleased = function() {
