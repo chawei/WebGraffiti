@@ -30,6 +30,37 @@
 // }
 
 
+Processing.prototype.getImgAvgColor = function() {
+	var cellSize = 10;
+	var cols = this.width / cellSize;
+	var rows = this.height / cellSize;
+	var numPix = rows * cols;
+	var avgRed = 0;
+	var avgGreen = 0;
+	var avgBlue = 0;
+	this.loadPixels();
+  for(var q = 0; q < cols ; q++) {
+    for(var j = 0; j < rows ; j++) {
+	    var x = q*cellSize;
+	    var y = j*cellSize;
+	    var loc = x + y*this.width;
+	    r = this.red(this.pixels[loc]);
+	    g = this.green(this.pixels[loc]);
+	    b = this.blue(this.pixels[loc]);
+	    avgRed += r;
+	    avgGreen += g;
+	    avgBlue += b;
+  	}
+	}
+	console.log(avgRed,avgGreen,avgBlue);
+	avgRed = avgRed/numPix;
+	avgGreen = avgGreen/numPix;
+	avgBlue = avgBlue/numPix;
+	
+// 	color average = color(avgRed,avgGreen,avgBlue,100);
+}
+
+
 function WGImage(divParent) {
 	var parent = divParent; 
 	var x = 0;
@@ -49,13 +80,12 @@ function WGImage(divParent) {
 	init();
 	
 	function init() {
-		var mSize = Math.round( width/4 + Math.random()*width/5 );
+		var mSize = Math.round( width/3 + Math.random()*width/3 );
 		var mx = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
 	  var my = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
 	
 		frameRate = Math.round(Math.random()*20)+12;
 		
-		monster = new WGMonster1(mx,my,mSize,mSize);
 		isMouseOpen = false;
     canvasElement = document.createElement('canvas');
 		canvasElement.width=width; 
@@ -69,6 +99,8 @@ function WGImage(divParent) {
 		parent.find('img').each(function(){
 			context.drawImage(this, $(this).position().left, $(this).position().top);
 		});
+		// var pixels = context.getImageData(0, 0, canvasElement.width, canvasElement.height);
+		
 		var processingInstance = new Processing(canvasElement, sketchProc);
 		
 		canvasAnimation = document.createElement('canvas');
@@ -81,18 +113,20 @@ function WGImage(divParent) {
   	parent[0].appendChild(canvasAnimation);
 		contextAnimation = canvasAnimation.getContext('2d');
 		var processingInstanceAnimation = new Processing(canvasAnimation, sketchProcAnimation);
+		
+		monster = new WGMonster1(mx,my,mSize,mSize);
 	}
 
  	function sketchProc(processing) {
     processing.setup = function() {
 			processing.smooth();
   		processing.frameRate(frameRate);
+
     }
     processing.draw = function() {
 			processing.fill(255,120);
 			processing.noStroke();
 			monster.drawEating(processing);
-
 		}
 	}
 	
@@ -106,13 +140,9 @@ function WGImage(divParent) {
 			processing.fill(255);
 			processing.strokeWeight(0.5);
 			
-//			processing.pushMatrix();
-//			processing.translate(monster.x,monster.y);
 			monster.drawMonter(processing);
-//			processing.popMatrix();
-			
-			isMouseOpen = !isMouseOpen;
 
+			isMouseOpen = !isMouseOpen;
 		}
 		
 	}
@@ -409,7 +439,6 @@ function WGMonster1(xx,yy,width,height) {
 	this.drawEating = function(processing){
 		processing.pushMatrix();
 		processing.translate(this.x,this.y);
-	
 		if(mx==0) {
 			if(my==1) {
 				processing.translate(w/2,h/2);
@@ -422,11 +451,10 @@ function WGMonster1(xx,yy,width,height) {
 				processing.translate(-w/2,-h/2);
 			}
 		}
-		
 		processing.saveContext();
 		processing.globalCompositeOperation("destination-out");
 
-		var pSize = 14;
+		var pSize = w/6;
 		var baseX = width/2+processing.random(-pSize,pSize);
 		var baseY = height/2+processing.random(-pSize,pSize);
 		
@@ -440,7 +468,7 @@ function WGMonster1(xx,yy,width,height) {
 			processing.vertex( baseX+processing.random(-pSize,0),baseY+processing.random(-pSize,0));
 		}
 		else {
-			processing.vertex( baseX+processing.random(0,pSize),baseY+processing.random(-pSize,pSize));
+			processing.vertex( baseX+processing.random(0,pSize),baseY+processing.random(0,pSize));
  			processing.vertex( baseX,baseY);
 			processing.vertex( baseX+processing.random(0,pSize),baseY+processing.random(0,pSize));
 			processing.vertex( baseX+processing.random(0,pSize),baseY+processing.random(0,pSize));
@@ -450,12 +478,10 @@ function WGMonster1(xx,yy,width,height) {
 		
 		processing.popMatrix();
 	}
-	
+
 	this.drawMonter = function(processing){
-		
 		processing.pushMatrix();
 		processing.translate(this.x,this.y);
-	
 		if(mx==0) {
 			if(my==1) {
 				processing.translate(w/2,h/2);
@@ -468,12 +494,35 @@ function WGMonster1(xx,yy,width,height) {
 				processing.translate(-w/2,-h/2);
 			}
 		}
-		
 		processing.saveContext();
 
 		processing.fill(255,255,0);
 		processing.noStroke();
-		processing.ellipse(width/2,height/2,50,50);
+		processing.ellipse(width/2,height/2,w/2,w/2);
+		
+		// draw flakes
+		for(var i=0; i<Math.round(w/2); i++) {
+			processing.fill(processing.random(150,255),processing.random(150,255),processing.random(150,255));
+			processing.beginShape(processing.TRIANGLES);
+			if(mx<0) {
+				var xx =  width/2 - w/4 + processing.random(i)*2;
+				var yy = height/2 - processing.random(-i,i)/1.5;
+				var fs = 5;
+				processing.vertex(xx,yy);
+		 		processing.vertex( xx+processing.random(-fs,fs), yy+processing.random(-fs,fs) );
+				processing.vertex( xx+processing.random(-fs,fs), yy+processing.random(-fs,fs) );
+		 	}
+			else {
+				var xx =  width/2 + w/4 - processing.random(i)*2;
+				var yy = height/2 - processing.random(-i,i)/1.5;
+				var fs = 5;
+				processing.vertex(xx,yy);
+		 		processing.vertex( xx+processing.random(-fs,fs), yy+processing.random(-fs,fs) );
+				processing.vertex( xx+processing.random(-fs,fs), yy+processing.random(-fs,fs) );
+			}
+			processing.endShape();
+		}
+		
 		processing.globalCompositeOperation("destination-out");
 
 		processing.fill(255,100,19);
@@ -524,7 +573,7 @@ function WGMonster(xx,yy,width,height) {
 	var mx = 0; // 1 0 -1
   var my = 1; // 1 0 -1
 	var steps = 0;
-	
+		
 	console.log('init monster');
 	
 	this.setMoving = function(processing){
@@ -603,25 +652,23 @@ function WGMonster(xx,yy,width,height) {
 		p7 = new Point(p7x,p7y);
 		p8 = new Point(p8x,p8y);
 		
-	processing.fill(255);
-	processing.stroke(180);
-	processing.strokeWeight(1);
-	processing.pushMatrix();
-	processing.translate(this.x,this.y);
-	if(mx==0) {
-		if(my==1) {
-			processing.translate(w/2,h/2);
-			processing.rotate(processing.PI/2);
-			processing.translate(-w/2,-h/2);
+		processing.fill(255);
+		processing.stroke(180);
+		processing.strokeWeight(1);
+		processing.pushMatrix();
+		processing.translate(this.x,this.y);
+		if(mx==0) {
+			if(my==1) {
+				processing.translate(w/2,h/2);
+				processing.rotate(processing.PI/2);
+				processing.translate(-w/2,-h/2);
+			}
+			else{
+				processing.translate(w/2,h/2);
+				processing.rotate(-processing.PI/2);
+				processing.translate(-w/2,-h/2);
+			}
 		}
-		else{
-			processing.translate(w/2,h/2);
-			processing.rotate(-processing.PI/2);
-			processing.translate(-w/2,-h/2);
-		}
-	}
-
-						
 		processing.beginShape();
 		processing.vertex(p1.x, p1.y);
 		processing.bezierVertex(p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
@@ -655,9 +702,8 @@ function WGMonster(xx,yy,width,height) {
 				processing.endShape();
 			}
 		}
-		
 	
-	processing.popMatrix();
+		processing.popMatrix();
 				
 		if(isMouseOpening){
 			if(mouseSize==3)
