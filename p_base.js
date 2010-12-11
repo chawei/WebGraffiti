@@ -305,11 +305,11 @@ function WGButton(btn,left,top,mode){
 		moveBtn = outerBtn;
 		
     var canvasElement = document.createElement('canvas');	
-  	canvasElement.height= Math.floor(height)+20;
-  	canvasElement.width= Math.floor(width)+20;
+  	canvasElement.height= Math.floor(height)*1.3+20;
+  	canvasElement.width= Math.floor(width)*1.3+20;
   	canvasElement.style.position = "absolute";
-  	canvasElement.style.left = "-10px";
-  	canvasElement.style.top = "-10px";
+  	canvasElement.style.left = "-13px";
+  	canvasElement.style.top = "-13px";
   	canvasElement.style.zIndex = 1;
   	innerBtn.append(canvasElement);
 		nativeMovingBtn = moveBtn[0];
@@ -322,7 +322,7 @@ function WGButton(btn,left,top,mode){
   		processing.frameRate(10);
 			processing.stroke(33);
 		  processing.fill(255, 255, 240);
-  		processing.drawFreehandRect( x, y, width, height, true);
+  		processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
   		counter = 0;
 			if(isActive==false)
 				processing.noLoop();
@@ -334,15 +334,11 @@ function WGButton(btn,left,top,mode){
 			  processing.stroke(33);
 			  processing.fill(255, 255, 240);
 				//console.log(x,y,width,height);
-        processing.drawFreehandRect( x, y, width, height, true);
+        processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
       }
       else if(Math.random()>0.98) {
         setTargetPosition();
       }
-      // if(reverseCount>0)
-      //   reverseCount--;
-      // if(counter<=45)
-      //   counter++;
     
     }
     function setTargetPosition() {
@@ -350,6 +346,7 @@ function WGButton(btn,left,top,mode){
       targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       targetY = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       
+			// TODO: WRITE A VALID BOUNDRY CHECK
       // while( processing.abs(findPosX(nativeMovingBtn)+targetX-window.innerWidth/2)>200 ){
       //   targetX = Math.random()>0.5 ? Math.round( Math.random()*gap+3 ) : -1*Math.round( Math.random()*gap+3 );
       // }

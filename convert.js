@@ -17,8 +17,10 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 });
 
 window.addEventListener("resize", function() {
-	canvasElement.height = Math.floor(window.innerHeight);
-	canvasElement.width = Math.floor(window.innerWidth);  // assign width will clear the context
+	if(canvasElement!=null) {
+		canvasElement.height = Math.floor(window.innerHeight);
+		canvasElement.width = Math.floor(window.innerWidth);  // assign width will clear the context
+	}
   //	drawCanvas();
 }, false);
 
