@@ -32,8 +32,7 @@ function WGNYTimes() {
 		// mastheadDiv.css('position','relative');
 		// var masheadImg = new WGImage(mastheadDiv);
 		// mastheadDiv.find('img').css('visibility', 'hidden');
-		
-
+	
 	}
 	
 }

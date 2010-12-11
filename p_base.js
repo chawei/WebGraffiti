@@ -84,7 +84,7 @@ function WGImage(divParent) {
 		var mx = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
 	  var my = Math.random()>0.5 ? Math.random()*30+10: Math.random()*-30-10;
 	
-		frameRate = Math.round(Math.random()*20)+12;
+		frameRate = Math.round(Math.random()*20)+18;
 		
 		isMouseOpen = false;
     canvasElement = document.createElement('canvas');
@@ -133,7 +133,7 @@ function WGImage(divParent) {
 	function sketchProcAnimation(processing) {
     processing.setup = function() {
 			processing.smooth();
-  		processing.frameRate(frameRate);	
+  		processing.frameRate(frameRate);
     }
     processing.draw = function() {
 			processing.clear();
@@ -420,8 +420,7 @@ function WGMonster1(xx,yy,width,height) {
 	var mx = 0; // 1 0 -1
   var my = 1; // 1 0 -1
 	var steps = 0;
-	
-	console.log('init WGMonster1');
+	var mColor;
 	
 	this.setMoving = function(processing){
 		if(mx==0){
@@ -480,6 +479,18 @@ function WGMonster1(xx,yy,width,height) {
 	}
 
 	this.drawMonter = function(processing){
+		if(mColor==null) {
+			var c1 = processing.random(200,255);
+			var c2 = processing.random(0,100);
+			var c3 = processing.random(0,100);
+			if(Math.random()<0.33)
+				mColor = processing.color( c1,c2,c3 );
+			else if(Math.random()<0.66)
+				mColor = processing.color( c2,c1,c3 );
+			else
+				mColor = processing.color( c3,c2,c1 );
+		}
+		
 		processing.pushMatrix();
 		processing.translate(this.x,this.y);
 		if(mx==0) {
@@ -496,7 +507,7 @@ function WGMonster1(xx,yy,width,height) {
 		}
 		processing.saveContext();
 
-		processing.fill(255,255,0);
+		processing.fill( mColor );
 		processing.noStroke();
 		processing.ellipse(width/2,height/2,w/2,w/2);
 		
