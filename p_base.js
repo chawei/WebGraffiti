@@ -1,34 +1,55 @@
-// function WGMonster(img) {
-// 	var parent = img.parentNode; 
-// 	var x = 0;
-// 	var y = 0;
-// 	var width;
-// 	var height;
-// 	
-// 	function init() {
-//     var canvasElement = document.createElement('canvas');	
-//   	canvasElement.height= Math.floor(height)+160;
-//   	canvasElement.width= Math.floor(width)+600;
-//   	canvasElement.style.position = "absolute";
-//   	canvasElement.style.left = "-300px";
-//   	canvasElement.style.top = "-80px";
-//   	canvasElement.style.zIndex = -3;
-//   	htmlTxtfield.appendChild(canvasElement);
-//   	var processingInstance = new Processing(canvasElement, sketchProc);
-//   }
-//   
-//   function sketchProc(processing) {
-//     processing.setup = function() {
-// 			processing.smooth();
-//   		processing.frameRate(20);
-//   		this.drawFreehandRect( x, y, width, height, false);
-//     }
-//     processing.draw = function() {
-// 	
-// 		}
-// 	}
-// }
-
+function Text3D(div) {
+	var text = div;
+	var nx = 0;
+	var rotXINT = 0;
+	var targetX = 0;
+	var ny = 0;
+	var rotYINT = 0;
+	var targetY = 0;
+	this.rotateXDIV = function(tx,frameRate) {
+		if(tx==targetX)
+			return;
+		targetX = tx;
+		clearInterval(rotXINT);
+		rotXINT=setInterval(this.startXRotate,frameRate);
+	}
+	this.startXRotate = function() {
+		if(nx<targetX)
+			nx = nx+1;
+		else
+			nx = nx-1;
+		text.style.transform="rotateX(" + nx + "deg)";
+		text.style.webkitTransform="rotateX(" + nx + "deg)";
+		text.style.OTransform="rotateX(" + nx + "deg)";
+		text.style.MozTransform="rotateX(" + nx + "deg)";
+		if (nx==targetX)
+		{
+			clearInterval(rotXINT);
+		}
+	}
+	this.rotateYDIV = function(ty,frameRate) {
+		if(ty==targetY)
+			return;
+		targetY = ty;
+		clearInterval(rotYINT);
+		rotYINT=setInterval(this.startYRotate,frameRate);
+	}
+	this.startYRotate = function() {
+		if(ny<targetY)
+			ny = ny+1;
+		else
+			ny = ny-1;
+		text.style.transform="rotateY(" + ny + "deg)";
+		text.style.webkitTransform="rotateY(" + ny + "deg)";
+		text.style.OTransform="rotateY(" + ny + "deg)";
+		text.style.MozTransform="rotateY(" + ny + "deg)";
+		if (ny==targetY)
+		{
+			clearInterval(rotYINT);
+		}
+	}
+	
+}
 
 Processing.prototype.getImgAvgColor = function() {
 	var cellSize = 10;

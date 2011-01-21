@@ -103,6 +103,9 @@ function initWG() {
 		case "en.wikipedia.org":
 			webGraffiti = new WGWiki();
 			break;
+		case "processing.org":
+			webGraffiti = new WGProcessing();
+			break;
     default:
       webGraffiti = new WGDust();
   }
