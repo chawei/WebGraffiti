@@ -6,12 +6,14 @@ function Text3D(div) {
 	var ny = 0;
 	var rotYINT = 0;
 	var targetY = 0;
+	var scaleInt = new DIntegrator(0,0.8,0.05);
+	
 	this.rotateXDIV = function(tx,frameRate) {
 		if(tx==targetX)
 			return;
 		targetX = tx;
 		clearInterval(rotXINT);
-		rotXINT=setInterval(this.startXRotate,frameRate);
+		rotXINT=setInterval(this.startXRotate,20);
 	}
 	this.startXRotate = function() {
 		if(nx<targetX)
@@ -23,33 +25,29 @@ function Text3D(div) {
 		text.style.OTransform="rotateX(" + nx + "deg)";
 		text.style.MozTransform="rotateX(" + nx + "deg)";
 		if (nx==targetX)
-		{
 			clearInterval(rotXINT);
-		}
 	}
 	this.rotateYDIV = function(ty,frameRate) {
 		if(ty==targetY)
 			return;
+		scaleInt.setTarget(ty);
 		targetY = ty;
 		clearInterval(rotYINT);
-		rotYINT=setInterval(this.startYRotate,frameRate);
+		rotYINT=setInterval(this.startYRotate,20);
 	}
 	this.startYRotate = function() {
-		if(ny<targetY)
-			ny = ny+1;
-		else
-			ny = ny-1;
+		scaleInt.update();
+		ny = scaleInt.getValue();
 		text.style.transform="rotateY(" + ny + "deg)";
 		text.style.webkitTransform="rotateY(" + ny + "deg)";
 		text.style.OTransform="rotateY(" + ny + "deg)";
 		text.style.MozTransform="rotateY(" + ny + "deg)";
 		if (ny==targetY)
-		{
 			clearInterval(rotYINT);
-		}
 	}
-	
 }
+
+
 
 Processing.prototype.getImgAvgColor = function() {
 	var cellSize = 10;
@@ -919,41 +917,44 @@ function Point(x,y){
 }
 
 function DIntegrator(value, damping, attraction) {      
-  this.value = value;
-  this.vel = 0;
-  this.accel = 0;
-  this.force = 0;
-  this.mass = 1;
-  
-  this.damping = damping;
-  this.attraction = attraction;
-  this.targeting = true;
-  this.target;
+  var _value = value;
+  var _vel = 0;
+  var _accel = 0;
+  var _force = 0;
+  var _mass = 1;
+
+  var _damping = damping;
+  var _attraction = attraction;
+  var _targeting = true;
+  var _target;
 
   this.set = function(v) {
-    this.value = v;
+  	_value = v;
   }
-
+	this.getValue = function() {
+		return _value;
+	}
+	this.getTarget = function() {
+		return _target;
+	}
   this.update = function() {
+    if (_targeting)
+      _force += _attraction * (_target - _value);
 
-    if (this.targeting) {
-      this.force += this.attraction * (this.target - this.value);
-    }
-		
-    this.accel = this.force / this.mass;
-    this.vel = (this.vel + this.accel) * this.damping;
-    this.value += this.vel;
+    _accel = _force / _mass;
+    _vel = (_vel + _accel) * _damping;
+    _value += _vel;
 
-    this.force = 0;
+    _force = 0;
   }
 
   this.setTarget = function(t) {
-    this.targeting = true;
-    this.target = t;
+    _targeting = true;
+    _target = t;
   }
 
   this.noTarget = function() {
-    this.targeting = false;
+    _targeting = false;
   }
 }
 

@@ -82,7 +82,7 @@ function WGProcessing() {
 			if(n+4<divs.length)
 				divs[n+4].text3D.rotateYDIV(60, 10);	
 						
-			this.text3D.rotateYDIV(0, 10);
+			this.text3D.rotateYDIV(-10, 10);
 		});
 	
 	}
