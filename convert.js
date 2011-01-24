@@ -1,6 +1,6 @@
 var styleElement;
 var canvasElement;
-var webGraffiti;
+var webGraffiti = null;
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.action == "injectCss") {
@@ -81,39 +81,41 @@ function removeCss(){
 }
 
 function initWG() {
-  switch(window.location.hostname) {
-    case "encrypted.google.com":
-      webGraffiti = new WGGoogle();
-      break;
-    case "www.apple.com":
-      webGraffiti = new WGApple();
-      break;
-		case "twitter.com":
-			webGraffiti = new WGTwitter();
-			break;
-		case "www.facebook.com":
-			webGraffiti = new WGFacebook();
-			break;
-		case "www.nytimes.com":
-			webGraffiti = new WGNYTimes();
-			break;
-		case "www.yahoo.com":
-			webGraffiti = new WGYahoo();
-			break;
-		case "en.wikipedia.org":
-			webGraffiti = new WGWiki();
-			break;
-		case "processing.org":
-			webGraffiti = new WGProcessing();
-			break;
-    default:
-      webGraffiti = new WGDust();
-  }
+	if (webGraffiti == null) {
+		switch(window.location.hostname) {
+	    case "encrypted.google.com":
+	      webGraffiti = new WGGoogle();
+	      break;
+	    case "www.apple.com":
+	      webGraffiti = new WGApple();
+	      break;
+			case "twitter.com":
+				webGraffiti = new WGTwitter();
+				break;
+			case "www.facebook.com":
+				webGraffiti = new WGFacebook();
+				break;
+			case "www.nytimes.com":
+				webGraffiti = new WGNYTimes();
+				break;
+			case "www.yahoo.com":
+				webGraffiti = new WGYahoo();
+				break;
+			case "en.wikipedia.org":
+				webGraffiti = new WGWiki();
+				break;
+			case "processing.org":
+				webGraffiti = new WGProcessing();
+				break;
+	    default:
+	      webGraffiti = new WGDust();
+	  }
+		webGraffiti.init();
+	} 
+
 }
 
 function createCanvas(){
-  webGraffiti.init();
-
 	canvasElement = document.createElement('canvas');	
 	canvasElement.height= Math.floor(window.innerHeight);
 	canvasElement.width= Math.floor(window.innerWidth);

@@ -1,6 +1,10 @@
 function WGProcessing() {
 	
   this.init = function() {
+		if( $('.ref-col a').length>0 ) {
+			$('body').append('<img id="gravity-sign" src="http://people.artcenter.edu/~tchien/assets/gravity_sign.png" style="position:fixed;top:300px;left:400px;">');
+			$('#gravity-sign').hide().fadeIn(2000);
+		}
   	setTimeout ( modifyUI, 1000 );
   }
     
@@ -9,6 +13,11 @@ function WGProcessing() {
 		var bDeg = 65;
 		
 		var cols = $('.ref-col a');
+		// if(cols.length>0) {
+		// 	$('body').append('<img id="gravity-sign" src="http://people.artcenter.edu/~tchien/assets/gravity_sign.png" style="position:fixed;top:300px;left:400px;">');
+		// 	$('#gravity-sign').hide().fadeIn(2000);
+		// }	
+		
 		cols.css("width","100%").css("display","inline-block");
 		
 		cols.each(function(){

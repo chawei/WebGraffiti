@@ -292,6 +292,36 @@ function WGCrack(element, cx, cy){
 	
 }
 
+function Magnet(btn,left,top) {
+	var x = 10;
+  var y = 10;
+  var targetX = 0;
+  var targetY = 0;
+  var isMoving = false;
+	var htmlBtn = btn;
+	var moveInt = 0;
+	btn.magnet = this;
+	
+	this.initMoving = function(tx,ty) {
+		// if(ty==targetY&&tx==targetX)
+		// 		return;
+//		scaleInt.setTarget(ty);
+		targetY = ty;
+		targetX = tx;
+		clearInterval(moveInt);
+		console.log('initMoving');
+		moveInt=setInterval(this.startMoving,20);
+	}
+	this.startMoving = function() {
+//		scaleInt.update();
+//		ny = scaleInt.getValue();
+		
+
+		// if (ny==targetY)
+		// 	clearInterval(moveInt);
+	}
+}
+
 function WGButton(btn,left,top,mode){
   var x = 10;
   var y = 10;
