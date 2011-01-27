@@ -22,7 +22,7 @@ function WGFacebook() {
   
 	function vibrating() {
 		if(isMouseOver) {
-			$('.like_link').each(function(){
+			$('.like_link, .cmnt_like_link').each(function(){
 				var btn = $(this);
 				var deg = Math.random()>0.5 ?Math.random()*(-20) :Math.random()*20;
 				var fs = Math.random()*30+100;
@@ -32,7 +32,6 @@ function WGFacebook() {
 	}
 	
 	function modifyUI() {	
-
   	// var headID = document.getElementsByTagName("head")[0];    
   	// var cssNode = document.createElement('link');
   	// cssNode.type = 'text/css';
@@ -48,7 +47,7 @@ function WGFacebook() {
 		});
 		$('#like-magnet').live('mouseleave', function() {
 			isMouseOver = false;
-			$('.like_link').not('.magnet_attached').each(function(){
+			$('.like_link, .cmnt_like_link').not('.magnet_attached').each(function(){
 				var btn = $(this);
 				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
 			});
@@ -56,13 +55,14 @@ function WGFacebook() {
 		
 		vibrateINT = setInterval(vibrating,30);
 		
+		console.log(  );
+		
 		$('#like-magnet').live('click', function() {
 			var magnet = $(this);
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
-			var buttons = $('.like_link').not('.magnet_attached');
+			var buttons = $('.like_link, .cmnt_like_link').not('.magnet_attached');
 			buttons.addClass('magnet_attached');
-			
 //			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
 			
 			buttons.each(function(){
