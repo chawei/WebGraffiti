@@ -1,6 +1,8 @@
 function WGFacebook() {
 	
 	var adImage;
+	var isMouseOver = false;
+	var vibrateINT;
 	
   this.init = function() {
 		modifyUI();
@@ -18,6 +20,17 @@ function WGFacebook() {
     }
   }
   
+	function vibrating() {
+		if(isMouseOver) {
+			$('.like_link').each(function(){
+				var btn = $(this);
+				var deg = Math.random()>0.5 ?Math.random()*(-20) :Math.random()*20;
+				var fs = Math.random()*30+100;
+				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
+			});
+		}
+	}
+	
 	function modifyUI() {	
 
   	// var headID = document.getElementsByTagName("head")[0];    
@@ -29,22 +42,28 @@ function WGFacebook() {
   	// headID.appendChild(cssNode);	
 
 		$('body').append('<img id="like-magnet" src="http://people.artcenter.edu/~tchien/assets/magnet.png" style="position:fixed;right:10px;top:300px;cursor:pointer;z-index:0;"/>');
+
+		$('#like-magnet').live('mouseenter', function() {
+			isMouseOver = true;
+		});
+		$('#like-magnet').live('mouseleave', function() {
+			isMouseOver = false;
+			$('.like_link').not('.magnet_attached').each(function(){
+				var btn = $(this);
+				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
+			});
+		});
 		
-		// $('#like-magnet').live('click', function() {
-		// 	var magnet = $(this);
-		// 	var magnet_x = magnet.offset().left;
-		// 	var magnet_y = magnet.offset().top;
-		// 	var buttons = $('.like_link');
-		// 	buttons.each(function(){
-		// 		
-		// 	});
-		// });
+		vibrateINT = setInterval(vibrating,30);
 		
 		$('#like-magnet').live('click', function() {
 			var magnet = $(this);
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
-			var buttons = $('.like_link');//.slice(0,3);
+			var buttons = $('.like_link').not('.magnet_attached');
+			buttons.addClass('magnet_attached');
+			
+//			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
 			
 			buttons.each(function(){
 				var btn = $(this);

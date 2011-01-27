@@ -119,6 +119,7 @@ function WGGoogle() {
     newImg.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/sketch_ungoogleable.png");
     newImg.setAttribute('alt', 'na');
     newImg.setAttribute('width', 400);
+		
     logoDiv.appendChild(newImg);
 
     //  $('#lga').css('height', '50px').css('font-size', '3em').css('margin', '100px 0 50px 0').html('UN-Googleable Wall');
@@ -133,7 +134,7 @@ function WGGoogle() {
   	// change button
   	var buttonSubmit = getElementsByClass(document,'lsbb','span');
   	var btn2 = buttonSubmit[1].childNodes[0];
-  	btn2.value = "Lucky Me";
+  	btn2.value = "Google Has No Answer To This";
   	btn2.style["font-size"] = '1.5em';
 
     // $('span input.lsb').click(function(e) {
