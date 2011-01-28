@@ -10,24 +10,18 @@ function WGFacebook() {
 //  	setTimeout ( modifyUI, 3000 );
   }
   
-  function sketchProc(processing) {
-    var x, y, width, height, label;
-    processing.setup = function(){
-			processing.noLoop();
-    }
-    processing.draw = function(){
-			
-    }
-  }
-  
 	function vibrating() {
 		if(isMouseOver) {
-			$('.like_link, .cmnt_like_link').each(function(){
+			$('.like_link, .commentActions .as_link').each(function(){
 				var btn = $(this);
 				var deg = Math.random()>0.5 ?Math.random()*(-20) :Math.random()*20;
-				var fs = Math.random()*30+100;
 				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
 			});
+			$('#profile_connect, .profile_connect_button').each(function(){
+				var btn = $(this);
+				var deg = Math.random()>0.5 ?Math.random()*(-50) :Math.random()*50;
+				btn.css('-webkit-transform','rotateY('+deg+'deg)');//.css("font-size",fs+"%");
+			});	
 		}
 	}
 	
@@ -40,7 +34,7 @@ function WGFacebook() {
   	// cssNode.href = 'http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold';
   	// headID.appendChild(cssNode);	
 
-		$('body').append('<img id="like-magnet" src="http://people.artcenter.edu/~tchien/assets/magnet.png" style="position:fixed;right:10px;top:300px;cursor:pointer;z-index:0;"/>');
+		$('body').append('<img id="like-magnet" src="http://chaweihsu.com/yuinchien.com/assets/magnet.png" style="position:fixed;right:10px;top:300px;cursor:pointer;z-index:0;"/>');
 
 		$('#like-magnet').live('mouseenter', function() {
 			isMouseOver = true;
@@ -51,6 +45,11 @@ function WGFacebook() {
 				var btn = $(this);
 				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
 			});
+			$('#profile_connect, .profile_connect_button').not('.magnet_attached').each(function(){
+				var btn = $(this);
+				btn.css('font-size','100%').css('-webkit-transform','rotateY(0deg)');
+			});
+			
 		});
 		
 		vibrateINT = setInterval(vibrating,30);
@@ -61,7 +60,7 @@ function WGFacebook() {
 			var magnet = $(this);
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
-			var buttons = $('.like_link, .cmnt_like_link').not('.magnet_attached');
+			var buttons = $('.like_link, .cmnt_like_link, #profile_connect, .profile_connect_button').not('.magnet_attached');
 			buttons.addClass('magnet_attached');
 //			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
 			
@@ -92,18 +91,6 @@ function WGFacebook() {
 			});
 
 		});
-
-		
-		// var buttons = $('.like_link').slice(0,3);
-		// 
-		// buttons.each(function() {
-		// 	new WGButton($(this), $(this).position().left, $(this).position().top, true);
-		// });
-	
-		// var originalDiv = $('#pagelet_adbox');
-		// originalDiv.css('position', 'relative');
-		// adImage = new WGImage(originalDiv);
-		// originalDiv.find('img').css('visibility', 'hidden');
 		
 	}
 	

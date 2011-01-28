@@ -48,14 +48,6 @@ function CurrentPage ()
    	chrome.tabs.sendRequest(me.CurrentTabId, {action: "initWG"}, null);
   }
   
-	me.callDrawCanvas = function (){
-   	chrome.tabs.sendRequest(me.CurrentTabId, {action: "drawCanvas"}, null);
-  }
-
-	me.callCreateCanvas = function (){
-  	chrome.tabs.sendRequest(me.CurrentTabId, {action: "createCanvas"}, null);
-  }
-  
 	me.setIsOverridenOrNot =  function (path, overrideType){
 		me.blnOverrides[overrideType] = me.Overrides[overrideType].indexOf(path) != -1;
 	}
@@ -114,13 +106,11 @@ function CurrentPage ()
 		
 	    if(me.isStyleOverriden()){
 				if (changeInfo.status == "loading") {
-					me.callInjectCss();
+//					me.callInjectCss();
 				}
 				if (changeInfo.status == "complete") {
 //					if (me.isInit == false) {
 				  	me.callInitWG();
-						me.callCreateCanvas();
-						me.callDrawCanvas();
 						me.isInit = true;
 //					}
 				}
