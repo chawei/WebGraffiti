@@ -1,12 +1,16 @@
 function WGFacebook() {
 	
+	var isInit = false;
 	var adImage;
 	var isMouseOver = false;
 	var vibrateINT;
 	
   this.init = function() {
-		modifyUI();
-		console.log('init facebook');
+		if (isInit == false) {
+			modifyUI();
+			console.log('init facebook');
+			isInit = true;
+		}
 //  	setTimeout ( modifyUI, 3000 );
   }
   

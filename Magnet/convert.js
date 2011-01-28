@@ -1,9 +1,11 @@
 var styleElement;
 var webGraffiti = null;
+var isInit = false;
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+	console.log(isInit);
 	if (request.action == "initWG") {
-		initWG();
+		isInit = initWG();
 	}
 });
 
@@ -16,5 +18,5 @@ function initWG() {
 	  }
 		webGraffiti.init();
 	}
-
+	return true;
 }
