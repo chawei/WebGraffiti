@@ -74,7 +74,6 @@ function WGFacebook() {
 				var btn_y = btn.offset().top;
 				
 				btn.makeAbsolute(true);
-				//btn.css('left', btn_x).css('top', btn_y).css('position', 'absolute').css('z-index', '10');
 				
 				btn.click(function(e){
 					e.preventDefault();

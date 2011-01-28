@@ -3,7 +3,6 @@ var webGraffiti = null;
 var isInit = false;
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	
 	if (request.action == "initWG") {
 		initWG();
 	}
