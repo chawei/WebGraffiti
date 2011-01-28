@@ -1,0 +1,39 @@
+{
+  "name": "Magnet",
+  "version": "0.1",
+  "description": "Magnet for disabling facebook like buttons",
+  "icons": { "16": "icons/colors_icons.png",
+             "32": "icons/colors_icons.png",
+             "48": "icons/colors_icons.png",
+             "128": "icons/colors_icons.png" },
+  "page_action": 
+  {
+    "default_icon": "icons/colors_icons.png",
+    "default_title": "Change Colors",    
+    "popup": "popup.html"           
+  },
+  "background_page": "background_page.html",
+  "content_scripts":
+   [
+	{
+	"run_at": "document_start",
+      	"matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"], 
+      	"js": ["processing-1.0.0.js", "p_base.js", "jquery.js", 
+      	       "wg_google.js", "wg_dust.js", "wg_apple.js", "wg_processing.js",
+      	       "wg_facebook.js", "wg_ungoogleable.js", "wg_twitter.js", "wg_yahoo.js", "wg_nytimes.js", "wg_wiki.js","convert.js"],
+      	"all_frames": true
+    	}
+   ],
+  "minimum_chrome_version": "4.0",
+
+  "chrome_url_overrides": {
+    "newtab": "redirect.html"
+  },
+
+  "permissions": 
+  [
+  "tabs",
+  "http://*/*",
+  "https://*/*"
+  ]
+}
