@@ -16,12 +16,12 @@ function WGFacebook() {
   
 	function vibrating() {
 		if(isMouseOver) {
-			$('.like_link, .commentActions .as_link').each(function(){
+			$('.like_link, .commentActions .as_link, .cmnt_like_link').each(function(){
 				var btn = $(this);
 				var deg = Math.random()>0.5 ?Math.random()*(-20) :Math.random()*20;
 				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
 			});
-			$('#profile_connect, .profile_connect_button').each(function(){
+			$('label#profile_connect, .profile_connect_button').each(function(){
 				var btn = $(this);
 				var deg = Math.random()>0.5 ?Math.random()*(-50) :Math.random()*50;
 				btn.css('-webkit-transform','rotateY('+deg+'deg)');//.css("font-size",fs+"%");
@@ -45,11 +45,11 @@ function WGFacebook() {
 		});
 		$('#like-magnet').live('mouseleave', function() {
 			isMouseOver = false;
-			$('.like_link, .cmnt_like_link').not('.magnet_attached').each(function(){
+			$('.like_link, .commentActions .as_link').not('.magnet_attached').each(function(){
 				var btn = $(this);
 				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
 			});
-			$('#profile_connect, .profile_connect_button').not('.magnet_attached').each(function(){
+			$('label#profile_connect, .profile_connect_button').not('.magnet_attached').each(function(){
 				var btn = $(this);
 				btn.css('font-size','100%').css('-webkit-transform','rotateY(0deg)');
 			});
@@ -64,7 +64,7 @@ function WGFacebook() {
 			var magnet = $(this);
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
-			var buttons = $('.like_link, .cmnt_like_link, label#profile_connect, .profile_connect_button').not('.magnet_attached');
+			var buttons = $('.like_link, .commentActions .as_link, label#profile_connect, .profile_connect_button').not('.magnet_attached');
 			buttons.addClass('magnet_attached');
 //			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
 			
@@ -73,7 +73,9 @@ function WGFacebook() {
 				var btn_x = btn.offset().left;
 				var btn_y = btn.offset().top;
 				
-				btn.css('left', btn_x).css('top', btn_y).css('position', 'absolute').css('z-index', '10');
+				btn.makeAbsolute(true);
+				//btn.css('left', btn_x).css('top', btn_y).css('position', 'absolute').css('z-index', '10');
+				
 				btn.click(function(e){
 					e.preventDefault();
 				});
@@ -98,4 +100,16 @@ function WGFacebook() {
 		
 	}
 	
+}
+
+$.fn.makeAbsolute = function(rebase) {
+	return this.each(function() {
+		var el = $(this);
+    var pos = el.offset();
+    el.css({ position: "absolute",
+			marginLeft: 0, marginTop: 0,
+			top: pos.top, left: pos.left, zIndex: 10 });
+		if (rebase)
+			el.remove().appendTo("body");
+	});
 }
