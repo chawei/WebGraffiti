@@ -64,7 +64,7 @@ function WGFacebook() {
 			var magnet = $(this);
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
-			var buttons = $('.like_link, .cmnt_like_link, #profile_connect, .profile_connect_button').not('.magnet_attached');
+			var buttons = $('.like_link, .cmnt_like_link, label#profile_connect, .profile_connect_button').not('.magnet_attached');
 			buttons.addClass('magnet_attached');
 //			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
 			
