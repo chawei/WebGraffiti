@@ -4,14 +4,14 @@ function WGFacebook() {
 	var adImage;
 	var isMouseOver = false;
 	var vibrateINT;
+	var magnetINT;
+	var bounceINT;
 	
   this.init = function() {
 		if (isInit == false) {
 			modifyUI();
-			console.log('init facebook');
 			isInit = true;
 		}
-//  	setTimeout ( modifyUI, 3000 );
   }
   
 	function vibrating() {
@@ -25,7 +25,17 @@ function WGFacebook() {
 				var btn = $(this);
 				var deg = Math.random()>0.5 ?Math.random()*(-50) :Math.random()*50;
 				btn.css('-webkit-transform','rotateY('+deg+'deg)');//.css("font-size",fs+"%");
-			});	
+			});
+		}
+	}
+	
+	function magnetBounce() {
+		magnetINT.update();
+		$('#like-magnet').css('right', magnetINT.getValue());
+		
+		if( magnetINT.getCounter() > 100 ) {
+			magnetINT = null;
+			clearInterval(bounceINT);
 		}
 	}
 	
@@ -38,8 +48,11 @@ function WGFacebook() {
   	// cssNode.href = 'http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold';
   	// headID.appendChild(cssNode);	
 
-		$('body').append('<img id="like-magnet" src="http://chaweihsu.com/yuinchien.com/assets/magnet.png" style="position:fixed;right:10px;top:300px;cursor:pointer;z-index:0;"/>');
-
+		$('body').append('<img id="like-magnet" src="http://chaweihsu.com/yuinchien.com/assets/magnet.png" style="position:fixed;right:-200px;top:300px;cursor:pointer;z-index:0;"/>');
+		magnetINT = new DIntegrator(-200, 0.6, 0.55);
+		magnetINT.setTarget(10);
+		bounceINT = setInterval(magnetBounce,50);
+		
 		$('#like-magnet').live('mouseenter', function() {
 			isMouseOver = true;
 		});
@@ -58,12 +71,11 @@ function WGFacebook() {
 		
 		vibrateINT = setInterval(vibrating,30);
 		
-		console.log(  );
-		
 		$('#like-magnet').live('click', function() {
 			var magnet = $(this);
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
+			var magnet_h = magnet.height();
 			var buttons = $('.like_link, .commentActions .as_link, label#profile_connect, .profile_connect_button').not('.magnet_attached');
 			buttons.addClass('magnet_attached');
 //			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
@@ -80,7 +92,7 @@ function WGFacebook() {
 				});
 				
 				var rand_x = Math.random()*(-30);
-				var rand_y = Math.random()>0.5 ?Math.random()*(30) : 80+Math.random()*30; //Math.random()*(30);
+				var rand_y = Math.random()>0.5 ?Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
 				var shift_x = magnet_x - btn_x + rand_x;
 				var shift_y = magnet_y - btn_y + rand_y;
 				
@@ -111,4 +123,50 @@ $.fn.makeAbsolute = function(rebase) {
 		if (rebase)
 			el.remove().appendTo("body");
 	});
+}
+
+function DIntegrator(value, damping, attraction) {      
+  var _value = value;
+  var _vel = 0;
+  var _accel = 0;
+  var _force = 0;
+  var _mass = 1;
+  var _damping = damping;
+  var _attraction = attraction;
+  var _targeting = true;
+  var _target;
+  var _counter = 0;
+
+	this.getCounter = function() {
+		return _counter;
+	}
+  this.set = function(v) {
+  	_value = v;
+  }
+	this.getValue = function() {
+		return _value;
+	}
+	this.getTarget = function() {
+		return _target;
+	}
+  this.update = function() {
+    if (_targeting)
+      _force += _attraction * (_target - _value);
+
+    _accel = _force / _mass;
+    _vel = (_vel + _accel) * _damping;
+    _value += _vel;
+
+    _force = 0;
+		_counter++;		
+  }
+
+  this.setTarget = function(t) {
+    _targeting = true;
+    _target = t;
+  }
+
+  this.noTarget = function() {
+    _targeting = false;
+  }
 }
