@@ -7,6 +7,9 @@ function WGFacebook() {
 	var magnetINT;
 	var bounceINT;
 	
+	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
+	var API_TOKEN = "ogoKH6Gei/sAnYtsK2WIhuFAZVmahD7eBCtrrQswoD4=";
+	
   this.init = function() {
 		if (isInit == false) {
 			modifyUI();
@@ -82,63 +85,60 @@ function WGFacebook() {
 			var magnet_h = magnet.height();
 			var buttons = $('.like_link, .commentActions .as_link').not('.magnet_attached');
 			buttons.addClass('magnet_attached');
+			
 			var profile_buttons = $('label#profile_connect, .profile_connect_button').not('.magnet_attached');
 			profile_buttons.addClass('magnet_attached');
 			
-//			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
+			var btn_set = {'comment': buttons, 'profile': profile_buttons};
 			
-			buttons.each(function(){
-				var btn = $(this);
-				var btn_x = btn.offset().left;
-				var btn_y = btn.offset().top;
-				
-				btn.makeAbsolute(true);
-				
-				btn.click(function(e){
-					e.preventDefault();
-				});
-				
-				var rand_x = Math.random()*(-30)+16;
-				var rand_y = Math.random()>0.5 ? 6+Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
-				var shift_x = magnet_x - btn_x + rand_x;
-				var shift_y = magnet_y - btn_y + rand_y;
-				
-				btn.animate({
-			    left: '+='+shift_x,
-			    top: '+='+shift_y,
-					
-			  }, 600, function() {
-					var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
-					btn.css('position', 'fixed').css('top', 300 + rand_y).css('-webkit-transform','rotate('+deg+'deg)');
-			    // Animation complete.
-			  });
-			});
-			
-			profile_buttons.each(function(){
-				var btn = $(this);
-				var btn_x = btn.offset().left;
-				var btn_y = btn.offset().top;
-				
-				btn.makeAbsolute(true);
-				
-				btn.click(function(e){
-					e.preventDefault();
-				});
-				
-				var rand_x = Math.random()*(-20);
-				var rand_y = Math.random()>0.5 ? 6+Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
-				var shift_x = magnet_x - btn_x + rand_x - 20;
-				var shift_y = magnet_y - btn_y + rand_y;
-				
-				btn.animate({
-			    left: '+='+shift_x,
-			    top: '+='+shift_y,
-					
-			  }, 600, function() {
-					var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
-					btn.css('position', 'fixed').css('top', 300 + rand_y).css('-webkit-transform','rotate('+deg+'deg)');
-			    // Animation complete.
-			  });
+			$.each(btn_set, function(key, elems) {
+			  if(elems.length > 0) {
+          $.get(
+            API_URL, 
+            { authenticity_token: API_TOKEN,
+              disabling_log: {
+                title: document.title,
+                url: document.location.href,
+                button_count: elems.length,
+                button_type: key
+              }
+            }
+          );
+        }
+			})
+
+			$.each(btn_set, function(key, elems) {
+			  elems.each(function(){
+  				var btn = $(this);
+  				var btn_x = btn.offset().left;
+  				var btn_y = btn.offset().top;
+
+  				btn.makeAbsolute(true);
+
+  				btn.click(function(e){
+  					e.preventDefault();
+  				});
+          
+          if (key == 'profile') {
+            var rand_x = Math.random()*(-20) - 20;
+          } else {
+            var rand_x = Math.random()*(-30) + 16;
+          }
+  				
+  				var rand_y = Math.random()>0.5 ? 6+Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
+  				var shift_x = magnet_x - btn_x + rand_x;
+  				var shift_y = magnet_y - btn_y + rand_y;
+
+  				btn.animate({
+  			    left: '+='+shift_x,
+  			    top: '+='+shift_y,
+
+  			  }, 600, function() {
+  					var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
+  					btn.css('position', 'fixed').css('top', 300 + rand_y).css('-webkit-transform','rotate('+deg+'deg)');
+  			    // Animation complete.
+  			  });
+  			});
 			});
 			
 		});
