@@ -16,6 +16,8 @@ function WGFacebook() {
   
 	function vibrating() {
 		if(isMouseOver) {
+			var deg = Math.random()>0.5 ?Math.random()*(-4) :Math.random()*4;
+			$('#like-magnet').css('-webkit-transform','rotate('+deg+'deg)');
 			$('.like_link, .commentActions .as_link, .cmnt_like_link').each(function(){
 				var btn = $(this);
 				var deg = Math.random()>0.5 ?Math.random()*(-20) :Math.random()*20;
@@ -23,8 +25,8 @@ function WGFacebook() {
 			});
 			$('label#profile_connect, .profile_connect_button').each(function(){
 				var btn = $(this);
-				var deg = Math.random()>0.5 ?Math.random()*(-50) :Math.random()*50;
-				btn.css('-webkit-transform','rotateY('+deg+'deg)');//.css("font-size",fs+"%");
+				var deg = Math.random()>0.5 ?Math.random()*(-10) :Math.random()*10;
+				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
 			});
 		}
 	}
@@ -34,25 +36,27 @@ function WGFacebook() {
 		$('#like-magnet').css('right', magnetINT.getValue());
 		
 		if( magnetINT.getCounter() > 100 ) {
+			$('#like-magnet').css('right', 10);
 			magnetINT = null;
 			clearInterval(bounceINT);
 		}
 	}
 	
 	function modifyUI() {	
-  	// var headID = document.getElementsByTagName("head")[0];    
-  	// var cssNode = document.createElement('link');
-  	// cssNode.type = 'text/css';
-  	// cssNode.rel = 'stylesheet';
-  	// cssNode.media = 'screen';
-  	// cssNode.href = 'http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold';
-  	// headID.appendChild(cssNode);	
 
-		$('body').append('<img id="like-magnet" src="http://chaweihsu.com/yuinchien.com/assets/magnet.png" style="position:fixed;right:-200px;top:300px;cursor:pointer;z-index:0;"/>');
+		$('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px;cursor:pointer;z-index:0;display:block;height:160px;width:185px; overflow:hidden; background: url(http://chaweihsu.com/yuinchien.com/assets/magnet.png) no-repeat 0 0;"></div>');
 		magnetINT = new DIntegrator(-200, 0.6, 0.55);
 		magnetINT.setTarget(10);
-		bounceINT = setInterval(magnetBounce,50);
+		bounceINT = setInterval(magnetBounce,40);
 		
+		$('#like-magnet').hover(
+			function(){
+				$(this).css('background-position', '0 -160px');
+			},
+			function(){
+				$(this).css('background-position', '0 0');
+			}
+		);
 		$('#like-magnet').live('mouseenter', function() {
 			isMouseOver = true;
 		});
@@ -64,7 +68,7 @@ function WGFacebook() {
 			});
 			$('label#profile_connect, .profile_connect_button').not('.magnet_attached').each(function(){
 				var btn = $(this);
-				btn.css('font-size','100%').css('-webkit-transform','rotateY(0deg)');
+				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
 			});
 			
 		});
@@ -76,8 +80,11 @@ function WGFacebook() {
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
 			var magnet_h = magnet.height();
-			var buttons = $('.like_link, .commentActions .as_link, label#profile_connect, .profile_connect_button').not('.magnet_attached');
+			var buttons = $('.like_link, .commentActions .as_link').not('.magnet_attached');
 			buttons.addClass('magnet_attached');
+			var profile_buttons = $('label#profile_connect, .profile_connect_button').not('.magnet_attached');
+			profile_buttons.addClass('magnet_attached');
+			
 //			$.get("http://magnet.detourlab.com/attached?num="+buttons.length);
 			
 			buttons.each(function(){
@@ -91,8 +98,8 @@ function WGFacebook() {
 					e.preventDefault();
 				});
 				
-				var rand_x = Math.random()*(-30);
-				var rand_y = Math.random()>0.5 ?Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
+				var rand_x = Math.random()*(-30)+16;
+				var rand_y = Math.random()>0.5 ? 6+Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
 				var shift_x = magnet_x - btn_x + rand_x;
 				var shift_y = magnet_y - btn_y + rand_y;
 				
@@ -102,11 +109,38 @@ function WGFacebook() {
 					
 			  }, 600, function() {
 					var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
-					btn.css('position', 'fixed').css('top', 300 + rand_y).css('-webkit-transform','rotateZ('+deg+'deg)');
+					btn.css('position', 'fixed').css('top', 300 + rand_y).css('-webkit-transform','rotate('+deg+'deg)');
 			    // Animation complete.
 			  });
 			});
-
+			
+			profile_buttons.each(function(){
+				var btn = $(this);
+				var btn_x = btn.offset().left;
+				var btn_y = btn.offset().top;
+				
+				btn.makeAbsolute(true);
+				
+				btn.click(function(e){
+					e.preventDefault();
+				});
+				
+				var rand_x = Math.random()*(-20);
+				var rand_y = Math.random()>0.5 ? 6+Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
+				var shift_x = magnet_x - btn_x + rand_x - 20;
+				var shift_y = magnet_y - btn_y + rand_y;
+				
+				btn.animate({
+			    left: '+='+shift_x,
+			    top: '+='+shift_y,
+					
+			  }, 600, function() {
+					var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
+					btn.css('position', 'fixed').css('top', 300 + rand_y).css('-webkit-transform','rotate('+deg+'deg)');
+			    // Animation complete.
+			  });
+			});
+			
 		});
 		
 	}
