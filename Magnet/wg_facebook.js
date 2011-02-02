@@ -36,7 +36,6 @@ function WGFacebook() {
 		}
 	}
 	
-	
 	function magnetIntroBounce() {
 		magnetINT.update();
 		$('#like-magnet').css('right', magnetINT.getValue());
@@ -49,11 +48,22 @@ function WGFacebook() {
 	}
 	
 	function modifyUI() {	
+		$('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" style="position:fixed;right:15px;top:458px;cursor:pointer;z-index:0;display:block;height:40px;width:185px; overflow:hidden; background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_title.png) no-repeat 0 0;"></a>');
 
 		$('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px;cursor:pointer;z-index:0;display:block;height:160px;width:185px; overflow:hidden; background: url(http://chaweihsu.com/yuinchien.com/assets/magnet.png) no-repeat 0 0;"></div>');
+		
 		magnetINT = new DIntegrator(-200, 0.6, 0.55);
 		magnetINT.setTarget(10);
 		bounceINT = setInterval(magnetIntroBounce,40);
+		
+		$('#magnet-title').hover(
+			function(){
+				$(this).css('background-position', '0 -40px');
+			},
+			function(){
+				$(this).css('background-position', '0 0');
+			}
+		);
 		
 		$('#like-magnet').hover(
 			function(){
@@ -125,6 +135,7 @@ function WGFacebook() {
 
   				btn.click(function(e){
   					e.preventDefault();
+						e.stopPropagation();
   				});
           
           if (key == 'profile') {

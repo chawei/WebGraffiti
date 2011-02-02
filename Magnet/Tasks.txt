@@ -1,0 +1,2 @@
+- Profile page like button is not disabled by Magnet
+  for ex: the like button in http://www.facebook.com/Starbucks is still "likable" 
