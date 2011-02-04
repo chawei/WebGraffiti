@@ -1,2 +1,6 @@
-- Profile page like button is not disabled by Magnet
-  for ex: the like button in http://www.facebook.com/Starbucks is still "likable" 
+- Resize window reposition
+  when user resize window, all like buttons should be repositioned
+  
+- Add number of buttons animation
+
+- fadeIn the magnet title smoothly 

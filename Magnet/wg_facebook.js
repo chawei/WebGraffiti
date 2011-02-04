@@ -48,7 +48,7 @@ function WGFacebook() {
 	}
 	
 	function modifyUI() {	
-		$('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" style="position:fixed;right:15px;top:458px;cursor:pointer;z-index:0;display:block;height:40px;width:185px; overflow:hidden; background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_title.png) no-repeat 0 0;"></a>');
+		$('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" style="position:fixed;right:25px;top:457px;cursor:pointer;z-index:0;display:block;height:40px;width:185px; overflow:hidden; background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_title.png) no-repeat 0 0;"></a>');
 
 		$('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px;cursor:pointer;z-index:0;display:block;height:160px;width:185px; overflow:hidden; background: url(http://chaweihsu.com/yuinchien.com/assets/magnet.png) no-repeat 0 0;"></div>');
 		
@@ -124,8 +124,23 @@ function WGFacebook() {
           );
         }
 			})
+			
+			var numBtn = 6;
+			var countDiv = $('<div class="magnetized-count" style="font-size:0.5em;position:fixed;right:110px;top:360px;z-index:0; ">'+'+'+numBtn+'</div>');
+			countDiv.css('font-family', 'Verdana').css('color','#666').css('font-weight','bold');
+			$('body').append(countDiv);
+			countDiv.animate({
+				opacity: 0.0,
+				fontSize: "5em",
+		    // top: '-='+70,
+		  }, 600, function() {
+//				countDiv = null;
+		    // Animation complete.
+		  });
+			
 
 			$.each(btn_set, function(key, elems) {
+								
 			  elems.each(function(){
   				var btn = $(this);
   				var btn_x = btn.offset().left;
@@ -161,7 +176,7 @@ function WGFacebook() {
 			});
 			
 		});
-		
+			
 	}
 	
 }
