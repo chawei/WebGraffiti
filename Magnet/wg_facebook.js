@@ -154,7 +154,7 @@ function WGFacebook() {
 		                  position:fixed; right:50px; top:330px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;"></div>');
-		countDiv.css('font-family', 'Verdana').css('color','#666').css('font-weight','bold');
+		countDiv.css('font-family', 'Trebuchet MS, sans-serif').css('color','#666').css('font-weight','bold');
 		$('body').append(countDiv);
 		
 		$('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" \
@@ -258,7 +258,7 @@ $.fn.popupAnimation = function(numBtn) {
 	  elem.html('+'+numBtn).css('z-index', 100);
 		elem.animate({
 			opacity: 0.0,
-			fontSize: "5em"
+			fontSize: "4em"
 	  }, 600, function() {
 	    elem.css({zIndex: 0, fontSize: '0.5em', opacity: 1.0}).html('');
 	  });
