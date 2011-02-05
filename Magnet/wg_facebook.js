@@ -232,6 +232,8 @@ function WGFacebook() {
 			
 			sendDisablingLogToServer(btn_set);
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
+			
+			//$('.magnet_attached').delay(10000).fadeOut();
 		});
 			
 	}
