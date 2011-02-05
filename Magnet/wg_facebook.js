@@ -11,7 +11,7 @@ function WGFacebook() {
 	// Status, Comment, Profile, Sponsor
 	var targetButtonPatterns = ".like_link, \
 	                            .commentActions .as_link, \
-	                            label#profile_connect, .profile_connect_button, \
+	                            label#profile_connect, .profile_connect_button, .profileHeader .uiButton, \
 	                            #pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink";
 	
 	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
@@ -31,7 +31,7 @@ function WGFacebook() {
       $('.magnet_detected').each(function(){
 				var btn = $(this);
 				//var deg = Math.random()>0.5 ? Math.random()*(-15) : Math.random()*15;
-				var deg = (Math.random()*2 - 1)*15;
+				var deg = (Math.random()*2-1)*15;
 				btn.css('display', 'inline-block').css('-webkit-transform','rotate('+deg+'deg)');
 			});
 			
@@ -87,7 +87,7 @@ function WGFacebook() {
           var rand_x = Math.random()*(-30) + 16;
         }
 				
-				var rand_y = Math.random()>0.5 ? 6+Math.random()*(30) : magnet_h/3*2+Math.random()*30; //Math.random()*(30);
+				var rand_y = Math.random()>0.5 ? 8+Math.random()*(30) : 3+magnet_h/3*2+Math.random()*30; //Math.random()*(30);
 				var shift_x = magnet_x - btn_x + rand_x;
 				var shift_y = magnet_y - btn_y + rand_y;
 
@@ -96,10 +96,14 @@ function WGFacebook() {
 			    top: '+='+shift_y
 			  }, 600, function() {
 			    // Animation complete.
-					var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
+					//var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
+					var deg = (Math.random()*2-1)*15;
 					dist_from_right = $(window).width() - parseInt(btn.css('left'));
+					if (key == 'profile') {
+						dist_from_right -= 20;
+					}
 					btn.css('position', 'fixed').css('top', 300 + rand_y)
-					   .css('right', dist_from_right - 20 - btn.width())
+					   .css('right', dist_from_right - btn.width())
 					   .css('left', 'auto')
 					   .css('-webkit-transform','rotate('+deg+'deg)');
 			  });
@@ -154,12 +158,12 @@ function WGFacebook() {
 		$('body').append(countDiv);
 		
 		$('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" \
-		                  style="position:fixed;right:25px;top:457px;cursor:pointer;z-index:1; \
+		                  style="position:fixed;right:25px;top:457px;cursor:pointer;z-index:10; \
 		                  display:block;height:40px;width:185px; overflow:hidden; \
 		                  background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_title.png) no-repeat 0 0;"></a>');
 
 		$('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px; \
-		                  cursor:pointer;z-index:1;display:block;height:160px;width:185px; overflow:hidden; \
+		                  cursor:pointer;z-index:10;display:block;height:160px;width:185px; overflow:hidden; \
 		                  background: url(http://chaweihsu.com/yuinchien.com/assets/magnet.png) no-repeat 0 0;"></div>');
 		
 		$('#magnet-title').hide().delay(1000).fadeIn();
@@ -218,7 +222,7 @@ function WGFacebook() {
 			var comment_buttons = $('.commentActions .as_link').not('.magnet_attached');
 			comment_buttons.addClass('magnet_attached');
 			
-			var profile_buttons = $('label#profile_connect, .profile_connect_button').not('.magnet_attached');
+			var profile_buttons = $('label#profile_connect, .profile_connect_button, .profileHeader .uiButton').not('.magnet_attached');
 			profile_buttons.addClass('magnet_attached');
 			
 			var sponsor_buttons = $('#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink').not('.magnet_attached');
@@ -233,7 +237,15 @@ function WGFacebook() {
 			sendDisablingLogToServer(btn_set);
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
 			
-			//$('.magnet_attached').delay(10000).fadeOut();
+			var attached_btns = $('.magnet_attached');
+			attached_btns.delay(10000).animate({
+				opacity: 0.0,
+		    top: '+='+ Math.random()*150+90
+		  }, Math.random()*300 + 800, function() {
+				attached_btns.remove();
+		  });
+			
+			
 		});
 			
 	}
@@ -243,11 +255,10 @@ function WGFacebook() {
 $.fn.popupAnimation = function(numBtn) {
   var elem = $(this);
   //if (btn_length > 0) {
-	  elem.html('+'+numBtn);
+	  elem.html('+'+numBtn).css('z-index', 100);
 		elem.animate({
 			opacity: 0.0,
-			fontSize: "5em",
-	    zIndex: 1,
+			fontSize: "5em"
 	  }, 600, function() {
 	    elem.css({zIndex: 0, fontSize: '0.5em', opacity: 1.0}).html('');
 	  });
