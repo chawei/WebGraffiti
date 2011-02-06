@@ -11,7 +11,7 @@ function WGFacebook() {
 	// Status, Comment, Profile, Sponsor
 	var targetButtonPatterns = ".like_link, \
 	                            .commentActions .as_link, \
-	                            label#profile_connect, .profile_connect_button, .profileHeader .uiButton, \
+	                            label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton, \
 	                            #pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink";
 	
 	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
@@ -222,7 +222,7 @@ function WGFacebook() {
 			var comment_buttons = $('.commentActions .as_link').not('.magnet_attached');
 			comment_buttons.addClass('magnet_attached');
 			
-			var profile_buttons = $('label#profile_connect, .profile_connect_button, .profileHeader .uiButton').not('.magnet_attached');
+			var profile_buttons = $('label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton').not('.magnet_attached');
 			profile_buttons.addClass('magnet_attached');
 			
 			var sponsor_buttons = $('#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink').not('.magnet_attached');
