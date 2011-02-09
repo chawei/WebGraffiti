@@ -771,8 +771,8 @@ Processing.prototype.drawFreehandVertex = function(x1, y1, x2, y2) {
   this.vertex(x1,y1);
 	
 	for(var i=0; i<pieces; i++) {
-		var tx = x1 + dx*(i + this.random(-2,2)) + this.random(-1,1);
-		var ty = y1 + dy*(i + this.random(-2,2)) + this.random(-1,1);	
+		var tx = x1 + dx*(i + this.random(-2,2)) + this.random(-2,2);
+		var ty = y1 + dy*(i + this.random(-2,2)) + this.random(-2,2);	
 		this.vertex( tx, ty);
 	}
 }
@@ -845,19 +845,19 @@ Processing.prototype.drawFreehandEllipse = function(x, y, w, h, start, end) {
 }
 
 
-Processing.prototype.drawFreehandArc = function() {
-
-	processing.noStroke();
-	processing.fill(255,255,0);
-	processing.drawFreehandRect( x1, y1, w, h, false);
-	processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
-	
-	processing.stroke(0);
-	processing.noFill();
-	processing.drawFreehandArc( cx,cy,r1*2,r1*2,processing.PI*2-processing.PI/2,processing.PI*2+processing.PI/2);
-	processing.drawFreehandLine( x1,y1,cx,y1 );
-
-}
+// Processing.prototype.drawFreehandArc = function() {
+// 
+// 	processing.noStroke();
+// 	processing.fill(255,255,0);
+// 	processing.drawFreehandRect( x1, y1, w, h, false);
+// 	processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+// 	
+// 	processing.stroke(0);
+// 	processing.noFill();
+// 	processing.drawFreehandArc( cx,cy,r1*2,r1*2,processing.PI*2-processing.PI/2,processing.PI*2+processing.PI/2);
+// 	processing.drawFreehandLine( x1,y1,cx,y1 );
+// 
+// }
 
 Processing.prototype.drawFreehandArcVetex = function(x, y, w, h, start, angle, isClockWise) {
   var currentAngle = start;
@@ -867,8 +867,8 @@ Processing.prototype.drawFreehandArcVetex = function(x, y, w, h, start, angle, i
   var angleGap = angle/totalDots;
 
   for(var i=0; i<totalDots; i++) {
-		var px = x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.01);
-		var py = y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.01);
+		var px = x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.02);
+		var py = y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.02);
 		this.vertex(px, py);
 
 		if(isClockWise)

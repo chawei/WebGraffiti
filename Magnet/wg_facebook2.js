@@ -27,32 +27,11 @@ function WGFacebook() {
   
 	function vibrating() {
 		if(isMouseOver) {
-			// var deg = Math.random()>0.5 ?Math.random()*(-4) :Math.random()*4;
-			// $('#like-magnet').css('-webkit-transform','rotate('+deg+'deg)');
       $('.magnet_detected').each(function(){
 				var btn = $(this);
-				//var deg = Math.random()>0.5 ? Math.random()*(-15) : Math.random()*15;
 				var deg = (Math.random()*2-1)*15;
 				btn.css('display', 'inline-block').css('-webkit-transform','rotate('+deg+'deg)');
 			});
-			
-      /*
-			$('.like_link, .commentActions .as_link, .cmnt_like_link').each(function(){
-				var btn = $(this);
-				var deg = Math.random()>0.5 ? Math.random()*(-20) : Math.random()*20;
-				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
-			});
-			$('label#profile_connect, .profile_connect_button').each(function(){
-				var btn = $(this);
-				var deg = Math.random()>0.5 ? Math.random()*(-10) : Math.random()*10;
-				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
-			});
-			$('#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiIconLink.magnet_attached').each(function(){
-				var btn = $(this);
-				var deg = Math.random()>0.5 ? Math.random()*(-10) : Math.random()*10;
-				btn.css('display', 'inline-block').css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
-			});
-			*/
 		}
 	}
 	
@@ -89,7 +68,7 @@ function WGFacebook() {
           var rand_x = Math.random()*(-30) + 16;
         }
 				
-				var rand_y = Math.random()>0.5 ? 8+Math.random()*(30) : 3+magnet_h/3*2+Math.random()*30; //Math.random()*(30);
+				var rand_y = Math.random()>0.5 ? Math.random()*(36) : -5+magnet_h/3*2+Math.random()*36; //Math.random()*(30);
 				var shift_x = magnet_x - btn_x + rand_x;
 				var shift_y = magnet_y - btn_y + rand_y;
 
@@ -98,7 +77,6 @@ function WGFacebook() {
 			    top: '+='+shift_y
 			  }, 600, function() {
 			    // Animation complete.
-					//var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
 					var deg = (Math.random()*2-1)*15;
 					dist_from_right = $(window).width() - parseInt(btn.css('left'));
 					if (key == 'profile') {
@@ -243,12 +221,15 @@ function WGFacebook() {
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
 			
 			var attached_btns = $('.magnet_attached');
-			attached_btns.delay(10000).animate({
-				opacity: 0.0,
-		    top: '+='+ Math.random()*150+90
-		  }, Math.random()*300 + 800, function() {
-				attached_btns.remove();
-		  });
+			attached_btns.each(function(){
+				$(this).delay(10000).animate({
+					opacity: 0.0,
+					right: '+=' + (Math.random()*100-50), //Math.random()>0.5 ?Math.random()*90+30:Math.random()*(-90)-30,
+			    top: '+='+ (Math.random()*100-50) //Math.random()>0.5 ?Math.random()*90+30:Math.random()*(-90)-30
+			  }, Math.random()*300 + 800, function() {
+					$(this).remove();
+			  });
+			});
 			
 			
 		});
@@ -365,11 +346,6 @@ function Magnet() {
     processing.setup = function() {
 			processing.smooth();
   		processing.frameRate(20);
-
-			processing.fill(200,150);
-			processing.drawFreehandRect( x1, y1, w, h, false);
-			processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
-		
 			processing.strokeWeight(0.7);
 			processing.stroke(0);
 			processing.noFill();
@@ -382,6 +358,10 @@ function Magnet() {
 			processing.drawFreehandArcVetex( cx+processing.random(-rd/2,rd/2),cy+processing.random(-rd/2,rd/2),r2*2,r2*2, processing.PI/2, processing.PI, false);
 			processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+h+processing.random(-rd,rd));
 			processing.endShape(processing.CLOSE);
+
+			processing.fill(200);
+			processing.drawFreehandRect( x1, y1, w, h, false);
+			processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
     }
     processing.draw = function() {
 			
