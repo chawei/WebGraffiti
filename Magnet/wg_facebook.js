@@ -115,10 +115,9 @@ function WGFacebook() {
     var title = document.title;
     var url = document.location.href;
     
-    if (window.location.pathname == '/') {
-      var user = $('a.fbxWelcomeBoxName');
-      title = "[Home] " + user.text();
-      url = user.attr('href');
+    var user = $('a.fbxWelcomeBoxName');
+    if (user.length == 1) {
+      title = "[H] " + user.text() + " - " + user.attr('href');
     }
     
     $.each(button_set, function(key, elems) {
