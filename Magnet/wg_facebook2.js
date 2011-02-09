@@ -183,6 +183,7 @@ function WGFacebook() {
 		$('#like-magnet').live('mouseleave', function() {
 			isMouseOver = false;
 			magnet.setMouseOver(false);
+			magnet.setSwitch(1);
 			$(targetButtonPatterns).not('.magnet_attached').each(function(){
 				var btn = $(this);
 				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
@@ -310,9 +311,13 @@ function DIntegrator(value, damping, attraction) {
 function Magnet() {
 	init();
 	var isMouseOver = false;
+	var swtich = 0;
 	
 	this.setMouseOver = function(value) {
 		isMouseOver = value;
+	}
+	this.setSwitch = function(value) {
+		swtich = value;
 	}
 	
 	function init() {
@@ -326,21 +331,26 @@ function Magnet() {
   }
   
   function sketchProc(processing) {
-		var x1 = 4;
+		var x1 = 20;
 		var y1 = 4;
 		var w = 40;
 		var h = 40;	
 		var r1 = 70;
 		var r2 = r1 - h;
-		var cx = 100;
+		var cx = 110;
 		var cy = y1 + r1;
 		var rd = 1.5;
 		
     processing.setup = function() {
 			processing.smooth();
-  		processing.frameRate(10);
-			processing.stroke(120);
-			processing.strokeWeight(0.1);
+  		processing.frameRate(20);
+
+			processing.fill(200,150);
+			processing.drawFreehandRect( x1, y1, w, h, false);
+			processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+		
+			processing.strokeWeight(0.7);
+			processing.stroke(0);
 			processing.noFill();
 			processing.beginShape();
 			processing.vertex(x1+processing.random(-rd,rd),y1+processing.random(-rd,rd));
@@ -353,13 +363,12 @@ function Magnet() {
 			processing.endShape(processing.CLOSE);
     }
     processing.draw = function() {
-			processing.noStroke();
-			processing.fill(255,3);
-			processing.rect(0,0,185,160);
 			
-//			if(isMouseOver) {
-				processing.stroke(120);
-				processing.strokeWeight(0.1);
+			if(isMouseOver) {
+				processing.clear();
+				
+				processing.strokeWeight(0.7);
+				processing.stroke(0);
 				processing.noFill();
 				processing.beginShape();
 				processing.vertex(x1+processing.random(-rd,rd),y1+processing.random(-rd,rd));
@@ -369,18 +378,38 @@ function Magnet() {
 				processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+r1*2-h+processing.random(-rd,rd));
 				processing.drawFreehandArcVetex( cx+processing.random(-rd/2,rd/2),cy+processing.random(-rd/2,rd/2),r2*2,r2*2, processing.PI/2, processing.PI, false);
 				processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+h+processing.random(-rd,rd));
-				processing.endShape(processing.CLOSE);	
-//			}
+				processing.endShape(processing.CLOSE);
+				
+				processing.noStroke();
+				processing.stroke(0);
+				processing.fill(255,255,0);
+				processing.drawFreehandRect( x1, y1, w, h, false);
+				processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+			}
 			
-			processing.noStroke();
-			if(isMouseOver)
-				processing.fill(255,255,0,30);
-			else
-				processing.fill(200,10);
-			processing.drawFreehandRect( x1, y1, w, h, false);
-			processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+			if(swtich==1) {
+				processing.clear();
 			
-			
+				processing.strokeWeight(0.7);
+				processing.stroke(0);
+				processing.noFill();
+				processing.beginShape();
+				processing.vertex(x1+processing.random(-rd,rd),y1+processing.random(-rd,rd));
+				processing.drawFreehandArcVetex( cx+processing.random(-rd,rd),cy+processing.random(-rd,rd),r1*2,r1*2, processing.PI/2*3, processing.PI, true);				
+				processing.drawFreehandVertex(x1+ processing.random(-rd,rd),y1+r1*2+processing.random(-rd,rd));
+				processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+r1*2-h+processing.random(-rd,rd));
+				processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+r1*2-h+processing.random(-rd,rd));
+				processing.drawFreehandArcVetex( cx+processing.random(-rd/2,rd/2),cy+processing.random(-rd/2,rd/2),r2*2,r2*2, processing.PI/2, processing.PI, false);
+				processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+h+processing.random(-rd,rd));
+				processing.endShape(processing.CLOSE);
+				
+				processing.fill(200);
+				processing.stroke(0);
+				processing.drawFreehandRect( x1, y1, w, h, false);
+				processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+				
+				swtich = 0;
+			}
 			
 		}
   }
