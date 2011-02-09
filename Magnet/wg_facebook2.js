@@ -20,12 +20,24 @@ function WGFacebook() {
 	
   this.init = function() {
 		if (isInit == false) {
-			modifyUI();
 			isInit = true;
+      initStorage();
+			modifyUI();
+		}
+  }
+  
+  function initStorage() {
+    $.storage = new $.store();
+		if($.storage.get("numOfDisabledButtons") == undefined) {
+		  $.storage.set("numOfDisabledButtons", 0);
+		}
+		if($.storage.get("numOfLikeButtons") == undefined) {
+		  $.storage.set("numOfLikeButtons", 0);
 		}
   }
   
 	function vibrating() {
+	  //detectLikeButtons();
 		if(isMouseOver) {
       $('.magnet_detected').each(function(){
 				var btn = $(this);
@@ -129,25 +141,65 @@ function WGFacebook() {
     });
     return numBtn;
   }
-	
-	function modifyUI() {
-	  var countDiv = $('<div class="magnetized-count" \
+  
+  $(window).scroll(function (){
+    detectLikeButtons();
+    refreshStatCounter();
+  });
+  
+  function detectLikeButtons() {
+    var notDetectedBtns = $(targetButtonPatterns).not('.magnet_detected');
+    if (notDetectedBtns.length > 0) {
+		  notDetectedBtns.addClass('magnet_detected');
+		  $.storage.set("numOfLikeButtons", ($.storage.get("numOfLikeButtons")+notDetectedBtns.length));
+	  }
+  }
+  
+  function refreshStatCounter() {
+    $('#stat-counter').html(renderStatCounter());
+  }
+  
+  function renderStatCounter() {
+    var output = $.storage.get("numOfDisabledButtons")+'/'+$.storage.get("numOfLikeButtons");
+    return output;
+  }
+  
+  function initPopupCounter() {
+    var popupCounter = $('<div class="magnetized-count" \
 		                  style="font-size:0em;z-index:0; \
 		                  position:fixed; right:50px; top:324px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;"></div>');
-		countDiv.css('font-family', 'Trebuchet MS, sans-serif').css('color','#666').css('font-weight','bold');
-		$('body').append(countDiv);
-		
-		$('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" \
+		popupCounter.css('font-family', 'Trebuchet MS, sans-serif').css('color','#666').css('font-weight','bold');
+		$('body').append(popupCounter);
+		return popupCounter;
+  }
+  
+  function initStatCounter() {
+    $('body').append('<div id="stat-counter" style="position:fixed;right:25px;top:457px; \
+		                  cursor:pointer;z-index:10;display:block;height:50px;width:185px; \
+		                  overflow:hidden;text-align:center;">'
+		                  +renderStatCounter()+'</div>');
+  }
+  
+  function initMagnetTitle() {
+    $('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" \
 		                  style="position:fixed;right:25px;top:457px;cursor:pointer;z-index:10; \
 		                  display:block;height:40px;width:185px; overflow:hidden; \
 		                  background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_title.png) no-repeat 0 0;"></a>');
-		
-
-		$('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px; \
+  }
+  
+  function initMagnetImage() {
+    $('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px; \
 		                  cursor:pointer;z-index:10;display:block;height:160px;width:185px; overflow:hidden;"></div>');
-		
+  }
+	
+	function modifyUI() {
+	  var countDiv = initPopupCounter();
+		initStatCounter();
+    initMagnetTitle();
+		initMagnetImage();
+				
 		magnet = new Magnet();
 		
 		$('#magnet-title').hide().delay(1000).fadeIn();
@@ -182,7 +234,6 @@ function WGFacebook() {
 			magnet.setMouseOver(true);
 			// Ripple Animation
 			magnetRippleINT.setTarget(0.7);
-			$(targetButtonPatterns).addClass('magnet_detected');
 		});
 		
 		$('#like-magnet').live('mouseleave', function() {
@@ -223,6 +274,8 @@ function WGFacebook() {
 			var numBtn = 0;
 			numBtn = countTotalNumOfButtons(btn_set);
 			countDiv.popupAnimation(numBtn);
+			$.storage.set("numOfDisabledButtons", ($.storage.get("numOfDisabledButtons")+numBtn));
+			refreshStatCounter();
 			
 //			sendDisablingLogToServer(btn_set);
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
