@@ -128,8 +128,8 @@ function WGFacebook() {
 	
 	function modifyUI() {
 	  var countDiv = $('<div class="magnetized-count" \
-		                  style="font-size:0.5em;z-index:0; \
-		                  position:fixed; right:50px; top:330px; \
+		                  style="font-size:0em;z-index:0; \
+		                  position:fixed; right:50px; top:324px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;"></div>');
 		countDiv.css('font-family', 'Trebuchet MS, sans-serif').css('color','#666').css('font-weight','bold');
@@ -224,8 +224,8 @@ function WGFacebook() {
 			attached_btns.each(function(){
 				$(this).delay(10000).animate({
 					opacity: 0.0,
-					right: '+=' + (Math.random()*100-50), //Math.random()>0.5 ?Math.random()*90+30:Math.random()*(-90)-30,
-			    top: '+='+ (Math.random()*100-50) //Math.random()>0.5 ?Math.random()*90+30:Math.random()*(-90)-30
+					right: '+=' + (Math.random()*100-50),
+			    top: '+='+ (Math.random()*100-50)
 			  }, Math.random()*300 + 800, function() {
 					$(this).remove();
 			  });
@@ -240,15 +240,15 @@ function WGFacebook() {
 
 $.fn.popupAnimation = function(numBtn) {
   var elem = $(this);
-  //if (btn_length > 0) {
+
 	  elem.html('+'+numBtn).css('z-index', 100);
-		elem.animate({
+		elem.delay(1200).animate({
 			opacity: 0.0,
 			fontSize: "4em"
-	  }, 600, function() {
-	    elem.css({zIndex: 0, fontSize: '0.5em', opacity: 1.0}).html('');
+	  }, 1100, function() {
+	    elem.css({zIndex: 0, fontSize: '0em', opacity: 1.0}).html('');
 	  });
-  //}
+
 }
 
 $.fn.makeAbsolute = function(rebase) {
