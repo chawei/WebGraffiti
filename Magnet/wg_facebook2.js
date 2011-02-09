@@ -13,7 +13,7 @@ function WGFacebook() {
 	var targetButtonPatterns = ".like_link, \
 	                            .commentActions .as_link, \
 	                            label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton, \
-	                            #pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink";
+	                            #pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiButton:contains('Like')";
 	
 	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
 	var API_TOKEN = "ogoKH6Gei/sAnYtsK2WIhuFAZVmahD7eBCtrrQswoD4=";
@@ -215,7 +215,7 @@ function WGFacebook() {
 			var profile_buttons = $('label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton').not('.magnet_attached');
 			profile_buttons.addClass('magnet_attached');
 			
-			var sponsor_buttons = $('#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink').not('.magnet_attached');
+			var sponsor_buttons = $("#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiButton:contains('Like')").not('.magnet_attached');
 			sponsor_buttons.addClass('magnet_attached');
 			
 			var btn_set = { 'status': status_buttons, 'comment': comment_buttons, 
@@ -369,18 +369,18 @@ function Magnet() {
 					processing.fill(processing.map(initCount,tt*2,tt*3,200,255),processing.map(initCount,tt*2,tt*3,200,255),processing.map(initCount,tt*2,tt*3,200,0));
 				else if(initCount<tt*4)
 					processing.fill(processing.map(initCount,tt*3,tt*4,255,200),processing.map(initCount,tt*3,tt*4,255,200),processing.map(initCount,tt*3,tt*4,0,200));				
-				
+	
 				processing.drawFreehandRect( x1, y1, w, h, false);
 				processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
 				
 				initCount++;
 				if(initCount==tt*4) {
-					// processing.clear();
-					// drawOutline();
-					// 				
-					// processing.fill(200);
-					// processing.drawFreehandRect( x1, y1, w, h, false);
-					// processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+					processing.clear();
+					drawOutline();
+					
+					processing.fill(200);
+					processing.drawFreehandRect( x1, y1, w, h, false);
+					processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
 					initCount=200;
 				}
 			}
