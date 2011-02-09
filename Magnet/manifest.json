@@ -13,7 +13,7 @@
 	{
 	"run_at": "document_start",
       	"matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"], 
-      	"js": ["processing-1.0.0.js", "p_base.js", "jquery.js", "jquery.store.js", "convert.js", "wg_facebook2.js"],
+      	"js": ["processing-1.0.0.js", "p_base.js", "jquery.js", "jquery.store.js", "convert.js", "wg_facebook.js"],
       	"all_frames": true
     	}
    ],

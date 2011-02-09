@@ -4,64 +4,61 @@ function WGFacebook() {
 	var adImage;
 	var isMouseOver = false;
 	var vibrateINT;
-	var magnetINT;
+	var magnetINT, magnetRINT;
 	var magnetRippleINT;
 	var bounceINT;
+	var magnet;
 	
 	// Status, Comment, Profile, Sponsor
 	var targetButtonPatterns = ".like_link, \
 	                            .commentActions .as_link, \
 	                            label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton, \
-	                            #pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink";
+	                            #pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiButton:contains('Like')";
 	
 	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
 	var API_TOKEN = "ogoKH6Gei/sAnYtsK2WIhuFAZVmahD7eBCtrrQswoD4=";
 	
   this.init = function() {
 		if (isInit == false) {
-			modifyUI();
 			isInit = true;
+      initStorage();
+			modifyUI();
+		}
+  }
+  
+  function initStorage() {
+    $.storage = new $.store();
+		if($.storage.get("numOfDisabledButtons") == undefined) {
+		  $.storage.set("numOfDisabledButtons", 0);
+		}
+		if($.storage.get("numOfLikeButtons") == undefined) {
+		  $.storage.set("numOfLikeButtons", 0);
 		}
   }
   
 	function vibrating() {
+	  //detectLikeButtons();
 		if(isMouseOver) {
-			// var deg = Math.random()>0.5 ?Math.random()*(-4) :Math.random()*4;
-			// $('#like-magnet').css('-webkit-transform','rotate('+deg+'deg)');
       $('.magnet_detected').each(function(){
 				var btn = $(this);
-				//var deg = Math.random()>0.5 ? Math.random()*(-15) : Math.random()*15;
 				var deg = (Math.random()*2-1)*15;
 				btn.css('display', 'inline-block').css('-webkit-transform','rotate('+deg+'deg)');
 			});
-			
-      /*
-			$('.like_link, .commentActions .as_link, .cmnt_like_link').each(function(){
-				var btn = $(this);
-				var deg = Math.random()>0.5 ? Math.random()*(-20) : Math.random()*20;
-				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
-			});
-			$('label#profile_connect, .profile_connect_button').each(function(){
-				var btn = $(this);
-				var deg = Math.random()>0.5 ? Math.random()*(-10) : Math.random()*10;
-				btn.css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
-			});
-			$('#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiIconLink.magnet_attached').each(function(){
-				var btn = $(this);
-				var deg = Math.random()>0.5 ? Math.random()*(-10) : Math.random()*10;
-				btn.css('display', 'inline-block').css('-webkit-transform','rotate('+deg+'deg)');//.css("font-size",fs+"%");
-			});
-			*/
 		}
 	}
 	
+	
 	function magnetIntroBounce() {
 		magnetINT.update();
+		magnetRINT.update();
 		$('#like-magnet').css('right', magnetINT.getValue());
+
+		$('#like-magnet').css('-webkit-transform', 'rotate('+magnetRINT.getValue()+'deg)');
 		
 		if( magnetINT.getCounter() > 100 ) {
 			$('#like-magnet').css('right', 10);
 			magnetINT = null;
+			magnetRINT = null;
 			clearInterval(bounceINT);
 		}
 	}
@@ -87,7 +84,7 @@ function WGFacebook() {
           var rand_x = Math.random()*(-30) + 16;
         }
 				
-				var rand_y = Math.random()>0.5 ? 8+Math.random()*(30) : 3+magnet_h/3*2+Math.random()*30; //Math.random()*(30);
+				var rand_y = Math.random()>0.5 ? Math.random()*(36) : -5+magnet_h/3*2+Math.random()*36; //Math.random()*(30);
 				var shift_x = magnet_x - btn_x + rand_x;
 				var shift_y = magnet_y - btn_y + rand_y;
 
@@ -96,7 +93,6 @@ function WGFacebook() {
 			    top: '+='+shift_y
 			  }, 600, function() {
 			    // Animation complete.
-					//var deg = Math.random()>0.5 ?Math.random()*(-15) :Math.random()*15;
 					var deg = (Math.random()*2-1)*15;
 					dist_from_right = $(window).width() - parseInt(btn.css('left'));
 					if (key == 'profile') {
@@ -145,31 +141,83 @@ function WGFacebook() {
     });
     return numBtn;
   }
-	
-	function modifyUI() {
-	  // Initialize countDiv
-		var countDiv = $('<div class="magnetized-count" \
-		                  style="font-size:0.5em;z-index:0; \
-		                  position:fixed; right:50px; top:330px; \
+  
+  $(window).scroll(function (){
+    detectLikeButtons();
+    refreshStatCounter();
+  });
+  
+  function detectLikeButtons() {
+    var notDetectedBtns = $(targetButtonPatterns).not('.magnet_detected');
+    if (notDetectedBtns.length > 0) {
+		  notDetectedBtns.addClass('magnet_detected');
+		  $.storage.set("numOfLikeButtons", ($.storage.get("numOfLikeButtons")+notDetectedBtns.length));
+	  }
+  }
+  
+  function refreshStatCounter() {
+    $('#stat-counter').html(renderStatCounter());
+  }
+  
+  function renderStatCounter() {
+    var output = $.storage.get("numOfDisabledButtons")+' / '+$.storage.get("numOfLikeButtons");
+    return output;
+  }
+  
+  function initPopupCounter() {
+    var popupCounter = $('<div class="magnetized-count" \
+		                  style="font-size:0em;z-index:0; \
+		                  position:fixed; right:50px; top:324px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;"></div>');
-		countDiv.css('font-family', 'Trebuchet MS, sans-serif').css('color','#666').css('font-weight','bold');
-		$('body').append(countDiv);
-		
-		$('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" \
+		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
+		$('body').append(popupCounter);
+		return popupCounter;
+  }
+  
+  function initStatCounter() {
+    $('body').append('<div id="stat-counter" style="position:fixed;right:25px;top:457px; \
+		                  cursor:pointer;z-index:10;display:block;height:50px;width:185px; \
+		                  overflow:hidden;text-align:center;font-size:20px;color: #736F6E; font-family: Inconsolata, arial, serif;">'
+		                  +renderStatCounter()+'</div>');
+  }
+  
+  function initMagnetTitle() {
+    $('body').append('<a id="magnet-title" href="http://magnet.detourlab.com" target="_blank" \
 		                  style="position:fixed;right:25px;top:457px;cursor:pointer;z-index:10; \
 		                  display:block;height:40px;width:185px; overflow:hidden; \
 		                  background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_title.png) no-repeat 0 0;"></a>');
-
-		$('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px; \
-		                  cursor:pointer;z-index:10;display:block;height:160px;width:185px; overflow:hidden; \
-		                  background: url(http://chaweihsu.com/yuinchien.com/assets/magnet.png) no-repeat 0 0;"></div>');
-		
 		$('#magnet-title').hide().delay(1000).fadeIn();
+  }
+  
+  function initMagnetImage() {
+    $('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px; \
+		                  cursor:pointer;z-index:10;display:block;height:160px;width:185px; overflow:hidden;"></div>');
+  }
+	
+	function modifyUI() {
+		// init font
+		var headID = document.getElementsByTagName("head")[0];    
+  	var cssNode = document.createElement('link');
+  	cssNode.type = 'text/css';
+  	cssNode.rel = 'stylesheet';
+  	cssNode.media = 'screen';
+  	cssNode.href = 'http://fonts.googleapis.com/css?family=Inconsolata';
+  	headID.appendChild(cssNode);
+		
+	  var countDiv = initPopupCounter();
+		initStatCounter();
+    //initMagnetTitle();
+		initMagnetImage();
+				
+		magnet = new Magnet();
 		
 		magnetINT = new DIntegrator(-200, 0.6, 0.55);
 		magnetINT.setTarget(10);
-		bounceINT = setInterval(magnetIntroBounce,40);
+		magnetRINT = new DIntegrator(180, 0.3, 0.5);
+		magnetRINT.setTarget(0);
+		
+		bounceINT = setInterval(magnetIntroBounce,40);		
 		
 		$('#magnet-title').hover(
 			function(){
@@ -191,13 +239,15 @@ function WGFacebook() {
 		
 		$('#like-magnet').live('mouseenter', function() {
 			isMouseOver = true;
+			magnet.setMouseOver(true);
 			// Ripple Animation
 			magnetRippleINT.setTarget(0.7);
-			$(targetButtonPatterns).addClass('magnet_detected');
 		});
 		
 		$('#like-magnet').live('mouseleave', function() {
 			isMouseOver = false;
+			magnet.setMouseOver(false);
+			magnet.setSwitch(1);
 			$(targetButtonPatterns).not('.magnet_attached').each(function(){
 				var btn = $(this);
 				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
@@ -224,7 +274,7 @@ function WGFacebook() {
 			var profile_buttons = $('label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton').not('.magnet_attached');
 			profile_buttons.addClass('magnet_attached');
 			
-			var sponsor_buttons = $('#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink').not('.magnet_attached');
+			var sponsor_buttons = $("#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiButton:contains('Like')").not('.magnet_attached');
 			sponsor_buttons.addClass('magnet_attached');
 			
 			var btn_set = { 'status': status_buttons, 'comment': comment_buttons, 
@@ -232,36 +282,40 @@ function WGFacebook() {
 			var numBtn = 0;
 			numBtn = countTotalNumOfButtons(btn_set);
 			countDiv.popupAnimation(numBtn);
+			$.storage.set("numOfDisabledButtons", ($.storage.get("numOfDisabledButtons")+numBtn));
+			refreshStatCounter();
 			
-			sendDisablingLogToServer(btn_set);
+//			sendDisablingLogToServer(btn_set);
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
 			
 			var attached_btns = $('.magnet_attached');
-			attached_btns.delay(10000).animate({
-				opacity: 0.0,
-		    top: '+='+ Math.random()*150+90
-		  }, Math.random()*300 + 800, function() {
-				attached_btns.remove();
-		  });
+			attached_btns.each(function(){
+				$(this).delay(10000).animate({
+					opacity: 0.0,
+					right: '+=' + (Math.random()*100-50),
+			    top: '+='+ (Math.random()*100-50)
+			  }, Math.random()*300 + 800, function() {
+					$(this).remove();
+			  });
+			});
 			
 			
 		});
 			
 	}
-	
 }
 
 $.fn.popupAnimation = function(numBtn) {
   var elem = $(this);
-  //if (btn_length > 0) {
+
 	  elem.html('+'+numBtn).css('z-index', 100);
-		elem.animate({
+		elem.delay(1200).animate({
 			opacity: 0.0,
 			fontSize: "4em"
-	  }, 600, function() {
-	    elem.css({zIndex: 0, fontSize: '0.5em', opacity: 1.0}).html('');
+	  }, 900, function() {
+	    elem.css({zIndex: 0, fontSize: '0em', opacity: 1.0}).html('');
 	  });
-  //}
+
 }
 
 $.fn.makeAbsolute = function(rebase) {
@@ -321,3 +375,113 @@ function DIntegrator(value, damping, attraction) {
     _targeting = false;
   }
 }
+
+
+function Magnet() {
+	init();
+	var isMouseOver = false;
+	var swtich = 0;
+	
+	this.setMouseOver = function(value) {
+		isMouseOver = value;
+	}
+	this.setSwitch = function(value) {
+		swtich = value;
+	}
+	
+	function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.width= 185;
+  	canvasElement.height= 160;
+  	canvasElement.style.position = "absolute";
+  	canvasElement.style.zIndex = -3;
+  	$('#like-magnet').append(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+  
+  function sketchProc(processing) {
+		var x1 = 20;
+		var y1 = 4;
+		var w = 40;
+		var h = 40;	
+		var r1 = 70;
+		var r2 = r1 - h;
+		var cx = 110;
+		var cy = y1 + r1;
+		var rd = 1.5;
+		var initCount = 0;
+		
+    processing.setup = function() {
+			processing.smooth();
+  		processing.frameRate(20);
+			processing.strokeWeight(0.4);
+    }
+    processing.draw = function() {
+			var tt = 5;
+			if(initCount<tt*4) {
+				processing.clear();
+				drawOutline();
+				
+				if(initCount<tt)
+					processing.fill(processing.map(initCount,0,tt,200,255),processing.map(initCount,0,tt,200,255),processing.map(initCount,0,tt,200,0));
+				else if(initCount<tt*2)
+					processing.fill(processing.map(initCount,tt,tt*2,255,200),processing.map(initCount,tt,tt*2,255,200),processing.map(initCount,tt,tt*2,0,200));
+				else if(initCount<tt*3)
+					processing.fill(processing.map(initCount,tt*2,tt*3,200,255),processing.map(initCount,tt*2,tt*3,200,255),processing.map(initCount,tt*2,tt*3,200,0));
+				else if(initCount<tt*4)
+					processing.fill(processing.map(initCount,tt*3,tt*4,255,200),processing.map(initCount,tt*3,tt*4,255,200),processing.map(initCount,tt*3,tt*4,0,200));				
+	
+				processing.drawFreehandRect( x1, y1, w, h, false);
+				processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+				
+				initCount++;
+				if(initCount==tt*4) {
+					processing.clear();
+					drawOutline();
+					
+					processing.fill(200);
+					processing.drawFreehandRect( x1, y1, w, h, false);
+					processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+					initCount=200;
+				}
+			}
+			else {
+				if(isMouseOver) {
+					processing.clear();
+					drawOutline();
+				
+					processing.fill(255,255,0);
+					processing.drawFreehandRect( x1, y1, w, h, false);
+					processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+				}
+			
+				if(swtich==1) {
+					processing.clear();
+					drawOutline();
+				
+					processing.fill(200);
+					processing.drawFreehandRect( x1, y1, w, h, false);
+					processing.drawFreehandRect( x1, y1+r1*2-h, w, h, false);
+				
+					swtich = 0;
+				}
+			}
+		}
+
+		function drawOutline() {
+			processing.stroke(0);
+			processing.noFill();
+			processing.beginShape();
+			processing.vertex(x1+processing.random(-rd,rd),y1+processing.random(-rd,rd));
+			processing.drawFreehandArcVetex( cx+processing.random(-rd,rd),cy+processing.random(-rd,rd),r1*2,r1*2, processing.PI/2*3, processing.PI, true);				
+			processing.drawFreehandVertex(x1+ processing.random(-rd,rd),y1+r1*2+processing.random(-rd,rd));
+			processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+r1*2-h+processing.random(-rd,rd));
+			processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+r1*2-h+processing.random(-rd,rd));
+			processing.drawFreehandArcVetex( cx+processing.random(-rd/2,rd/2),cy+processing.random(-rd/2,rd/2),r2*2,r2*2, processing.PI/2, processing.PI, false);
+			processing.drawFreehandVertex(x1+processing.random(-rd,rd),y1+h+processing.random(-rd,rd));
+			processing.endShape(processing.CLOSE);
+		}
+		
+  }
+}
+
