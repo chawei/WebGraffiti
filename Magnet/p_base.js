@@ -47,39 +47,6 @@ function Text3D(div) {
 	}
 }
 
-
-
-Processing.prototype.getImgAvgColor = function() {
-	var cellSize = 10;
-	var cols = this.width / cellSize;
-	var rows = this.height / cellSize;
-	var numPix = rows * cols;
-	var avgRed = 0;
-	var avgGreen = 0;
-	var avgBlue = 0;
-	this.loadPixels();
-  for(var q = 0; q < cols ; q++) {
-    for(var j = 0; j < rows ; j++) {
-	    var x = q*cellSize;
-	    var y = j*cellSize;
-	    var loc = x + y*this.width;
-	    r = this.red(this.pixels[loc]);
-	    g = this.green(this.pixels[loc]);
-	    b = this.blue(this.pixels[loc]);
-	    avgRed += r;
-	    avgGreen += g;
-	    avgBlue += b;
-  	}
-	}
-	console.log(avgRed,avgGreen,avgBlue);
-	avgRed = avgRed/numPix;
-	avgGreen = avgGreen/numPix;
-	avgBlue = avgBlue/numPix;
-	
-// 	color average = color(avgRed,avgGreen,avgBlue,100);
-}
-
-
 function WGImage(divParent) {
 	var parent = divParent; 
 	var x = 0;

@@ -177,7 +177,7 @@ function WGFacebook() {
   }
   
   function renderStatCounter() {
-    $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
+    // $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
     $('#stat-counter .stat-total').text($.storage.get("numOfLikeButtons"));
   }
   
@@ -231,28 +231,28 @@ function WGFacebook() {
 	
 	function initMagnetPanel() {
 		var magnetPanel = $('<div id="magnet-panel" \
-		                  style="background-color: #D3D3D3; opacity: 0.95; font-family: Inconsolata, arial, serif;font-size:1.3em;z-index:1; \
+		                  style="background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_panel.png) no-repeat 0 0; font-family: Inconsolata, arial, serif;font-size:1.3em;z-index:1; \
 		                  position:fixed; right:14px; top:480px; \
-		                  text-align:center; width:170px; color:#fff;">\
+		                  text-align:center; width:170px; height:134px; color:#fff; padding: 5px 0 0 0">\
 		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
 													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
-													position:absolute; right:5px; top:5px; cursor:pointer;"></div>\
+													position:absolute; right:6px; top:19px; cursor:pointer;"></div>\
 											</div>');
 		// magnetPanel.append('<div style="text-decoration:underline;margin:10px auto;">Anti-Like Magnet</div>');
-		magnetPanel.append('<div style="margin: 3px 0 0 0;">\
+		magnetPanel.append('<div style="margin: 17px 0 0 0;">\
 													<div style="float:left; text-align:right; width:75px; margin:0 10px 0 0; padding:0 10px 5px 0; border-right:1px solid #fff">\
-														<div style="margin:5px 0 12px 0;">DISABLED</div>\
+														<div style="margin:0 0 12px 0;">DISABLED</div>\
 														<div>Likes<br>Disabled<br>Today</div>\
 													</div>\
 													<div style="float:left; text-align:left; padding:0 0 5px 0;">\
-														<div style="margin:5px 0 12px 0;">TOTAL</div>\
+														<div style="margin:0 0 12px 0;">TOTAL</div>\
 														<div>Likes<br>Seen<br>Today</div>\
 													</div>\
 													<div style="clear: both;"></div>\
 												</div>');
 		magnetPanel.append('<a href="http://magnet.detourlab.com" target="_blank" \
 													style="text-decoration:underline; display:block; \
-													margin:20px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
+													margin:16px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
 		
 		$('body').append(magnetPanel);
 		
@@ -391,6 +391,7 @@ $.fn.popupAnimation = function(numBtn) {
 			fontSize: "4em"
 	  }, 900, function() {
 	    elem.css({zIndex: 0, fontSize: '0em', opacity: 1.0}).html('');
+	    $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
 	  });
 
 }
