@@ -231,9 +231,9 @@ function WGFacebook() {
 	
 	function initMagnetPanel() {
 		var magnetPanel = $('<div id="magnet-panel" \
-		                  style="background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_panel.png) no-repeat 0 0; font-family: Inconsolata, arial, serif;font-size:1.3em;z-index:1; \
+		                  style="background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_panel.png) no-repeat 0 0; font-family: Inconsolata, arial, serif;font-size:14px;z-index:1; \
 		                  position:fixed; right:14px; top:480px; \
-		                  text-align:center; width:170px; height:134px; color:#fff; padding: 5px 0 0 0">\
+		                  text-align:center; width:170px; height:162px; color:#fff; padding: 5px 0 0 0">\
 		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
 													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
 													position:absolute; right:6px; top:19px; cursor:pointer;"></div>\
@@ -250,9 +250,13 @@ function WGFacebook() {
 													</div>\
 													<div style="clear: both;"></div>\
 												</div>');
+		magnetPanel.append('<div style="display:block; \
+													margin:10px auto 0px; color:#fff; font-size:12px;">SINCE</div>');
+		magnetPanel.append('<div style="display:block; id="magnet_timestamp"\
+													margin:16px auto 6px; color:#fff; font-size:11px;">13:21</div>');
 		magnetPanel.append('<a href="http://magnet.detourlab.com" target="_blank" \
 													style="text-decoration:underline; display:block; \
-													margin:16px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
+													margin:7px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
 		
 		$('body').append(magnetPanel);
 		
