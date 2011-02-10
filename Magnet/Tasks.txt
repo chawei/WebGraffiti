@@ -1,5 +1,3 @@
 [version 0.1.3]
 - after page reload, auto update the total counter number
-- mouse click the counter number, report box will appear
 - create intro page at the very beginning
-- button magnetized animation is off, need to fix it

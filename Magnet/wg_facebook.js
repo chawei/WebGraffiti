@@ -34,10 +34,27 @@ function WGFacebook() {
 		if($.storage.get("numOfLikeButtons") == undefined) {
 		  $.storage.set("numOfLikeButtons", 0);
 		}
+		if($.storage.get("panelOpened") == undefined) {
+		  $.storage.set("panelOpened", true);
+		}
+		
+		var d = new Date();
+		var month = d.getMonth()+1+'';
+		month = month.length == 1 ? '0'+month : month
+		var day = d.getDate()+'';
+		day = day.length == 1 ? '0'+day : day
+		var currentDate  = d.getFullYear()+''+month+''+day;
+		if ($.storage.get("firstTimeDate") == undefined) {
+		  $.storage.set("firstTimeDate", currentDate);
+		} else {
+		  if ((currentDate - $.storage.get("firstTimeDate")) < 0) {
+		    $.storage.set("numOfDisabledButtons", 0);
+		    $.storage.set("numOfLikeButtons", 0);
+		  }
+		}
   }
   
-	function vibrating() {
-	  //detectLikeButtons();
+	function vibrate() {
 		if(isMouseOver) {
       $('.magnet_detected').each(function(){
 				var btn = $(this);
@@ -156,12 +173,12 @@ function WGFacebook() {
   }
   
   function refreshStatCounter() {
-    $('#stat-counter').html(renderStatCounter());
+    renderStatCounter();
   }
   
   function renderStatCounter() {
-    var output = $.storage.get("numOfDisabledButtons")+' | '+$.storage.get("numOfLikeButtons");
-    return output;
+    $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
+    $('#stat-counter .stat-total').text($.storage.get("numOfLikeButtons"));
   }
   
   function initPopupCounter() {
@@ -176,10 +193,26 @@ function WGFacebook() {
   }
   
   function initStatCounter() {
-    $('body').append('<div id="stat-counter" style="position:fixed;right:10px;top:457px; \
-		                  cursor:pointer;z-index:10;display:block;height:50px;width:185px; \
-		                  overflow:hidden;text-align:center;font-size:1.4em;color: #736F6E; font-family: Inconsolata, arial, serif;">'
-		                  +renderStatCounter()+'</div>');
+    $('body').append('<div id="stat-counter" style="position:fixed;right:10px;top:458px; \
+		                  cursor:pointer;z-index:10;display:block;height:17px;width:170px; \
+		                  overflow:hidden;text-align:center;font-size:1.4em;color: #736F6E; font-family: Inconsolata, arial, serif;">\
+		                    <div class="stat-disabled" style="float:left; text-align:right; width:71px; margin:0 10px 0 0; \
+		                      padding:0 10px 5px 0; border-right:1px solid #736F6E">'
+		                      +$.storage.get("numOfDisabledButtons")+
+		                    '</div>\
+		                    <div class="stat-total" style="float:left; text-align:left; padding:0 0 5px 0;">'
+		                      +$.storage.get("numOfLikeButtons")+
+		                    '</div>\
+		                  </div>');
+		$('#stat-counter').click(function(){
+		  if($('#magnet-panel').css('display') == 'none') {
+		    $('#magnet-panel').fadeIn();
+		    $.storage.set("panelOpened", true);
+		  } else {
+		    $('#magnet-panel').fadeOut();
+		    $.storage.set("panelOpened", false);
+		  }
+		});
   }
   
   function initMagnetTitle() {
@@ -201,9 +234,9 @@ function WGFacebook() {
 		                  style="background-color: #D3D3D3; opacity: 0.9; font-family: Inconsolata, arial, serif;font-size:1.3em;z-index:1; \
 		                  position:fixed; right:14px; top:480px; \
 		                  text-align:center; width:170px; color:#fff;">\
-		                  	<div style="display:block;height:20px;width:20px;\
+		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
 													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
-													position: absolute; right:3px;top:2px;cursor:pointer;"></div>\
+													position:absolute; right:3px; top:2px; cursor:pointer;"></div>\
 											</div>');
 		// magnetPanel.append('<div style="text-decoration:underline;margin:10px auto;">Anti-Like Magnet</div>');
 		magnetPanel.append('<div style="margin: 0 0;">\
@@ -222,10 +255,23 @@ function WGFacebook() {
 													margin:20px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
 		
 		$('body').append(magnetPanel);
-		$('#magnet-panel').hide().delay(1000).fadeIn(1000);
+		
+		if($.storage.get("panelOpened")){
+		  $('#magnet-panel').hide().delay(1000).fadeIn(1000);
+		} else {
+		  $('#magnet-panel').hide();
+		}
+		
+		$('#close-panel-btn').click(function(){
+		  $.storage.set("panelOpened", false);
+		  $('#magnet-panel').fadeOut();
+		});
 	}
 	
 	function modifyUI() {
+	  detectLikeButtons();
+    refreshStatCounter();
+    
 		// init font
 		var headID = document.getElementsByTagName("head")[0];    
   	var cssNode = document.createElement('link');
@@ -285,7 +331,7 @@ function WGFacebook() {
 			});			
 		});
 		
-		vibrateINT = setInterval(vibrating, 30);
+		vibrateINT = setInterval(vibrate, 30);
 		
 		magnetRippleINT = new DIntegrator(1, 0.6, 0.55);
 		magnetRippleINT.setTarget(1);
