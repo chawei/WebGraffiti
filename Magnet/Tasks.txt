@@ -1,6 +1,4 @@
-- Resize window reposition
-  when user resize window, all like buttons should be repositioned
-  
-- Add number of buttons animation
-
-- fadeIn the magnet title smoothly 
+[version 0.1.3]
+- after page reload, auto update the total counter number
+- mouse click the counter number, report box will appear
+- create intro page at the very beginning
