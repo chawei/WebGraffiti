@@ -867,8 +867,8 @@ Processing.prototype.drawFreehandArcVetex = function(x, y, w, h, start, angle, i
   var angleGap = angle/totalDots;
 
   for(var i=0; i<totalDots; i++) {
-		var px = x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.02);
-		var py = y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.02);
+		var px = x+Math.cos(currentAngle)*w/2*(1+Math.random()*0.01);
+		var py = y+Math.sin(currentAngle)*h/2*(1+Math.random()*0.01);
 		this.vertex(px, py);
 
 		if(isClockWise)

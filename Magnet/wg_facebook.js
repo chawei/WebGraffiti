@@ -184,7 +184,7 @@ function WGFacebook() {
   function initPopupCounter() {
     var popupCounter = $('<div class="magnetized-count" \
 		                  style="font-size:0em;z-index:0; \
-		                  position:fixed; right:50px; top:324px; \
+		                  position:fixed; right:50px; top:416px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;"></div>');
 		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
@@ -231,7 +231,7 @@ function WGFacebook() {
 	
 	function initMagnetPanel() {
 		var magnetPanel = $('<div id="magnet-panel" \
-		                  style="background-color: #D3D3D3; opacity: 0.9; font-family: Inconsolata, arial, serif;font-size:1.3em;z-index:1; \
+		                  style="background-color: #D3D3D3; opacity: 0.95; font-family: Inconsolata, arial, serif;font-size:1.3em;z-index:1; \
 		                  position:fixed; right:14px; top:480px; \
 		                  text-align:center; width:170px; color:#fff;">\
 		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
