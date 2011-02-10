@@ -236,16 +236,16 @@ function WGFacebook() {
 		                  text-align:center; width:170px; color:#fff;">\
 		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
 													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
-													position:absolute; right:3px; top:2px; cursor:pointer;"></div>\
+													position:absolute; right:5px; top:5px; cursor:pointer;"></div>\
 											</div>');
 		// magnetPanel.append('<div style="text-decoration:underline;margin:10px auto;">Anti-Like Magnet</div>');
-		magnetPanel.append('<div style="margin: 0 0;">\
+		magnetPanel.append('<div style="margin: 3px 0 0 0;">\
 													<div style="float:left; text-align:right; width:75px; margin:0 10px 0 0; padding:0 10px 5px 0; border-right:1px solid #fff">\
-														<div style="margin:5px 0 15px 0;">DISABLED</div>\
+														<div style="margin:5px 0 12px 0;">DISABLED</div>\
 														<div>Likes<br>Disabled<br>Today</div>\
 													</div>\
 													<div style="float:left; text-align:left; padding:0 0 5px 0;">\
-														<div style="margin:5px 0 15px 0;">TOTAL</div>\
+														<div style="margin:5px 0 12px 0;">TOTAL</div>\
 														<div>Likes<br>Seen<br>Today</div>\
 													</div>\
 													<div style="clear: both;"></div>\
