@@ -258,6 +258,10 @@ function WGFacebook() {
 													style="text-decoration:underline; display:block; \
 													margin:7px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
 		
+		// check if this is the first time user launch Magnet
+		$('body').append('<div id="tip-message" style="background: url(http://chaweihsu.com/yuinchien.com/assets/tip_message.png) no-repeat 0 0;\
+												position:fixed; right:14px; top:480px;width:170px; height:62px;"></div>');
+		
 		$('body').append(magnetPanel);
 		
 		if($.storage.get("panelOpened")){

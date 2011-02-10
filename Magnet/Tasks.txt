@@ -1,4 +1,4 @@
 [version 0.1.3]
 - after page reload, auto update the total counter number
-- create intro page at the very beginning
+- detect whether this is the first time launching the Magnet and display #tip_message, create mouse event for #tip_message to go away
 - update #magnet_timestamp when counter restart everyday
