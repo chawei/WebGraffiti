@@ -47,9 +47,10 @@ function WGFacebook() {
 		if ($.storage.get("firstTimeDate") == undefined) {
 		  $.storage.set("firstTimeDate", currentDate);
 		} else {
-		  if ((currentDate - $.storage.get("firstTimeDate")) < 0) {
+		  if ((currentDate - $.storage.get("firstTimeDate")) > 0) {
 		    $.storage.set("numOfDisabledButtons", 0);
 		    $.storage.set("numOfLikeButtons", 0);
+				$.storage.set("firstTimeDate", currentDate);
 		  }
 		}
   }
@@ -161,7 +162,7 @@ function WGFacebook() {
   
   $(window).scroll(function (){
     detectLikeButtons();
-    refreshStatCounter();
+//    refreshStatCounter();
   });
   
   function detectLikeButtons() {
@@ -169,6 +170,7 @@ function WGFacebook() {
     if (notDetectedBtns.length > 0) {
 		  notDetectedBtns.addClass('magnet_detected');
 		  $.storage.set("numOfLikeButtons", ($.storage.get("numOfLikeButtons")+notDetectedBtns.length));
+			$('#total-count').popupAnimationForTotal(notDetectedBtns.length);
 	  }
   }
   
@@ -178,10 +180,12 @@ function WGFacebook() {
   
   function renderStatCounter() {
     // $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
-    $('#stat-counter .stat-total').text($.storage.get("numOfLikeButtons"));
+//    $('#stat-counter .stat-total').text($.storage.get("numOfLikeButtons"));
+//		var increase = $.storage.get("numOfLikeButtons") - parseInt( $('#total-count').text() );
+		
   }
   
-  function initPopupCounter() {
+  function initPopupCounterForDisabled() {
     var popupCounter = $('<div class="magnetized-count" \
 		                  style="font-size:0em;z-index:0; \
 		                  position:fixed; right:50px; top:416px; \
@@ -191,9 +195,19 @@ function WGFacebook() {
 		$('body').append(popupCounter);
 		return popupCounter;
   }
+	function initPopupCounterForTotal() {
+    var popupCounter = $('<div id="total-count" \
+		                  style="font-size:0em;z-index:0; \
+		                  position:fixed; right:0px; top:416px; \
+		                  text-align:center; width:150px; \
+		                  height: 100px; line-height: 100px;">0</div>');
+		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
+		$('body').append(popupCounter);
+		return popupCounter;
+  }
   
   function initStatCounter() {
-    $('body').append('<div id="stat-counter" style="position:fixed;right:10px;top:458px; \
+    $('body').append('<div id="stat-counter" style="background-color:#fff;opacity:0.8; position:fixed;right:15px;top:458px; \
 		                  cursor:pointer;z-index:10;display:block;height:17px;width:170px; \
 		                  overflow:hidden;text-align:center;font-size:1.4em;color: #736F6E; font-family: Inconsolata, arial, serif;">\
 		                    <div class="stat-disabled" style="float:left; text-align:right; width:71px; margin:0 10px 0 0; \
@@ -232,7 +246,7 @@ function WGFacebook() {
 	function initMagnetPanel() {
 		var magnetPanel = $('<div id="magnet-panel" \
 		                  style="background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_panel.png) no-repeat 0 0; font-family: Inconsolata, arial, serif;font-size:14px;z-index:1; \
-		                  position:fixed; right:14px; top:480px; \
+		                  position:fixed; right:19px; top:480px; \
 		                  text-align:center; width:170px; height:162px; color:#fff; padding: 5px 0 0 0">\
 		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
 													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
@@ -259,8 +273,8 @@ function WGFacebook() {
 													margin:7px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
 		
 		// check if this is the first time user launch Magnet
-		$('body').append('<div id="tip-message" style="background: url(http://chaweihsu.com/yuinchien.com/assets/tip_message.png) no-repeat 0 0;\
-												position:fixed; right:14px; top:480px;width:170px; height:62px;"></div>');
+		// $('body').append('<div id="tip-message" style="background: url(http://chaweihsu.com/yuinchien.com/assets/tip_message.png) no-repeat 0 0;\
+		// 										position:fixed; right:14px; top:480px;width:170px; height:62px;"></div>');
 		
 		$('body').append(magnetPanel);
 		
@@ -278,7 +292,7 @@ function WGFacebook() {
 	
 	function modifyUI() {
 	  detectLikeButtons();
-    refreshStatCounter();
+//    refreshStatCounter();
     
 		// init font
 		var headID = document.getElementsByTagName("head")[0];    
@@ -289,7 +303,10 @@ function WGFacebook() {
   	cssNode.href = 'http://fonts.googleapis.com/css?family=Inconsolata';
   	headID.appendChild(cssNode);
 		
-	  var countDiv = initPopupCounter();
+		// stinky lulu - create popup animation for total_counter
+		var totalCountDiv = initPopupCounterForTotal();
+		
+	  var countDiv = initPopupCounterForDisabled();
 		initStatCounter();
     //initMagnetTitle();
 		initMagnetPanel();
@@ -368,7 +385,7 @@ function WGFacebook() {
 			numBtn = countTotalNumOfButtons(btn_set);
 			countDiv.popupAnimation(numBtn);
 			$.storage.set("numOfDisabledButtons", ($.storage.get("numOfDisabledButtons")+numBtn));
-			refreshStatCounter();
+//			refreshStatCounter();
 			
 //			sendDisablingLogToServer(btn_set);
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
@@ -396,12 +413,24 @@ $.fn.popupAnimation = function(numBtn) {
 	  elem.html('+'+numBtn).css('z-index', 100);
 		elem.delay(1200).animate({
 			opacity: 0.0,
-			fontSize: "4em"
-	  }, 900, function() {
-	    elem.css({zIndex: 0, fontSize: '0em', opacity: 1.0}).html('');
+			fontSize: "39px"
+	  }, 1000, function() {
+	    elem.css({zIndex: 0, fontSize: '0px', opacity: 1.0}).html('');
 	    $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
 	  });
+}
 
+$.fn.popupAnimationForTotal = function(numBtn) {
+  var elem = $(this);
+
+	  elem.html('+'+numBtn).css('z-index', 100);
+		elem.delay(1200).animate({
+			opacity: 0.0,
+			fontSize: "39px"
+	  }, 1000, function() {
+	    elem.css({zIndex: 0, fontSize: '0px', opacity: 1.0}).html('');
+	    $('#stat-counter .stat-total').text($.storage.get("numOfLikeButtons"));
+	  });
 }
 
 $.fn.makeAbsolute = function(rebase) {
