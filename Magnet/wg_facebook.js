@@ -160,7 +160,7 @@ function WGFacebook() {
   }
   
   function renderStatCounter() {
-    var output = $.storage.get("numOfDisabledButtons")+' / '+$.storage.get("numOfLikeButtons");
+    var output = $.storage.get("numOfDisabledButtons")+' | '+$.storage.get("numOfLikeButtons");
     return output;
   }
   
@@ -176,9 +176,9 @@ function WGFacebook() {
   }
   
   function initStatCounter() {
-    $('body').append('<div id="stat-counter" style="position:fixed;right:25px;top:457px; \
+    $('body').append('<div id="stat-counter" style="position:fixed;right:10px;top:457px; \
 		                  cursor:pointer;z-index:10;display:block;height:50px;width:185px; \
-		                  overflow:hidden;text-align:center;font-size:20px;color: #736F6E; font-family: Inconsolata, arial, serif;">'
+		                  overflow:hidden;text-align:center;font-size:1.4em;color: #736F6E; font-family: Inconsolata, arial, serif;">'
 		                  +renderStatCounter()+'</div>');
   }
   
@@ -191,9 +191,39 @@ function WGFacebook() {
   }
   
   function initMagnetImage() {
-    $('body').append('<div id="like-magnet" style="position:fixed;right:-200px;top:300px; \
-		                  cursor:pointer;z-index:10;display:block;height:160px;width:185px; overflow:hidden;"></div>');
+    $('body').append('<div id="like-magnet" style="position:fixed;right:10px;top:300px; \
+		                  cursor:pointer;z-index:10;display:block;height:160px;width:185px; overflow:hidden;\
+											"></div>');
   }
+	
+	function initMagnetPanel() {
+		var magnetPanel = $('<div id="magnet-panel" \
+		                  style="background-color: #D3D3D3; opacity: 0.9; font-family: Inconsolata, arial, serif;font-size:1.3em;z-index:1; \
+		                  position:fixed; right:14px; top:480px; \
+		                  text-align:center; width:170px; color:#fff;">\
+		                  	<div style="display:block;height:20px;width:20px;\
+													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
+													position: absolute; right:3px;top:2px;cursor:pointer;"></div>\
+											</div>');
+		// magnetPanel.append('<div style="text-decoration:underline;margin:10px auto;">Anti-Like Magnet</div>');
+		magnetPanel.append('<div style="margin: 0 0;">\
+													<div style="float:left; text-align:right; width:75px; margin:0 10px 0 0; padding:0 10px 5px 0; border-right:1px solid #fff">\
+														<div style="margin:5px 0 15px 0;">DISABLED</div>\
+														<div>Likes<br>Disabled<br>Today</div>\
+													</div>\
+													<div style="float:left; text-align:left; padding:0 0 5px 0;">\
+														<div style="margin:5px 0 15px 0;">TOTAL</div>\
+														<div>Likes<br>Seen<br>Today</div>\
+													</div>\
+													<div style="clear: both;"></div>\
+												</div>');
+		magnetPanel.append('<a href="http://magnet.detourlab.com" target="_blank" \
+													style="text-decoration:underline; display:block; \
+													margin:20px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
+		
+		$('body').append(magnetPanel);
+		$('#magnet-panel').hide().delay(1000).fadeIn(1000);
+	}
 	
 	function modifyUI() {
 		// init font
@@ -208,6 +238,7 @@ function WGFacebook() {
 	  var countDiv = initPopupCounter();
 		initStatCounter();
     //initMagnetTitle();
+		initMagnetPanel();
 		initMagnetImage();
 				
 		magnet = new Magnet();
@@ -260,7 +291,7 @@ function WGFacebook() {
 		magnetRippleINT.setTarget(1);
 		
 		$('#like-magnet').live('click', function() {
-			var magnet = $(this);
+			var magnet = $(this).find('canvas');
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
 			var magnet_h = magnet.height();
@@ -393,7 +424,7 @@ function Magnet() {
     var canvasElement = document.createElement('canvas');	
   	canvasElement.width= 185;
   	canvasElement.height= 160;
-  	canvasElement.style.position = "absolute";
+  	canvasElement.style.position = "fixed";
   	canvasElement.style.zIndex = -3;
   	$('#like-magnet').append(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
@@ -470,7 +501,7 @@ function Magnet() {
 
 		function drawOutline() {
 			processing.stroke(0);
-			processing.noFill();
+			processing.fill(255);
 			processing.beginShape();
 			processing.vertex(x1+processing.random(-rd,rd),y1+processing.random(-rd,rd));
 			processing.drawFreehandArcVetex( cx+processing.random(-rd,rd),cy+processing.random(-rd,rd),r1*2,r1*2, processing.PI/2*3, processing.PI, true);				
