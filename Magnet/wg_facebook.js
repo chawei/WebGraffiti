@@ -1,5 +1,6 @@
 function WGFacebook() {
 	
+	var _instance = this;
 	var isInit = false;
 	var adImage;
 	var isMouseOver = false;
@@ -26,6 +27,17 @@ function WGFacebook() {
 		}
   }
   
+  /*
+  this.refreshTotalCounter = function() {
+    if (_instance!=undefined) {
+      detectLikeButtons();
+      console.log('refresh');
+    }
+  }
+  */
+  
+  setInterval(detectLikeButtons, 1000);
+  
   function initStorage() {
     $.storage = new $.store();
 		if($.storage.get("numOfDisabledButtons") == undefined) {
@@ -44,6 +56,7 @@ function WGFacebook() {
 		var day = d.getDate()+'';
 		day = day.length == 1 ? '0'+day : day
 		var currentDate  = d.getFullYear()+''+month+''+day;
+		var currentTime = d.getHours()+':'+d.getMinutes();
 		if ($.storage.get("firstTimeDate") == undefined) {
 		  $.storage.set("firstTimeDate", currentDate);
 		} else {
@@ -51,7 +64,12 @@ function WGFacebook() {
 		    $.storage.set("numOfDisabledButtons", 0);
 		    $.storage.set("numOfLikeButtons", 0);
 				$.storage.set("firstTimeDate", currentDate);
+				$.storage.set("sinceTime", currentTime);
 		  }
+		}
+		
+		if($.storage.get("sinceTime") == undefined) {
+		  $.storage.set("sinceTime", currentTime);
 		}
   }
   
@@ -64,7 +82,6 @@ function WGFacebook() {
 			});
 		}
 	}
-	
 	
 	function magnetIntroBounce() {
 		magnetINT.update();
@@ -159,11 +176,6 @@ function WGFacebook() {
     });
     return numBtn;
   }
-  
-  $(window).scroll(function (){
-    detectLikeButtons();
-//    refreshStatCounter();
-  });
   
   function detectLikeButtons() {
     var notDetectedBtns = $(targetButtonPatterns).not('.magnet_detected');
@@ -267,7 +279,7 @@ function WGFacebook() {
 		magnetPanel.append('<div style="display:block; \
 													margin:10px auto 0px; color:#fff; font-size:12px;">SINCE</div>');
 		magnetPanel.append('<div style="display:block; id="magnet_timestamp"\
-													margin:16px auto 6px; color:#fff; font-size:11px;">13:21</div>');
+													margin:16px auto 6px; color:#fff; font-size:11px;">'+$.storage.get("sinceTime")+'</div>');
 		magnetPanel.append('<a href="http://magnet.detourlab.com" target="_blank" \
 													style="text-decoration:underline; display:block; \
 													margin:7px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');

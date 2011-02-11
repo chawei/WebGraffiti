@@ -6,14 +6,17 @@
 function CurrentPage ()
 {
 	var me = this;
+	var isInit = false;
 
   me.Url;
   me.Domain;
   me.CurrentTabId;
   
-  me.callInitWG = function (){
-   	chrome.tabs.sendRequest(me.CurrentTabId, {action: "initWG"}, null);
+  me.callMagnetMethod = function (methodName){
+   	chrome.tabs.sendRequest(me.CurrentTabId, {action: methodName}, function(response){
+   	});
   }
+  
 
   me.updatePageAction = function(tabId, changeInfo){
 		chrome.tabs.get(tabId, function (tab){
@@ -22,7 +25,7 @@ function CurrentPage ()
 	    me.Domain = extractDomain(tab.url);
 	
 			if (changeInfo.status == "complete") {
-			  me.callInitWG();
+			  me.callMagnetMethod("initWG");
 			}
 	  	chrome.pageAction.show(tabId);
 	  });
