@@ -9,12 +9,18 @@ function WGFacebook() {
 	var magnetRippleINT;
 	var bounceINT;
 	var magnet;
+	var magnetTop = 240;
+	var statTop = 400;
 	
 	// Status, Comment, Profile, Sponsor
-	var targetButtonPatterns = ".like_link, \
-	                            .commentActions .as_link, \
-	                            label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton, \
-	                            #pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiButton:contains('Like')";
+	var targetButtonPatternArray = { 'status': '.like_link', 'comment': '.commentActions .as_link',
+	                                 'profile': ".profile_connect_button:contains('Like'), .profileHeader .mlm.mainButton.uiButton",
+	                                 'sponsor': "#pagelet_ads .inline .uiIconLink:contains('Like'), .phs .inline .uiIconLink:contains('Like'), .phs .inline .uiButton:contains('Like')" }
+	
+	var targetButtonPatterns = "";
+	$.each(targetButtonPatternArray, function(key, value){
+	  targetButtonPatterns += targetButtonPatternArray[key]+', ';
+	});
 	
 	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
 	var API_TOKEN = "ogoKH6Gei/sAnYtsK2WIhuFAZVmahD7eBCtrrQswoD4=";
@@ -27,19 +33,11 @@ function WGFacebook() {
 		}
   }
   
-  /*
-  this.refreshTotalCounter = function() {
-    if (_instance!=undefined) {
-      detectLikeButtons();
-      console.log('refresh');
-    }
-  }
-  */
-  
   setInterval(detectLikeButtons, 1000);
   
   function initStorage() {
     $.storage = new $.store();
+    //$.storage.flush();
 		if($.storage.get("numOfDisabledButtons") == undefined) {
 		  $.storage.set("numOfDisabledButtons", 0);
 		}
@@ -51,12 +49,17 @@ function WGFacebook() {
 		}
 		
 		var d = new Date();
+		
 		var month = d.getMonth()+1+'';
 		month = month.length == 1 ? '0'+month : month
 		var day = d.getDate()+'';
 		day = day.length == 1 ? '0'+day : day
 		var currentDate  = d.getFullYear()+''+month+''+day;
-		var currentTime = d.getHours()+':'+d.getMinutes();
+		
+		var minute = d.getMinutes();
+		minute = minute.length == 1 ? '0'+minute : minute
+		var currentTime = d.getHours()+':'+minute;
+		
 		if ($.storage.get("firstTimeDate") == undefined) {
 		  $.storage.set("firstTimeDate", currentDate);
 		} else {
@@ -148,7 +151,7 @@ function WGFacebook() {
 					if (key == 'profile') {
 						dist_from_right -= 20;
 					}
-					btn.css('position', 'fixed').css('top', 300 + rand_y)
+					btn.css('position', 'fixed').css('top', magnetTop + rand_y)
 					   .css('right', dist_from_right - btn.width())
 					   .css('left', 'auto')
 					   .css('-webkit-transform','rotate('+deg+'deg)');
@@ -234,7 +237,7 @@ function WGFacebook() {
   }
   
   function initStatCounter() {
-    $('body').append('<div id="stat-counter" style="background-color:#fff;opacity:0.8; position:fixed;right:15px;top:458px; \
+    $('body').append('<div id="stat-counter" style="background-color:#fff;opacity:0.8; position:fixed;right:15px;top:'+statTop+'px; \
 		                  cursor:pointer;z-index:10;display:block;height:17px;width:170px; \
 		                  overflow:hidden;text-align:center;font-size:1.4em;color: #736F6E; font-family: Inconsolata, arial, serif;">\
 		                    <div class="stat-disabled" style="float:left; text-align:right; width:71px; margin:0 10px 0 0; \
@@ -265,7 +268,7 @@ function WGFacebook() {
   }
   
   function initMagnetImage() {
-    $('body').append('<div id="like-magnet" style="position:fixed;right:10px;top:300px; \
+    $('body').append('<div id="like-magnet" style="position:fixed;right:10px;top:'+magnetTop+'px; \
 		                  cursor:pointer;z-index:10;display:block;height:160px;width:185px; overflow:hidden;\
 											"></div>');
   }
@@ -273,7 +276,7 @@ function WGFacebook() {
 	function initMagnetPanel() {
 		var magnetPanel = $('<div id="magnet-panel" \
 		                  style="background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_panel.png) no-repeat 0 0; font-family: Inconsolata, arial, serif;font-size:14px;z-index:1; \
-		                  position:fixed; right:19px; top:480px; \
+		                  position:fixed; right:19px; top:'+(statTop+22)+'px; \
 		                  text-align:center; width:170px; height:162px; color:#fff; padding: 5px 0 0 0">\
 		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
 													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
@@ -392,21 +395,13 @@ function WGFacebook() {
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
 			var magnet_h = magnet.height();
-
-			var status_buttons = $('.like_link').not('.magnet_attached');
-			status_buttons.addClass('magnet_attached');
-			
-			var comment_buttons = $('.commentActions .as_link').not('.magnet_attached');
-			comment_buttons.addClass('magnet_attached');
-			
-			var profile_buttons = $('label#profile_connect, .profile_connect_button, .profileHeader .mlm.mainButton.uiButton').not('.magnet_attached');
-			profile_buttons.addClass('magnet_attached');
-			
-			var sponsor_buttons = $("#pagelet_ads .inline .uiIconLink, .phs .inline .uiIconLink, .uiButton:contains('Like')").not('.magnet_attached');
-			sponsor_buttons.addClass('magnet_attached');
-			
-			var btn_set = { 'status': status_buttons, 'comment': comment_buttons, 
-			                'profile': profile_buttons, 'sponsor': sponsor_buttons };
+      
+      var btn_set = {};
+      $.each(targetButtonPatternArray, function(key, value){
+        btn_set[key] = $(value).not('.magnet_attached');
+        btn_set[key].addClass('magnet_attached');
+      });
+      
 			var numBtn = 0;
 			numBtn = countTotalNumOfButtons(btn_set);
 			countDiv.popupAnimation(numBtn);
@@ -425,9 +420,7 @@ function WGFacebook() {
 			  }, Math.random()*300 + 800, function() {
 					$(this).remove();
 			  });
-			});
-			
-			
+			});	
 		});
 			
 	}
