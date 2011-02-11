@@ -205,17 +205,6 @@ function WGFacebook() {
 	  }
   }
   
-  function refreshStatCounter() {
-    renderStatCounter();
-  }
-  
-  function renderStatCounter() {
-    // $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
-//    $('#stat-counter .stat-total').text($.storage.get("numOfLikeButtons"));
-//		var increase = $.storage.get("numOfLikeButtons") - parseInt( $('#total-count').text() );
-		
-  }
-  
   function initPopupCounterForDisabled() {
     var popupCounter = $('<div class="magnetized-count" \
 		                  style="font-size:0em;z-index:0; \
@@ -323,7 +312,6 @@ function WGFacebook() {
 	
 	function modifyUI() {
 	  detectLikeButtons();
-//    refreshStatCounter();
     
 		// init font
 		var headID = document.getElementsByTagName("head")[0];    
@@ -339,7 +327,6 @@ function WGFacebook() {
 		
 	  var countDiv = initPopupCounterForDisabled();
 		initStatCounter();
-    //initMagnetTitle();
 		initMagnetPanel();
 		initMagnetImage();
 				
@@ -373,8 +360,6 @@ function WGFacebook() {
 		$('#like-magnet').live('mouseenter', function() {
 			isMouseOver = true;
 			magnet.setMouseOver(true);
-			// Ripple Animation
-			magnetRippleINT.setTarget(0.7);
 			$('.magnet_detected').css('display', 'inline-block');
 		});
 		
@@ -387,9 +372,6 @@ function WGFacebook() {
 				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
 			});			
 		});
-		
-		magnetRippleINT = new DIntegrator(1, 0.6, 0.55);
-		magnetRippleINT.setTarget(1);
 		
 		$('#like-magnet').live('click', function() {
 			var magnet = $(this).find('canvas');
@@ -407,9 +389,8 @@ function WGFacebook() {
 			numBtn = countTotalNumOfButtons(btn_set);
 			countDiv.popupAnimation(numBtn);
 			$.storage.set("numOfDisabledButtons", ($.storage.get("numOfDisabledButtons")+numBtn));
-//			refreshStatCounter();
 			
-//			sendDisablingLogToServer(btn_set);
+			sendDisablingLogToServer(btn_set);
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
 			
 			var attached_btns = $('.magnet_attached');

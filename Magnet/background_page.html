@@ -16,7 +16,6 @@ function CurrentPage ()
    	chrome.tabs.sendRequest(me.CurrentTabId, {action: methodName}, function(response){
    	});
   }
-  
 
   me.updatePageAction = function(tabId, changeInfo){
 		chrome.tabs.get(tabId, function (tab){
@@ -48,6 +47,11 @@ function onRequest(request, sender, callback) {
 }
 
 chrome.extension.onRequest.addListener(onRequest);
+
+if (localStorage["version"] == undefined) {
+  chrome.tabs.create({url:"start_page.html"});
+  localStorage["version"] = "0.2";
+}
 
 </script>
 </head>
