@@ -420,8 +420,8 @@ function WGFacebook() {
 			attached_btns.removeClass('.magnet_detected').each(function(){
 				$(this).delay(10000).animate({
 					opacity: 0.0,
-					right: '+=' + (Math.random()*100-50),
-			    top: '+='+ (Math.random()*100-50)
+					right: '+=' + (Math.random()*50-25),
+			    top: '+='+ (Math.random()*50-25)
 			  }, Math.random()*300 + 800, function() {
 					$(this).remove();
 			  });
