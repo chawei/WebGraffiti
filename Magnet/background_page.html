@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
 <head>
+  <script src='jquery.js'></script>
 <script type="text/javascript">
 
 function CurrentPage ()
@@ -40,17 +41,32 @@ var objCurrentPage = new CurrentPage;
 chrome.tabs.onSelectionChanged.addListener(objCurrentPage.updatePageAction);
 chrome.tabs.onUpdated.addListener(objCurrentPage.updatePageAction);
 
+var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
+
 function onRequest(request, sender, callback) {
   if (request.action == 'getJSON') {
     $.getJSON(request.url, callback);
   }
+  if (request.action == 'postToServer') {
+    postToServer($.param(request.json_data));
+  }
 }
+
+function postToServer(params) {
+  var xhr = new XMLHttpRequest();
+
+  // Note that any URL fetched here must be matched by a permission in
+  // the manifest.json file!
+  var url = API_URL+"?"+params;
+  xhr.open('GET', url, true);
+  xhr.send();
+};
 
 chrome.extension.onRequest.addListener(onRequest);
 
-if (localStorage["version"] == undefined) {
+if (window.localStorage.getItem("version") == undefined) {
   chrome.tabs.create({url:"start_page.html"});
-  localStorage["version"] = "0.2";
+  window.localStorage.setItem("version", "0.2");
 }
 
 </script>

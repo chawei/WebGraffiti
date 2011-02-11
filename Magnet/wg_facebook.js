@@ -57,7 +57,7 @@ function WGFacebook() {
 		day = day.length == 1 ? '0'+day : day
 		var currentDate  = d.getFullYear()+''+month+''+day;
 		
-		var minute = d.getMinutes();
+		var minute = d.getMinutes()+'';
 		minute = minute.length == 1 ? '0'+minute : minute
 		var currentTime = d.getHours()+':'+minute;
 		
@@ -173,17 +173,15 @@ function WGFacebook() {
     $.each(button_set, function(key, elems) {
   	  var elems_length = elems.length;
   	  if(elems_length > 0) {
-        $.get(
-          API_URL, 
-          { authenticity_token: API_TOKEN,
-            disabling_log: {
-              title: title,
-              url: url,
-              button_count: elems.length,
-              button_type: key
-            }
+  	    var json_data = { authenticity_token: API_TOKEN,
+          disabling_log: {
+            title: title,
+            url: url,
+            button_count: elems.length,
+            button_type: key
           }
-        );
+        };
+  	    chrome.extension.sendRequest({'action': 'postToServer', 'json_data': json_data});
       }
   	});
   }
