@@ -73,13 +73,28 @@ function WGFacebook() {
 		}
   }
   
+  var maxDegree = 15;
+  var rotateDeg = maxDegree;
+  vibrateINT = setInterval(vibrate, 60);
 	function vibrate() {
 		if(isMouseOver) {
-      $('.magnet_detected').each(function(){
-				var btn = $(this);
-				var deg = (Math.random()*2-1)*15;
-				btn.css('display', 'inline-block').css('-webkit-transform','rotate('+deg+'deg)');
-			});
+		  var detectedBtns = $('.magnet_detected');
+		  if(detectedBtns.length > 0) {
+		    rotateDeg == maxDegree ? rotateDeg = -1*maxDegree : rotateDeg = maxDegree;
+  		  detectedBtns.css('-webkit-transform','rotate('+rotateDeg+'deg)');
+		  }
+
+      var attachedBtns = $('.magnet_attached');
+      if(attachedBtns.length > 0) {
+        attachedBtns.each(function(){
+  				var btn = $(this);
+  				var rotateDeg = (Math.random()*50-25);
+  				//var rotateDeg = degrees[Math.round(Math.random()*9)];
+          //rotateDeg == 15 ? rotateDeg = -15 : rotateDeg = 15;
+  				//console.log(rotateDeg);
+  				btn.css('-webkit-transform','rotate('+rotateDeg+'deg)');
+  			});
+			}
 		}
 	}
 	
@@ -356,6 +371,7 @@ function WGFacebook() {
 			magnet.setMouseOver(true);
 			// Ripple Animation
 			magnetRippleINT.setTarget(0.7);
+			$('.magnet_detected').css('display', 'inline-block');
 		});
 		
 		$('#like-magnet').live('mouseleave', function() {
@@ -367,8 +383,6 @@ function WGFacebook() {
 				btn.css('font-size','100%').css('-webkit-transform','rotate(0deg)');
 			});			
 		});
-		
-		vibrateINT = setInterval(vibrate, 30);
 		
 		magnetRippleINT = new DIntegrator(1, 0.6, 0.55);
 		magnetRippleINT.setTarget(1);
@@ -403,7 +417,7 @@ function WGFacebook() {
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
 			
 			var attached_btns = $('.magnet_attached');
-			attached_btns.each(function(){
+			attached_btns.removeClass('.magnet_detected').each(function(){
 				$(this).delay(10000).animate({
 					opacity: 0.0,
 					right: '+=' + (Math.random()*100-50),
