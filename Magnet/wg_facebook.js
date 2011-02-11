@@ -11,6 +11,7 @@ function WGFacebook() {
 	var magnet;
 	var magnetTop = 240;
 	var statTop = 400;
+	var distFromMagnetToCounter = 118;
 	
 	// Status, Comment, Profile, Sponsor
 	var targetButtonPatternArray = { 'status': '.like_link', 'comment': '.commentActions .as_link',
@@ -218,7 +219,7 @@ function WGFacebook() {
   function initPopupCounterForDisabled() {
     var popupCounter = $('<div class="magnetized-count" \
 		                  style="font-size:0em;z-index:0; \
-		                  position:fixed; right:50px; top:416px; \
+		                  position:fixed; right:50px; top:'+(magnetTop+distFromMagnetToCounter)+'px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;"></div>');
 		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
@@ -228,7 +229,7 @@ function WGFacebook() {
 	function initPopupCounterForTotal() {
     var popupCounter = $('<div id="total-count" \
 		                  style="font-size:0em;z-index:0; \
-		                  position:fixed; right:0px; top:416px; \
+		                  position:fixed; right:0px; top:'+(magnetTop+distFromMagnetToCounter)+'px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;">0</div>');
 		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
