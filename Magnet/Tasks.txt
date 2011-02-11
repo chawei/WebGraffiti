@@ -1,4 +1,1 @@
-[version 0.1.3]
 
-- If 1st time launching fb
-  FadeIn the magnet_panel, and animate the time stamp 
