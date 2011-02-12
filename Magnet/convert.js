@@ -9,7 +9,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 });
 
 function initWG() {
-	if (webGraffiti==null && window.location.hostname=="www.facebook.com" && window.location.pathname != "/plugins/fan.php") {
+	if (webGraffiti==null && window.location.hostname=="www.facebook.com" && 
+	    (window.location.pathname.match(/^\/plugins|^\/dialog/) == null)) {
 		webGraffiti = new WGFacebook();
 		webGraffiti.init();
 	}
