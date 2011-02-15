@@ -206,10 +206,10 @@ function WGFacebook() {
   function initPopupCounterForDisabled() {
     var popupCounter = $('<div class="magnetized-count" \
 		                  style="font-size:0em;z-index:0; \
-		                  position:fixed; right:50px; top:'+(magnetTop+distFromMagnetToCounter)+'px; \
+		                  position:fixed; right:56px; top:'+(magnetTop+30)+'px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;"></div>');
-		popupCounter.css('font-family', 'Inconsolata').css('color','#FF9700').css('font-weight','bold');
+		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
 		$('body').append(popupCounter);
 		return popupCounter;
   }
@@ -219,7 +219,7 @@ function WGFacebook() {
 		                  position:fixed; right:0px; top:'+(magnetTop+distFromMagnetToCounter)+'px; \
 		                  text-align:center; width:150px; \
 		                  height: 100px; line-height: 100px;">0</div>');
-		popupCounter.css('font-family', 'Inconsolata').css('color','#FF9700').css('font-weight','bold');
+		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
 		$('body').append(popupCounter);
 		return popupCounter;
   }
