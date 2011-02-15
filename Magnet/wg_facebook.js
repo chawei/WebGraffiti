@@ -201,30 +201,30 @@ function WGFacebook() {
     if (notDetectedBtns.length > 0) {
 		  notDetectedBtns.addClass('magnet_detected');
 		  $.storage.set("numOfLikeButtons", ($.storage.get("numOfLikeButtons")+notDetectedBtns.length));
-			$('#total-count').popupAnimationForTotal(notDetectedBtns.length);
+			$('#stat-counter .stat-total').popupAnimationForTotal(notDetectedBtns.length);
 	  }
   }
   
   function initPopupCounterForDisabled() {
-    var popupCounter = $('<div class="magnetized-count" \
-		                  style="font-size:0em;z-index:0; \
-		                  position:fixed; right:75px; top:'+(magnetTop+30)+'px; \
-		                  text-align:center; width:150px; \
-		                  height: 100px; line-height: 100px;"></div>');
+  	var popupCounter = $('<div class="magnetized-count" \
+	                  style="font-size:0em;z-index:0; \
+	                  position:fixed; right:75px; top:'+(magnetTop+30)+'px; \
+	                  text-align:center; width:150px; \
+	                  height: 100px; line-height: 100px;"></div>');
 		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
 		$('body').append(popupCounter);
 		return popupCounter;
   }
-	function initPopupCounterForTotal() {
-    var popupCounter = $('<div id="total-count" \
-		                  style="font-size:0em;z-index:0; \
-		                  position:fixed; right:0px; top:'+(magnetTop+distFromMagnetToCounter)+'px; \
-		                  text-align:center; width:150px; \
-		                  height: 100px; line-height: 100px;">0</div>');
-		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
-		$('body').append(popupCounter);
-		return popupCounter;
-  }
+	// function initPopupCounterForTotal() {
+	//     var popupCounter = $('<div id="total-count" \
+	// 	                  style="font-size:0em;z-index:0; \
+	// 	                  position:fixed; right:0px; top:'+(magnetTop+distFromMagnetToCounter)+'px; \
+	// 	                  text-align:center; width:150px; \
+	// 	                  height: 100px; line-height: 100px;">0</div>');
+	// 	popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
+	// 	$('body').append(popupCounter);
+	// 	return popupCounter;
+	//   }
   
   function initStatCounter() {
     $('body').append('<div id="stat-counter" style="background-color:#fff;opacity:0.8; position:fixed;right:15px;top:'+statTop+'px; \
@@ -323,9 +323,7 @@ function WGFacebook() {
   	cssNode.href = 'http://fonts.googleapis.com/css?family=Inconsolata';
   	headID.appendChild(cssNode);
 		
-		// stinky lulu - create popup animation for total_counter
-		var totalCountDiv = initPopupCounterForTotal();
-		
+//		var totalCountDiv = initPopupCounterForTotal();
 	  var countDiv = initPopupCounterForDisabled();
 		initStatCounter();
 		initMagnetPanel();
@@ -407,30 +405,52 @@ function WGFacebook() {
 	}
 }
 
+var disabledCounterINT;
+var totalCounterINT;
+
 $.fn.popupAnimation = function(numBtn) {
   var elem = $(this);
+	
+	elem.html('+'+numBtn).css('z-index', 100);
+	elem.delay(1200).animate({
+		opacity: 0.0,
+		fontSize: "39px"
+		}, 1000, function() {
+			elem.css({zIndex: 0, fontSize: '0px', opacity: 1.0}).html('');
+			clearInterval(disabledCounterINT);
+			disabledCounterINT = setInterval(disabledCounterAnimation, 30);
+//			$('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
+	});
+}
 
-	  elem.html('+'+numBtn).css('z-index', 100);
-		elem.delay(1200).animate({
-			opacity: 0.0,
-			fontSize: "39px"
-	  }, 1000, function() {
-	    elem.css({zIndex: 0, fontSize: '0px', opacity: 1.0}).html('');
-	    $('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
-	  });
+function disabledCounterAnimation() {
+	var target = $.storage.get("numOfDisabledButtons");
+	var current = parseInt( $('#stat-counter .stat-disabled').text() );
+		
+	console.log(target,current);
+	
+	if( current<target )
+		$('#stat-counter .stat-disabled').text(current+1);
+	if(current+1 == target)
+		clearInterval(disabledCounterINT);
 }
 
 $.fn.popupAnimationForTotal = function(numBtn) {
   var elem = $(this);
+	clearInterval(totalCounterINT);
+	totalCounterINT = setInterval(totalCounterAnimation, 30);
+}
 
-	  elem.html('+'+numBtn).css('z-index', 100);
-		elem.delay(1200).animate({
-			opacity: 0.0,
-			fontSize: "39px"
-	  }, 1000, function() {
-	    elem.css({zIndex: 0, fontSize: '0px', opacity: 1.0}).html('');
-	    $('#stat-counter .stat-total').text($.storage.get("numOfLikeButtons"));
-	  });
+function totalCounterAnimation() {
+	var target = $.storage.get("numOfLikeButtons");
+	var current = parseInt( $('#stat-counter .stat-total').text() );
+		
+	console.log(target,current);
+	
+	if( current<target )
+		$('#stat-counter .stat-total').text(current+1);
+	if(current+1 == target)
+		clearInterval(totalCounterINT);
 }
 
 $.fn.makeAbsolute = function(rebase) {
