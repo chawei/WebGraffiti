@@ -266,16 +266,16 @@ function WGFacebook() {
 	
 	function initMagnetPanel() {
 		var magnetPanel = $('<div id="magnet-panel" \
-		                  style="background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_panel.png) no-repeat 0 0; font-family: Inconsolata, arial, serif;font-size:14px;z-index:1; \
-		                  position:fixed; right:19px; top:'+(statTop+22)+'px; \
-		                  text-align:center; width:170px; height:162px; color:#fff; padding: 5px 0 0 0">\
+		                  style="background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_panel_0215.png) no-repeat 0 0; font-family: Inconsolata, arial, serif;font-size:13px;z-index:1; \
+		                  position:fixed; right:24px; top:'+(statTop+22)+'px; \
+		                  text-align:center; width:160px; height:152px; color:#fff; padding: 5px 0 0 0">\
 		                  	<div id="close-panel-btn" style="display:block;height:20px;width:20px;\
 													background: url(http://chaweihsu.com/yuinchien.com/assets/cross.png) no-repeat 0 0;\
 													position:absolute; right:6px; top:19px; cursor:pointer;"></div>\
 											</div>');
 
 		magnetPanel.append('<div style="margin: 17px 0 0 0;">\
-													<div style="float:left; text-align:right; width:75px; margin:0 10px 0 0; padding:0 10px 5px 0; border-right:1px solid #fff">\
+													<div style="float:left; text-align:right; width:70px; margin:0 10px 0 0; padding:0 10px 5px 0; border-right:1px solid #fff">\
 														<div style="margin:0 0 12px 0;">DISABLED</div>\
 														<div>Likes<br>Disabled<br>Today</div>\
 													</div>\
@@ -286,9 +286,9 @@ function WGFacebook() {
 													<div style="clear: both;"></div>\
 												</div>');
 		magnetPanel.append('<div style="display:block; \
-													margin:10px auto 0px; color:#fff; font-size:12px;">SINCE</div>');
+													margin:10px auto 0px; color:#fff; font-size:11px;">SINCE</div>');
 		magnetPanel.append('<div style="display:block; id="magnet_timestamp"\
-													margin:16px auto 6px; color:#fff; font-size:11px;">'+$.storage.get("sinceTime")+'</div>');
+													margin:16px auto 6px; color:#fff; font-size:10px;">'+$.storage.get("sinceTime")+'</div>');
 		magnetPanel.append('<a href="http://magnet.detourlab.com" target="_blank" \
 													style="text-decoration:underline; display:block; \
 													margin:7px auto 10px; cursor:pointer; color:#fff; ">magnet.detourlab.com</a>');
@@ -426,9 +426,6 @@ $.fn.popupAnimation = function(numBtn) {
 function disabledCounterAnimation() {
 	var target = $.storage.get("numOfDisabledButtons");
 	var current = parseInt( $('#stat-counter .stat-disabled').text() );
-		
-	console.log(target,current);
-	
 	if( current<target )
 		$('#stat-counter .stat-disabled').text(current+1);
 	if(current+1 == target)
@@ -444,9 +441,6 @@ $.fn.popupAnimationForTotal = function(numBtn) {
 function totalCounterAnimation() {
 	var target = $.storage.get("numOfLikeButtons");
 	var current = parseInt( $('#stat-counter .stat-total').text() );
-		
-	console.log(target,current);
-	
 	if( current<target )
 		$('#stat-counter .stat-total').text(current+1);
 	if(current+1 == target)
