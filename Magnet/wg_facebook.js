@@ -15,7 +15,7 @@ function WGFacebook() {
 	
 	// Status, Comment, Profile, Sponsor
 	var targetButtonPatternArray = { 'status': '.like_link', 'comment': '.commentActions .as_link',
-	                                 'profile': ".profile_connect_button:contains('Like'), .profileHeader .mlm.mainButton.uiButton",
+	                                 'profile': ".profile_connect_button:contains('Like'), .profileHeader .mlm.mainButton.uiButton:contains('Like')",
 	                                 'sponsor': "#pagelet_ads .inline .uiIconLink:contains('Like'), .phs .inline .uiIconLink:contains('Like'), .phs .inline .uiButton:contains('Like')" }
 	
 	var targetButtonPatterns = "";
@@ -418,7 +418,7 @@ $.fn.popupAnimation = function(numBtn) {
 		}, 1000, function() {
 			elem.css({zIndex: 0, fontSize: '0px', opacity: 1.0}).html('');
 			clearInterval(disabledCounterINT);
-			disabledCounterINT = setInterval(disabledCounterAnimation, 30);
+			disabledCounterINT = setInterval(disabledCounterAnimation, 25);
 //			$('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
 	});
 }
@@ -435,7 +435,7 @@ function disabledCounterAnimation() {
 $.fn.popupAnimationForTotal = function(numBtn) {
   var elem = $(this);
 	clearInterval(totalCounterINT);
-	totalCounterINT = setInterval(totalCounterAnimation, 30);
+	totalCounterINT = setInterval(totalCounterAnimation, 25);
 }
 
 function totalCounterAnimation() {
