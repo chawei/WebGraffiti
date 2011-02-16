@@ -215,17 +215,7 @@ function WGFacebook() {
 		$('body').append(popupCounter);
 		return popupCounter;
   }
-	// function initPopupCounterForTotal() {
-	//     var popupCounter = $('<div id="total-count" \
-	// 	                  style="font-size:0em;z-index:0; \
-	// 	                  position:fixed; right:0px; top:'+(magnetTop+distFromMagnetToCounter)+'px; \
-	// 	                  text-align:center; width:150px; \
-	// 	                  height: 100px; line-height: 100px;">0</div>');
-	// 	popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
-	// 	$('body').append(popupCounter);
-	// 	return popupCounter;
-	//   }
-  
+
   function initStatCounter() {
     $('body').append('<div id="stat-counter" style="background-color:#fff;opacity:0.8; position:fixed;right:15px;top:'+statTop+'px; \
 		                  cursor:pointer;z-index:10;display:none;height:17px;width:170px; \
