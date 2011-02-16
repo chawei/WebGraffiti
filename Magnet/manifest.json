@@ -9,14 +9,14 @@
  
   "background_page": "background_page.html",
   "content_scripts":
-   [
-	{
-	"run_at": "document_start",
-      	"matches": ["http://*/*", "https://*/*"], 
-      	"js": [ "jquery.js", "jquery.store.js", "convert.js", "wg_facebook.js"],
-      	"all_frames": true
-    	}
-   ],
+  [
+	  {
+	  "run_at": "document_start",
+    "matches": ["http://*/*", "https://*/*"], 
+    "js": [ "jquery.js", "jquery.store.js", "convert.js", "wg_facebook.js"],
+    "all_frames": true
+    }
+  ],
   "minimum_chrome_version": "4.0",
 
   "permissions": 

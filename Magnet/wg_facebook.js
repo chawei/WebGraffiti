@@ -14,6 +14,9 @@ function WGFacebook() {
 	var statTop = 400;
 	var distFromMagnetToCounter = 118;
 	
+	var BTN_MAX_ROTATED_DEGREE = 15;
+  var rotateDeg = BTN_MAX_ROTATED_DEGREE;
+	
 	// Status, Comment, Profile, Sponsor
 	var targetButtonPatternArray = { 'status': '.like_link', 'comment': '.commentActions .as_link',
 	                                 'profile': ".profile_connect_button:contains('Like'), .profileHeader .mlm.mainButton.uiButton:contains('Like'), .pageHeader .uiButton:has(input[value='Like'])",
@@ -74,17 +77,13 @@ function WGFacebook() {
 		  $.storage.set("sinceTime", currentTime);
 		}
   }
-  
-  setInterval(detectLikeButtons, 1000);
-    
-  var maxDegree = 15;
-  var rotateDeg = maxDegree;
+
   vibrateINT = setInterval(vibrate, 60);
 	function vibrate() {
 		if(isMouseOver) {
 		  var detectedBtns = $('.magnet_detected');
 		  if(detectedBtns.length > 0) {
-		    rotateDeg == maxDegree ? rotateDeg = -1*maxDegree : rotateDeg = maxDegree;
+		    rotateDeg == BTN_MAX_ROTATED_DEGREE ? rotateDeg = -1*BTN_MAX_ROTATED_DEGREE : rotateDeg = BTN_MAX_ROTATED_DEGREE;
   		  detectedBtns.css('-webkit-transform','rotate('+rotateDeg+'deg)');
 		  }
 
@@ -110,8 +109,7 @@ function WGFacebook() {
 	}
 	
 	function animateButtonSet(button_set, magnet_x, magnet_y, magnet_h) {
-    $.each(button_set, function(key, elems) {
-							
+    $.each(button_set, function(key, elems) {				
 		  elems.each(function(){
 				var btn = $(this);
 				var btn_x = btn.offset().left;
@@ -193,7 +191,7 @@ function WGFacebook() {
     if (notDetectedBtns.length > 0) {
 		  notDetectedBtns.addClass('magnet_detected');
 		  $.storage.set("numOfLikeButtons", ($.storage.get("numOfLikeButtons")+notDetectedBtns.length));
-			$('#stat-counter .stat-total').popupAnimationForTotal(notDetectedBtns.length);
+			$('#stat-counter .stat-total').popupAnimationForTotal();
 	  }
   }
   
@@ -220,14 +218,14 @@ function WGFacebook() {
 		                      +$.storage.get("numOfLikeButtons")+
 		                    '</div>\
 		                  </div>');
-		$('#stat-counter').delay(800).fadeIn(1000);
+		$('#stat-counter').delay(800).fadeIn(1000, function() { setInterval(detectLikeButtons, 1000); });
 		$('#stat-counter').click(function(){
 		  if($('#magnet-panel').css('display') == 'none') {
 		    $('#magnet-panel').fadeIn();
-		    $.storage.set("panelOpened", true);
+		    //$.storage.set("panelOpened", true);
 		  } else {
 		    $('#magnet-panel').fadeOut();
-		    $.storage.set("panelOpened", false);
+		    //$.storage.set("panelOpened", false);
 		  }
 		});
   }
@@ -306,7 +304,6 @@ function WGFacebook() {
   	cssNode.href = 'http://fonts.googleapis.com/css?family=Inconsolata';
   	headID.appendChild(cssNode);
 		
-//		var totalCountDiv = initPopupCounterForTotal();
 	  var countDiv = initPopupCounterForDisabled();
 		initStatCounter();
 		initMagnetPanel();
@@ -314,8 +311,6 @@ function WGFacebook() {
 		
 		magnetINT = new DIntegrator(-200, 0.6, 0.55);
 		magnetINT.setTarget(0);
-		// magnetRINT = new DIntegrator(180, 0.3, 0.5);
-		// magnetRINT.setTarget(0);
 		
 		bounceINT = setInterval(magnetIntroBounce,40);		
 		
@@ -370,7 +365,7 @@ function WGFacebook() {
 			countDiv.popupAnimation(numBtn);
 			$.storage.set("numOfDisabledButtons", ($.storage.get("numOfDisabledButtons")+numBtn));
 			
-//			sendDisablingLogToServer(btn_set);
+			sendDisablingLogToServer(btn_set);
 			animateButtonSet(btn_set, magnet_x, magnet_y, magnet_h);
 			
 			var attached_btns = $('.magnet_attached');
@@ -391,6 +386,36 @@ function WGFacebook() {
 var disabledCounterINT;
 var totalCounterINT;
 
+function disabledCounterAnimation() {
+	var targetNum = $.storage.get("numOfDisabledButtons");
+	var currentNum = parseInt( $('#stat-counter .stat-disabled').text() );
+	var nextNum = currentNum+1;
+	if (currentNum < targetNum) {
+		$('#stat-counter .stat-disabled').text(nextNum);
+	}
+	if (nextNum == targetNum) {
+		clearInterval(disabledCounterINT);
+	}
+}
+
+$.fn.popupAnimationForTotal = function() {
+  var elem = $(this);
+	clearInterval(totalCounterINT);
+	totalCounterINT = setInterval(totalCounterAnimation, 25);
+}
+
+function totalCounterAnimation() {
+	var targetNum = $.storage.get("numOfLikeButtons");
+	var currentNum = parseInt( $('#stat-counter .stat-total').text() );
+	var nextNum = currentNum+1;
+	if (currentNum < targetNum) {
+		$('#stat-counter .stat-total').text(nextNum);
+	}
+	if (nextNum == targetNum) {
+		clearInterval(totalCounterINT);
+	}
+}
+
 $.fn.popupAnimation = function(numBtn) {
   var elem = $(this);
 	
@@ -404,30 +429,6 @@ $.fn.popupAnimation = function(numBtn) {
 			disabledCounterINT = setInterval(disabledCounterAnimation, 20);
 //			$('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
 	});
-}
-
-function disabledCounterAnimation() {
-	var target = $.storage.get("numOfDisabledButtons");
-	var current = parseInt( $('#stat-counter .stat-disabled').text() );
-	if( current<target )
-		$('#stat-counter .stat-disabled').text(current+1);
-	if(current+1 == target)
-		clearInterval(disabledCounterINT);
-}
-
-$.fn.popupAnimationForTotal = function(numBtn) {
-  var elem = $(this);
-	clearInterval(totalCounterINT);
-	totalCounterINT = setInterval(totalCounterAnimation, 25);
-}
-
-function totalCounterAnimation() {
-	var target = $.storage.get("numOfLikeButtons");
-	var current = parseInt( $('#stat-counter .stat-total').text() );
-	if( current<target )
-		$('#stat-counter .stat-total').text(current+1);
-	if(current+1 == target)
-		clearInterval(totalCounterINT);
 }
 
 $.fn.makeAbsolute = function(rebase) {
