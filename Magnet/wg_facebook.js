@@ -5,8 +5,7 @@ function WGFacebook() {
 	var adImage;
 	var isMouseOver = false;
 	var vibrateINT;
-	var magnetINT, magnetRINT;
-	var magnetRippleINT;
+	var magnetINT;
 	var bounceINT;
 	var magnet;
 	var magnetTop = 240;
@@ -93,9 +92,6 @@ function WGFacebook() {
         attachedBtns.each(function(){
   				var btn = $(this);
   				var rotateDeg = (Math.random()*50-25);
-  				//var rotateDeg = degrees[Math.round(Math.random()*9)];
-          //rotateDeg == 15 ? rotateDeg = -15 : rotateDeg = 15;
-  				//console.log(rotateDeg);
   				btn.css('-webkit-transform','rotate('+rotateDeg+'deg)');
   			});
 			}
@@ -104,15 +100,10 @@ function WGFacebook() {
 	
 	function magnetIntroBounce() {
 		magnetINT.update();
-		magnetRINT.update();
 		$('#like-magnet').css('right', magnetINT.getValue());
-
-		$('#like-magnet').css('-webkit-transform', 'rotate('+magnetRINT.getValue()+'deg)');
-		
 		if( magnetINT.getCounter() > 100 ) {
 			$('#like-magnet').css('right', 0);
 			magnetINT = null;
-			magnetRINT = null;
 			clearInterval(bounceINT);
 		}
 	}
@@ -322,8 +313,8 @@ function WGFacebook() {
 		
 		magnetINT = new DIntegrator(-200, 0.6, 0.55);
 		magnetINT.setTarget(0);
-		magnetRINT = new DIntegrator(180, 0.3, 0.5);
-		magnetRINT.setTarget(0);
+		// magnetRINT = new DIntegrator(180, 0.3, 0.5);
+		// magnetRINT.setTarget(0);
 		
 		bounceINT = setInterval(magnetIntroBounce,40);		
 		
