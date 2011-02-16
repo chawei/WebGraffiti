@@ -208,7 +208,7 @@ function WGFacebook() {
   function initPopupCounterForDisabled() {
   	var popupCounter = $('<div class="magnetized-count" \
 	                  style="font-size:0em;z-index:0; \
-	                  position:fixed; right:75px; top:'+(magnetTop+30)+'px; \
+	                  position:fixed; right:80px; top:'+(magnetTop+30)+'px; \
 	                  text-align:center; width:150px; \
 	                  height: 100px; line-height: 100px;"></div>');
 		popupCounter.css('font-family', 'Inconsolata').css('color','#666').css('font-weight','bold');
@@ -228,7 +228,7 @@ function WGFacebook() {
   
   function initStatCounter() {
     $('body').append('<div id="stat-counter" style="background-color:#fff;opacity:0.8; position:fixed;right:15px;top:'+statTop+'px; \
-		                  cursor:pointer;z-index:10;display:block;height:17px;width:170px; \
+		                  cursor:pointer;z-index:10;display:none;height:17px;width:170px; \
 		                  overflow:hidden;text-align:center;font-size:1.4em;color: #736F6E; font-family: Inconsolata, arial, serif;">\
 		                    <div class="stat-disabled" style="float:left; text-align:right; width:71px; margin:0 10px 0 0; \
 		                      padding:0 10px 5px 0; border-right:1px solid #736F6E">'
@@ -238,6 +238,7 @@ function WGFacebook() {
 		                      +$.storage.get("numOfLikeButtons")+
 		                    '</div>\
 		                  </div>');
+		$('#stat-counter').delay(800).fadeIn(1000);
 		$('#stat-counter').click(function(){
 		  if($('#magnet-panel').css('display') == 'none') {
 		    $('#magnet-panel').fadeIn();
@@ -412,13 +413,13 @@ $.fn.popupAnimation = function(numBtn) {
   var elem = $(this);
 	
 	elem.html('+'+numBtn).css('z-index', 100);
-	elem.delay(1200).animate({
+	elem.delay(600).animate({
 		opacity: 0.0,
-		fontSize: "39px"
-		}, 1000, function() {
+		fontSize: "45px"
+		}, 700, function() {
 			elem.css({zIndex: 0, fontSize: '0px', opacity: 1.0}).html('');
 			clearInterval(disabledCounterINT);
-			disabledCounterINT = setInterval(disabledCounterAnimation, 25);
+			disabledCounterINT = setInterval(disabledCounterAnimation, 20);
 //			$('#stat-counter .stat-disabled').text($.storage.get("numOfDisabledButtons"));
 	});
 }
