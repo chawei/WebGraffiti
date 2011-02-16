@@ -1,4 +1,6 @@
 function WGFacebook() {
+	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
+	var API_TOKEN = "ogoKH6Gei/sAnYtsK2WIhuFAZVmahD7eBCtrrQswoD4=";
 	
 	var _instance = this;
 	var isInit = false;
@@ -14,16 +16,13 @@ function WGFacebook() {
 	
 	// Status, Comment, Profile, Sponsor
 	var targetButtonPatternArray = { 'status': '.like_link', 'comment': '.commentActions .as_link',
-	                                 'profile': ".profile_connect_button:contains('Like'), .profileHeader .mlm.mainButton.uiButton:contains('Like')",
+	                                 'profile': ".profile_connect_button:contains('Like'), .profileHeader .mlm.mainButton.uiButton:contains('Like'), .pageHeader .uiButton:has(input[value='Like'])",
 	                                 'sponsor': "#pagelet_ads .inline .uiIconLink:contains('Like'), .phs .inline .uiIconLink:contains('Like'), .phs .inline .uiButton:contains('Like')" }
 	
 	var targetButtonPatterns = "";
 	$.each(targetButtonPatternArray, function(key, value){
 	  targetButtonPatterns += targetButtonPatternArray[key]+', ';
 	});
-	
-	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
-	var API_TOKEN = "ogoKH6Gei/sAnYtsK2WIhuFAZVmahD7eBCtrrQswoD4=";
 	
   this.init = function() {
 		if (isInit == false) {
@@ -32,9 +31,7 @@ function WGFacebook() {
 			modifyUI();
 		}
   }
-  
-  setInterval(detectLikeButtons, 1000);
-  
+    
   function initStorage() {
     $.storage = new $.store();
     //$.storage.flush();
@@ -46,6 +43,8 @@ function WGFacebook() {
 		}
 		if($.storage.get("panelOpened") == undefined) {
 		  $.storage.set("panelOpened", true);
+		} else {
+		  $.storage.set("panelOpened", false);
 		}
 		
 		var d = new Date();
@@ -76,6 +75,8 @@ function WGFacebook() {
 		}
   }
   
+  setInterval(detectLikeButtons, 1000);
+    
   var maxDegree = 15;
   var rotateDeg = maxDegree;
   vibrateINT = setInterval(vibrate, 60);
