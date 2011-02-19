@@ -219,7 +219,7 @@ function WGTextfield(txtField,flag){
       if(scaleInt!=null){
 				searchBar.css('color', '#fff');
   	    if(scaleInt.stage==3){
-					searchBar.css('color', '#000');
+					//searchBar.css('color', '#000');
   	      processing.clear();
 					processing.stroke(33);
 					processing.noFill();
@@ -265,6 +265,7 @@ function WGTextfield(txtField,flag){
 				if(Math.random()<0.01) {
 					scaleInt = new Integrator();
 					isActive = true;
+					document.yawn_audio.Play();
 				}
 			}
 

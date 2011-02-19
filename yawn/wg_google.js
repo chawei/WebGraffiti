@@ -19,6 +19,7 @@ function WGGoogle() {
 	    sound.setAttribute("autostart","true");
 	    sound.setAttribute("type","audio/x-wav");
 	    sound.setAttribute("hidden","true");
+			sound.setAttribute("name","yawn_audio");
 	    document.body.appendChild(sound);
 	
 			// draw textfield
@@ -87,6 +88,6 @@ function WGGoogle() {
   	var logoDiv = document.getElementById('lga');
   	// logoDiv.setAttribute('style', 'height: 205px');
   	var img = logoDiv.getElementsByTagName('img')[0];
-		img.setAttribute('src', "ssl_logo_lg_bw.png");
+		img.setAttribute('src', "ssl_logo_lg_color3.png");
   }
 }
