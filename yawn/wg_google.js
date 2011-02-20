@@ -6,6 +6,7 @@ function WGGoogle() {
 	var timerINT;
 	var wgBtnSearch;
 	var wgBtnLucky;
+	var timerCount=-1;
 	
   this.init = function() {
 		
@@ -74,12 +75,19 @@ function WGGoogle() {
   
  	function timerHandler() {
 		console.log(wgTxtfieldSearch.isActive());
-		if(wgTxtfieldSearch.isActive()==false && Math.random()<0.01) {
+		if(wgTxtfieldSearch.isActive()==false && Math.random()<0.005) {
 			wgTxtfieldSearch.activeYawn();
 			wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*50+30);
 			wgBtnLucky.setTargetPosition( 50-30*Math.random(), Math.random()*50+30);
+			timerCount=0;
 		}
-
+		else if(timerCount==120) {
+			wgBtnSearch.resetPosition();
+			wgBtnLucky.resetPosition();
+			timerCount=-1;
+		}
+		else if(timerCount!=-1)	
+			timerCount++;
 	}
 	
   function modifyUI() {

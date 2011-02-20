@@ -109,6 +109,7 @@ function WGTextfield(txtField,flag){
 
 
 function WGButtonForYawn(btn,left,top,mode){
+	
   var x = 10;
   var y = 10;
   var width = btn.width()-7;
@@ -119,43 +120,44 @@ function WGButtonForYawn(btn,left,top,mode){
 	var htmlBtn = btn;
   var moveBtn;
 	var nativeMovingBtn;
-  var counter = 0;
   var reverseCount = 0;
 	var isActive = mode;
+	var originLeft;
+	var originTop;
 	
   init();
   
-  this.getMovingStatus = function() {
-    return isMoving;
-  }
-  this.getBtnX = function() {
-		return moveBtn.position().left;
-  }
-  this.getBtnY = function() {
-		return moveBtn.position().top;
-  }
-  this.getTargetX = function() {
-    if(targetX!=0)
-      return targetX/Math.abs(targetX);
-    else
-      return 0;
-  }
-  this.getTargetY = function() {
-    if(targetY!=0)
-      return targetY/Math.abs(targetY);
-    else
-      return 0;
-  }
-
-  this.reverseMoving = function(newTargetX,newTargetY) {
-    if(reverseCount<=0){
-      targetX = newTargetX;
-      targetX = newTargetY;
-      isMoving = true;
-      reverseCount = 20;
-    }
-  }
-
+  // this.getMovingStatus = function() {
+  //   return isMoving;
+  // }
+  // this.getBtnX = function() {
+  // 		return moveBtn.position().left;
+  // }
+  // this.getBtnY = function() {
+  // 		return moveBtn.position().top;
+  // }
+  // this.getTargetX = function() {
+  //   if(targetX!=0)
+  //     return targetX/Math.abs(targetX);
+  //   else
+  //     return 0;
+  // }
+  // this.getTargetY = function() {
+  //   if(targetY!=0)
+  //     return targetY/Math.abs(targetY);
+  //   else
+  //     return 0;
+  // }
+  // 
+  // this.reverseMoving = function(newTargetX,newTargetY) {
+  //   if(reverseCount<=0){
+  //     targetX = newTargetX;
+  //     targetX = newTargetY;
+  //     isMoving = true;
+  //     reverseCount = 20;
+  //   }
+  // }
+	
   function init() {
 		htmlBtn.wrap('<span class="wg_btn_inner" />');
 		htmlBtn.css('position', 'absolute').css('z-index', 5);
@@ -175,6 +177,8 @@ function WGButtonForYawn(btn,left,top,mode){
   	canvasElement.style.zIndex = 1;
   	innerBtn.append(canvasElement);
 		nativeMovingBtn = moveBtn[0];
+		originLeft = parseFloat(nativeMovingBtn.style.left);
+		originTop = parseFloat(nativeMovingBtn.style.top);
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
 
@@ -185,7 +189,6 @@ function WGButtonForYawn(btn,left,top,mode){
 			processing.stroke(33);
 		  processing.fill(255, 255, 240);
   		processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
-  		counter = 0;
     }
     processing.draw = function() {
       if(isMoving){
@@ -223,7 +226,10 @@ function WGButtonForYawn(btn,left,top,mode){
 		targetY = ty;
 	  isMoving = true;
 	}
-	
+	this.resetPosition = function(tx,ty) {
+
+		this.setTargetPosition( originLeft-parseFloat(nativeMovingBtn.style.left), originTop-parseFloat(nativeMovingBtn.style.top) ); 
+	}
   
 }
 
