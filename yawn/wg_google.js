@@ -3,6 +3,9 @@ function WGGoogle() {
   
 	var flagTxtfield, flagBtn, flagClock;
 	var wgTxtfieldSearch;
+	var timerINT;
+	var wgBtnSearch;
+	var wgBtnLucky;
 	
   this.init = function() {
 		
@@ -14,7 +17,7 @@ function WGGoogle() {
 		
 		if(flagTxtfield){
 			var sound = document.createElement('embed');
-	    sound.setAttribute('src', "yawn/yuin8.mov");
+	    sound.setAttribute('src', "assets/yawn/yuin8.mov");
 	    sound.setAttribute("loop","false");
 	    sound.setAttribute("autostart","false");
 	    sound.setAttribute("type","audio/x-wav");
@@ -28,8 +31,6 @@ function WGGoogle() {
 			input.childNodes[0].style.zIndex = 2;
 			wgTxtfieldSearch = new WGTextfield(input, flagTxtfield);
 			
-//			$('div.ds input').css('color','#fff');
-			
 			var buttons = $('.lsbb input');
 			buttons.css('font-size','14px');
 			
@@ -40,8 +41,8 @@ function WGGoogle() {
 			var btn1_left = button2.position().left+7;
 			var btn1_top = button2.position().top+2;	
 			
-			var btn1 = new WGButton( button1, btn0_left, btn0_top, flagBtn);
-			var btn2 = new WGButton( button2, btn1_left, btn1_top, flagBtn);
+			wgBtnSearch = new WGButtonForYawn( button1, btn0_left, btn0_top, flagBtn);
+			wgBtnLucky = new WGButtonForYawn( button2, btn1_left, btn1_top, flagBtn);
 			
 			$('div.ds').append('<div id="dynamic_textfield"></div>');
 			
@@ -67,14 +68,25 @@ function WGGoogle() {
 				}	
 			});
 			
+			timerINT = setInterval(timerHandler,30);
 		}
   }
-   
+  
+ 	function timerHandler() {
+		console.log(wgTxtfieldSearch.isActive());
+		if(wgTxtfieldSearch.isActive()==false && Math.random()<0.01) {
+			wgTxtfieldSearch.activeYawn();
+			wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*50+30);
+			wgBtnLucky.setTargetPosition( 50-30*Math.random(), Math.random()*50+30);
+		}
+
+	}
+	
   function modifyUI() {
   	// change img
   	var logoDiv = document.getElementById('lga');
   	// logoDiv.setAttribute('style', 'height: 205px');
   	var img = logoDiv.getElementsByTagName('img')[0];
-		img.setAttribute('src', "google_logo_1.png");
+		img.setAttribute('src', "assets/google_logo_1.png");
   }
 }
