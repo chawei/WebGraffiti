@@ -69,6 +69,9 @@ function WGGoogle() {
 				}	
 			});
 			
+			$('div.ds input').css('opacity', 1.0);
+			$('#dynamic_textfield').hide();
+			
 			timerINT = setInterval(timerHandler,30);
 		}
   }

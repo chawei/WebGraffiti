@@ -44,18 +44,10 @@ function WGTextfield(txtField,flag){
 			processing.stroke(33);
 			processing.fill(255);
   		processing.drawFreehandRect( x, y, width, height, false);
-			// if(isActive) {
-			// 				scaleInt = new Integrator();
-			// 			}
-			// 			else {
-			// 				processing.noLoop();
-			// 			}
     }
     processing.draw = function() {
-			
 			var dynText   = $('#dynamic_textfield');
 			var searchBar = $('div.ds input');
-			
 			if(scaleInt!=null){
   	    if(scaleInt.stage==3){
 					searchBar.css('opacity', 1.0);
@@ -73,7 +65,6 @@ function WGTextfield(txtField,flag){
 						var dom = $("#dt_"+i);
 						dom.css('font-size', '18px');
 					}
-//  				$('body center').removeClass('invisible').hide().fadeIn();
   	    }
   	    else{
   	      processing.clear();
@@ -84,7 +75,7 @@ function WGTextfield(txtField,flag){
 					var txtValue = searchBar.val();
 					var midValue = 0;
 					for(var i=0; i<txtValue.length; i++) {
-						var font_size = 18 + Math.round(scaleInt.value*8*i)+"px";
+						var font_size = 18 + Math.round(scaleInt.value*6*i)+"px";
 						var dom = $("#dt_"+i);
 						if (dom != undefined) {
 							if (dom.position() != null && dom.position().left < 250) {
@@ -95,7 +86,7 @@ function WGTextfield(txtField,flag){
 								midValue = i;
 							}
 							else {
-								var font_size3 = 18 + Math.round(scaleInt.value*8*(midValue-i+midValue))+"px";
+								var font_size3 = 18 + Math.round(scaleInt.value*6*(midValue-i+midValue))+"px";
 								dom.css('font-size', font_size3);
 							}
 						}
@@ -295,6 +286,7 @@ Processing.prototype.drawFreehandEllipse = function(x, y, w, h, start, end) {
 	      p3 = dots.get(j+2);
 	      p4 = dots.get(j+3);
 	    }
+			this.fill(255);
 	    this.curve(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
 	  }
 	}
