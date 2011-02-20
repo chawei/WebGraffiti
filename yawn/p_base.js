@@ -195,7 +195,7 @@ function WGTextfield(txtField,flag){
   	canvasElement.style.position = "absolute";
   	canvasElement.style.left = "-300px";
   	canvasElement.style.top = "-80px";
-  	canvasElement.style.zIndex = -3;
+  	canvasElement.style.zIndex = 10;
   	htmlTxtfield.appendChild(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
@@ -268,8 +268,7 @@ function WGTextfield(txtField,flag){
 				if(Math.random()<0.01) {
 					scaleInt = new Integrator();
 					isActive = true;
-					document.yawn_audio.Play();
-					
+//					document.yawn_audio.Play();
 					dynText.show();
 					searchBar.css('opacity', 0.0);
 				}

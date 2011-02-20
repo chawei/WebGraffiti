@@ -14,9 +14,9 @@ function WGGoogle() {
 		
 		if(flagTxtfield){
 			var sound = document.createElement('embed');
-	    sound.setAttribute('src', "http://people.artcenter.edu/~tchien/assets/yawn3.wav");
+	    sound.setAttribute('src', "yawn/yuin8.mov");
 	    sound.setAttribute("loop","false");
-	    sound.setAttribute("autostart","true");
+	    sound.setAttribute("autostart","false");
 	    sound.setAttribute("type","audio/x-wav");
 	    sound.setAttribute("hidden","true");
 			sound.setAttribute("name","yawn_audio");
