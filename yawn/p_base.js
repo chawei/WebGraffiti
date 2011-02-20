@@ -31,7 +31,6 @@ function WGTextfield(txtField,flag){
 	this.activeYawn = function() {
 		scaleInt = new Integrator();
 		isActive = true;
-//		document.yawn_audio.Play();
 		$('#dynamic_textfield').show();
 		$('div.ds input').css('opacity', 0.0);
 	}
@@ -40,7 +39,7 @@ function WGTextfield(txtField,flag){
     processing.setup = function() {
 			processing.background(255);
 			processing.smooth();
-  		processing.frameRate(15);
+  		processing.frameRate(10);
 			processing.stroke(33);
 			processing.fill(255);
   		processing.drawFreehandRect( x, y, width, height, false);
