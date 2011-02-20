@@ -45,39 +45,26 @@ function WGGoogle() {
 			
 			$('div.ds').append('<div id="dynamic_textfield"></div>');
 			
-			$('div.ds input').keyup(function(e){
-				//console.log(String.fromCharCode(e.which));
-				var value = $(this).val();
-				var formatValue = '';
-				var scaleValue = wgTxtfieldSearch.getScaleValue();
+			$('div.ds input').keypress(function(e){
+				var newChar = String.fromCharCode(e.which);
+				console.log(newChar);
 				
-				for(var i=0; i<value.length; i++) {
-					var id = "dt_"+i;
-					if(value[i]==' ')
-						formatValue += '<span id="'+id+'">&nbsp;&nbsp;</span>';
-					else
-						formatValue += '<span id="'+id+'">' + value[i] + '</span>';
-				}
-				$('#dynamic_textfield').html(formatValue);				
+				var value = $(this).val();
+				var newSpanId = "dt_"+(value.length-1);	
+				
+				//var formatValue = '';
+				//var scaleValue = wgTxtfieldSearch.getScaleValue();
+				if(e.which == 32) {
+					$('#dynamic_textfield').append('<span id="'+newSpanId+'">&nbsp;</span>');
+				} else {
+					$('#dynamic_textfield').append('<span id="'+newSpanId+'">' + newChar + '</span>');
+				}			
 			});
 			
 			$('div.ds input').keydown(function(e){
-				//console.log(String.fromCharCode(e.which));
 				if (e.which == 8) {
-					var value = $(this).val();
-					var value = value.substring(0, value.length-1);
-					var formatValue = '';
-					var scaleValue = wgTxtfieldSearch.getScaleValue();
-				
-					for(var i=0; i<value.length; i++) {
-						var id = "dt_"+i;
-						if(value[i]==' ')
-							formatValue += '<span id="'+id+'">&nbsp;</span>';
-						else
-							formatValue += '<span id="'+id+'">' + value[i] + '</span>';
-					}
-					$('#dynamic_textfield').html(formatValue);
-				}				
+					$('#dynamic_textfield span:last').remove();
+				}	
 			});
 			
 		}
@@ -88,6 +75,6 @@ function WGGoogle() {
   	var logoDiv = document.getElementById('lga');
   	// logoDiv.setAttribute('style', 'height: 205px');
   	var img = logoDiv.getElementsByTagName('img')[0];
-		img.setAttribute('src', "ssl_logo_lg_color3.png");
+		img.setAttribute('src', "google_logo_1.png");
   }
 }

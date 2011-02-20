@@ -211,15 +211,18 @@ function WGTextfield(txtField,flag){
 			if(isActive) {
 				scaleInt = new Integrator();
 			}
-			else
+			else {
 				processing.noLoop();
+			}
     }
     processing.draw = function() {
+			var dynText   = $('#dynamic_textfield');
 			var searchBar = $('div.ds input');
       if(scaleInt!=null){
-				searchBar.css('color', '#fff');
   	    if(scaleInt.stage==3){
-					//searchBar.css('color', '#000');
+					searchBar.css('opacity', 1.0);
+					dynText.hide();
+					
   	      processing.clear();
 					processing.stroke(33);
 					processing.noFill();
@@ -266,6 +269,9 @@ function WGTextfield(txtField,flag){
 					scaleInt = new Integrator();
 					isActive = true;
 					document.yawn_audio.Play();
+					
+					dynText.show();
+					searchBar.css('opacity', 0.0);
 				}
 			}
 
