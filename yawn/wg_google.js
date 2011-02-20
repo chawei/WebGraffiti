@@ -82,21 +82,23 @@ function WGGoogle() {
 			else
 				currentSoundIdx = 0;
 			
+			if(document.getElementById('yawn_audio')!=null)
+				document.body.removeChild(document.getElementById('yawn_audio'));
 			sound = document.createElement('embed');
 			sound.setAttribute("loop","false");
 	    sound.setAttribute("type","audio/x-wav");
 	    sound.setAttribute("hidden","true");
-			sound.setAttribute("name","yawn_audio");
+			sound.setAttribute("id","yawn_audio");
 			sound.setAttribute("autostart","true");
 			sound.setAttribute('src', "assets/yawn/"+sounds[currentSoundIdx]+".mov");
 	    document.body.appendChild(sound);
-		
+
 			wgTxtfieldSearch.activeYawn();
 			wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*50+30);
 			wgBtnLucky.setTargetPosition( 50-30*Math.random(), Math.random()*50+30);
 			timerCount=0;
 		}
-		else if(timerCount==120) {
+		else if(timerCount==140) {
 			wgBtnSearch.resetPosition();
 			wgBtnLucky.resetPosition();
 			timerCount=-1;

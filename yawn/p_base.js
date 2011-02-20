@@ -1,8 +1,4 @@
-
-
-
-function WGTextfield(txtField,flag){
-	
+function WGTextfield(txtField,flag){	
   var x = 300;
   var y = 80;
   var width = txtField.offsetWidth;
@@ -28,7 +24,8 @@ function WGTextfield(txtField,flag){
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
   
-	this.activeYawn = function() {
+	this.activeYawn = function(size,time) {
+		
 		scaleInt = new Integrator();
 		isActive = true;
 		$('#dynamic_textfield').show();
@@ -116,37 +113,6 @@ function WGButtonForYawn(btn,left,top,mode){
 	var originTop;
 	
   init();
-  
-  // this.getMovingStatus = function() {
-  //   return isMoving;
-  // }
-  // this.getBtnX = function() {
-  // 		return moveBtn.position().left;
-  // }
-  // this.getBtnY = function() {
-  // 		return moveBtn.position().top;
-  // }
-  // this.getTargetX = function() {
-  //   if(targetX!=0)
-  //     return targetX/Math.abs(targetX);
-  //   else
-  //     return 0;
-  // }
-  // this.getTargetY = function() {
-  //   if(targetY!=0)
-  //     return targetY/Math.abs(targetY);
-  //   else
-  //     return 0;
-  // }
-  // 
-  // this.reverseMoving = function(newTargetX,newTargetY) {
-  //   if(reverseCount<=0){
-  //     targetX = newTargetX;
-  //     targetX = newTargetY;
-  //     isMoving = true;
-  //     reverseCount = 20;
-  //   }
-  // }
 	
   function init() {
 		htmlBtn.wrap('<span class="wg_btn_inner" />');
