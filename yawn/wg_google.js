@@ -17,7 +17,7 @@ function WGGoogle() {
 	var textSelected = false;
 	var metaKey = false;
 	
-	var searchField = $('div.ds input');
+	var searchTextField;
 	
   this.init = function() {
 		
@@ -36,6 +36,7 @@ function WGGoogle() {
 		input.style.position = 'relative';
 		input.childNodes[0].style.zIndex = 2;
 		wgTxtfieldSearch = new WGTextfield(input, flagTxtfield);
+		searchTextField = YawnTextField.create('div.ds input', wgTxtfieldSearch);
 		
 		var buttons = $('.lsbb input');
 		buttons.css('font-size','14px');
@@ -51,103 +52,10 @@ function WGGoogle() {
 		wgBtnLucky = new WGButtonForYawn( button2, btn1_left, btn1_top, flagBtn);
 		
 		$('div.ds').append('<div id="dynamic_textfield"></div>');
-		
-		$('div.ds input').keypress(function(e){      
-		  var value = $(this).val();
-			var newChar = String.fromCharCode(e.which);	
-			//var newSpanId = "dt_"+(value.length-1);	
-		  
-		  var range = $('div.ds input').getSelection();
-		  var insertHTML = '';
-		  
-			if(e.which == 32) {
-				insertHTML = '<span>&nbsp;</span>';
-			} else {
-				insertHTML = '<span>' + newChar + '</span>';
-			}
-			
-			var insertIndex = range.start-1;
-			if (insertIndex < 0) {
-			  $('#dynamic_textfield').append(insertHTML);
-			} else {
-			  $(insertHTML).insertAfter('#dynamic_textfield span:eq('+insertIndex+')'); 
-			}
-		});
-		
-		$('div.ds input').keyup(function(e){
-		  if (metaKey) {
-        //console.log('metakey');
-        refreshDynamicField();
-      }
-	  });
-		
-		$('div.ds input').keydown(function(e){
-      if (e.metaKey) {
-        console.log('metakey');
-			  metaKey = true;
-        //refreshDynamicField();
-      } else { 
-        metaKey = false;
-      }
-      
-      var range = searchField.getSelection();
-			if (e.which == 8 && wgTxtfieldSearch.isActive()) {
-			  /*
-			  if (textSelected) {
-			    console.log('refresh');
-			    refreshDynamicField();
-			    var diff = this.value.length - selectedText.length;
-			    console.log(diff);
-			    if (diff > 1) {
-			      $('#dynamic_textfield span:gt('+(diff-1)+')').remove();
-			    } else {
-			      $('#dynamic_textfield span').remove();
-			    }
-			    
-			    textSelected = false;
-			  } else {
-			    $('#dynamic_textfield span:last').remove();
-			  }
-			  */
-			  console.log(range.start, range.end);
-			  if (searchField.val().length == range.length) {
-          $('#dynamic_textfield span').remove();
-        } else {
-  			  for (var i = range.start-1; i < range.end; i++) {
-  			    $('#dynamic_textfield span:eq('+i+')').remove();
-  			  }
-			  }
-
-			}	else if (!wgTxtfieldSearch.isActive()) {
-			  refreshDynamicField();
-			}
-		});
-		
 		$('div.ds input').css('opacity', 1.0);
 		$('#dynamic_textfield').hide();
-		
-		$('div.ds input').select(function(){
-		  selectedText = getSelected().toString();
-		  textSelected = true;
-		});
-		
-		timerINT = setInterval(timerHandler,30);
-		
-  }
-  
-  function refreshDynamicField() {
-    console.log('refresh');
-    var value = $('div.ds input').val();
-    var formatValue = '';
-    for(var i=0; i<value.length; i++) {	 	
-      var id = "dt_"+i;
-      if(value[i]==' ') {
-        formatValue += '<span id="'+id+'">&nbsp;&nbsp;</span>';
-      } else {
-        formatValue += '<span id="'+id+'">' + value[i] + '</span>';
-      }
-    }
-    $('#dynamic_textfield').html(formatValue);
+
+		timerINT = setInterval(timerHandler,30);		
   }
   
  	function timerHandler() {
@@ -200,6 +108,88 @@ function WGGoogle() {
 		return (Math.round(Math.random())-0.5); 
 	}
 	
+
+	
+}
+
+var YawnTextField = {
+  create: function(selector, wgTxtfieldSearch) {
+    var yawnTextField= $(selector);
+    
+    function refreshDynamicField() {
+      console.log('refresh');
+      var value = $('div.ds input').val();
+      var formatValue = '';
+      for(var i=0; i<value.length; i++) {	 	
+        var id = "dt_"+i;
+        if(value[i]==' ') {
+          formatValue += '<span id="'+id+'">&nbsp;&nbsp;</span>';
+        } else {
+          formatValue += '<span id="'+id+'">' + value[i] + '</span>';
+        }
+      }
+      $('#dynamic_textfield').html(formatValue);
+    }
+
+    yawnTextField.keypress(function(e){      
+		  var value = $(this).val();
+			var newChar = String.fromCharCode(e.which);		
+
+		  var range = $(this).getSelection();
+		  var insertHTML = '';
+
+			if (e.which == 32) {
+				insertHTML = '<span>&nbsp;</span>';
+			} else {
+				insertHTML = '<span>' + newChar + '</span>';
+			}
+
+			var insertIndex = range.start-1;
+			if (insertIndex < 0) {
+			  $('#dynamic_textfield').append(insertHTML);
+			} else {
+			  $(insertHTML).insertAfter('#dynamic_textfield span:eq('+insertIndex+')'); 
+			}
+		});
+
+		yawnTextField.keyup(function(e){
+		  if (metaKey) {
+        //console.log('metakey');
+        refreshDynamicField();
+      }
+	  });
+
+		yawnTextField.keydown(function(e){
+      if (e.metaKey) {
+        console.log('metakey');
+			  metaKey = true;
+        //refreshDynamicField();
+      } else { 
+        metaKey = false;
+      }
+
+      var range = yawnTextField.getSelection();
+			if (e.which == 8 && wgTxtfieldSearch.isActive()) {
+			  if (yawnTextField.val().length == range.length) {
+          $('#dynamic_textfield span').remove();
+        } else {
+  			  for (var i = range.start-1; i < range.end; i++) {
+  			    $('#dynamic_textfield span:eq('+i+')').remove();
+  			  }
+			  }
+
+			}	else if (!wgTxtfieldSearch.isActive()) {
+			  refreshDynamicField();
+			}
+		});
+
+		yawnTextField.select(function(){
+		  selectedText = getSelected().toString();
+		  textSelected = true;
+		});
+
+		return yawnTextField;
+  }
 }
 
 function getSelected() {
