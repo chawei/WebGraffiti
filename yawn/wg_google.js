@@ -1,5 +1,4 @@
 function WGGoogle() {
-//  $('body center').addClass('invisible');
   
 	var flagTxtfield, flagBtn, flagClock;
 	var wgTxtfieldSearch;
@@ -10,10 +9,6 @@ function WGGoogle() {
 	var sounds = new Array('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16');
 	var soundsSize   = [ 1.0,1.0,1.0,1.0,1.0,1.2,1.0,1.2,1.0,1.3,1.3,1.0,1.2,1.1,1.0,1.0];
 	var soundsPeriod = [  10,  9,  9, 12, 17, 13, 12, 12, 12, 12, 10,  8,  8,  8, 10, 10];
-
-	// var sounds = new Array('5');
-	// var soundsSize = [1];
-	// var soundsPeriod = [18];
 	
 	var currentSoundIdx = 0;
 	var sound;
@@ -25,8 +20,8 @@ function WGGoogle() {
 		flagClock = false;
 		
 		// init sounds
-		sounds.sort( randOrd );
-		console.log(sounds);
+		// sounds.sort( randOrd );
+		// console.log(sounds);
 		
 		modifyUI();
 
@@ -101,7 +96,7 @@ function WGGoogle() {
 			var yawnSize = soundsSize[idx];
 			var yawnPeriod = soundsPeriod[idx];
 			
-			console.log(sounds[currentSoundIdx],yawnSize,yawnPeriod);
+//			console.log(sounds[currentSoundIdx],yawnSize,yawnPeriod);
 			
 			wgTxtfieldSearch.activeYawn(yawnSize,yawnPeriod);
 			wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*50+30);
