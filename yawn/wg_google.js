@@ -13,10 +13,7 @@ function WGGoogle() {
 	var currentSoundIdx = 0;
 	var sound;
 	
-	var selectedText = '';
-	var textSelected = false;
-	var metaKey = false;
-	
+	var metaKey = false;	
 	var searchTextField;
 	
   this.init = function() {
@@ -106,10 +103,7 @@ function WGGoogle() {
 
 	function randOrd(){
 		return (Math.round(Math.random())-0.5); 
-	}
-	
-
-	
+	}	
 }
 
 var YawnTextField = {
@@ -118,7 +112,7 @@ var YawnTextField = {
     
     function refreshDynamicField() {
       console.log('refresh');
-      var value = $('div.ds input').val();
+      var value = yawnTextField.val();
       var formatValue = '';
       for(var i=0; i<value.length; i++) {	 	
         var id = "dt_"+i;
@@ -173,8 +167,10 @@ var YawnTextField = {
 			  if (yawnTextField.val().length == range.length) {
           $('#dynamic_textfield span').remove();
         } else {
-  			  for (var i = range.start-1; i < range.end; i++) {
-  			    $('#dynamic_textfield span:eq('+i+')').remove();
+          if (range.length == 0) {
+            $('#dynamic_textfield span:eq('+(range.start-1)+')').remove();
+          } else {
+    			  $('#dynamic_textfield span').slice(range.start, range.end).remove();
   			  }
 			  }
 
@@ -183,22 +179,6 @@ var YawnTextField = {
 			}
 		});
 
-		yawnTextField.select(function(){
-		  selectedText = getSelected().toString();
-		  textSelected = true;
-		});
-
 		return yawnTextField;
   }
-}
-
-function getSelected() {
-  if(window.getSelection) { return window.getSelection(); }
-  else if(document.getSelection) { return document.getSelection(); }
-  else {
-    var selection = document.selection && document.selection.createRange();
-    if(selection.text) { return selection.text; }
-    return false;
-  }
-  return false;
 }
