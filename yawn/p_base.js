@@ -24,9 +24,8 @@ function WGTextfield(txtField,flag){
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
   
-	this.activeYawn = function(size,time) {
-		
-		scaleInt = new Integrator();
+	this.activeYawn = function(size,period) {
+		scaleInt = new Integrator(size,period);
 		isActive = true;
 		$('#dynamic_textfield').show();
 		$('div.ds input').css('opacity', 0.0);
@@ -66,7 +65,8 @@ function WGTextfield(txtField,flag){
   	      processing.clear();
   	      scaleInt.update();
 					processing.fill(255);
- 	      	processing.drawFreehandEllipse( processing.width/2, processing.height/2, processing.map(scaleInt.value, 0, 1, 1, 1.5)*width, processing.map(scaleInt.value, 0, 1, 1, 3.5)*height, 0, 2*Math.PI);
+					var sc = scaleInt.getScaleValue();
+ 	      	processing.drawFreehandEllipse( processing.width/2, processing.height/2, sc*processing.map(scaleInt.value, 0, 1, 1, 1.5)*width, sc*processing.map(scaleInt.value, 0, 1, 1, 3.5)*height, 0, 2*Math.PI);
 					
 					var txtValue = searchBar.val();
 					var midValue = 0;
@@ -389,32 +389,38 @@ function DIntegrator(value, damping, attraction) {
   }
 }
 
-function Integrator() {
+function Integrator(size,period) {
   this.value = 0;
-  this.timer = 0;
   this.stage = 0;
-	this.peakTime = 10;
-	this.yawnTime = this.peakTime+6;
+	var scale = size;
+  var timer = 0;
+	var peakTime = period;
+	var yawnTime = peakTime + Math.round( 0.6*peakTime );
+	var endTime = peakTime + Math.round( 0.8*peakTime );
+	
+	this.getScaleValue = function() {
+		return scale;
+	}
 	
   this.update = function() {
     var tmpValue = 0;
 
     switch(this.stage){
       case 0:
-        this.value = curveValue(this.timer-this.peakTime, this.peakTime);
-        this.timer++;
+        this.value = curveValue(timer-peakTime, peakTime);
+        timer++;
         if(this.value==1)
           this.stage = 1;
         break;
       case 1:
-        this.timer++;
-        if(this.timer==this.yawnTime)
+        timer++;
+        if(timer==yawnTime)
           this.stage = 2;
         break;
       case 2:
-        this.value = curveValue(this.timer-this.yawnTime,this.peakTime+8);
-        this.timer++; 
-        if(this.value==0)
+        this.value = curveValue(timer-yawnTime, endTime);
+        timer++;
+        if(this.value<=0)
           this.stage = 3;
         break;
     }
@@ -424,7 +430,7 @@ function Integrator() {
     var yValue = -1/Math.pow(xx,2)*Math.pow(x,2) + 1;
     return yValue;
   }
-
+	
 }
 
 function chunks(cuts) { // 0-1

@@ -8,6 +8,13 @@ function WGGoogle() {
 	var wgBtnLucky;
 	var timerCount=-1;
 	var sounds = new Array('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16');
+	var soundsSize   = [ 1.0,1.0,1.0,1.0,1.0,1.2,1.0,1.2,1.0,1.3,1.3,1.0,1.2,1.1,1.0,1.0];
+	var soundsPeriod = [  10,  9,  9, 12, 17, 13, 12, 12, 12, 12, 10,  8,  8,  8, 10, 10];
+
+	// var sounds = new Array('5');
+	// var soundsSize = [1];
+	// var soundsPeriod = [18];
+	
 	var currentSoundIdx = 0;
 	var sound;
 	
@@ -21,7 +28,6 @@ function WGGoogle() {
 		sounds.sort( randOrd );
 		console.log(sounds);
 		
-
 		modifyUI();
 
 		// draw textfield
@@ -52,8 +58,6 @@ function WGGoogle() {
 			var value = $(this).val();
 			var newSpanId = "dt_"+(value.length-1);	
 			
-			//var formatValue = '';
-			//var scaleValue = wgTxtfieldSearch.getScaleValue();
 			if(e.which == 32) {
 				$('#dynamic_textfield').append('<span id="'+newSpanId+'">&nbsp;</span>');
 			} else {
@@ -76,7 +80,7 @@ function WGGoogle() {
   
  	function timerHandler() {
 
-		if(wgTxtfieldSearch.isActive()==false && Math.random()<0.005) {
+		if(wgTxtfieldSearch.isActive()==false && Math.random()<0.003) {
 			if(currentSoundIdx<sounds.length-1)
 				currentSoundIdx++;
 			else
@@ -92,8 +96,14 @@ function WGGoogle() {
 			sound.setAttribute("autostart","true");
 			sound.setAttribute('src', "assets/yawn/"+sounds[currentSoundIdx]+".mov");
 	    document.body.appendChild(sound);
-
-			wgTxtfieldSearch.activeYawn();
+			
+			var idx = parseInt(sounds[currentSoundIdx])-1;
+			var yawnSize = soundsSize[idx];
+			var yawnPeriod = soundsPeriod[idx];
+			
+			console.log(sounds[currentSoundIdx],yawnSize,yawnPeriod);
+			
+			wgTxtfieldSearch.activeYawn(yawnSize,yawnPeriod);
 			wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*50+30);
 			wgBtnLucky.setTargetPosition( 50-30*Math.random(), Math.random()*50+30);
 			timerCount=0;
