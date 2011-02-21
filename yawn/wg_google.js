@@ -13,6 +13,12 @@ function WGGoogle() {
 	var currentSoundIdx = 0;
 	var sound;
 	
+	var selectedText = '';
+	var textSelected = false;
+	var metaKey = false;
+	
+	var searchField = $('div.ds input');
+	
   this.init = function() {
 		
 		flagTxtfield = true;
@@ -46,31 +52,102 @@ function WGGoogle() {
 		
 		$('div.ds').append('<div id="dynamic_textfield"></div>');
 		
-		$('div.ds input').keypress(function(e){
-			var newChar = String.fromCharCode(e.which);
-			console.log(newChar);
-			
-			var value = $(this).val();
-			var newSpanId = "dt_"+(value.length-1);	
-			
+		$('div.ds input').keypress(function(e){      
+		  var value = $(this).val();
+			var newChar = String.fromCharCode(e.which);	
+			//var newSpanId = "dt_"+(value.length-1);	
+		  
+		  var range = $('div.ds input').getSelection();
+		  var insertHTML = '';
+		  
 			if(e.which == 32) {
-				$('#dynamic_textfield').append('<span id="'+newSpanId+'">&nbsp;</span>');
+				insertHTML = '<span>&nbsp;</span>';
 			} else {
-				$('#dynamic_textfield').append('<span id="'+newSpanId+'">' + newChar + '</span>');
-			}			
+				insertHTML = '<span>' + newChar + '</span>';
+			}
+			
+			var insertIndex = range.start-1;
+			if (insertIndex < 0) {
+			  $('#dynamic_textfield').append(insertHTML);
+			} else {
+			  $(insertHTML).insertAfter('#dynamic_textfield span:eq('+insertIndex+')'); 
+			}
 		});
 		
+		$('div.ds input').keyup(function(e){
+		  if (metaKey) {
+        //console.log('metakey');
+        refreshDynamicField();
+      }
+	  });
+		
 		$('div.ds input').keydown(function(e){
-			if (e.which == 8) {
-				$('#dynamic_textfield span:last').remove();
-			}	
+      if (e.metaKey) {
+        console.log('metakey');
+			  metaKey = true;
+        //refreshDynamicField();
+      } else { 
+        metaKey = false;
+      }
+      
+      var range = searchField.getSelection();
+			if (e.which == 8 && wgTxtfieldSearch.isActive()) {
+			  /*
+			  if (textSelected) {
+			    console.log('refresh');
+			    refreshDynamicField();
+			    var diff = this.value.length - selectedText.length;
+			    console.log(diff);
+			    if (diff > 1) {
+			      $('#dynamic_textfield span:gt('+(diff-1)+')').remove();
+			    } else {
+			      $('#dynamic_textfield span').remove();
+			    }
+			    
+			    textSelected = false;
+			  } else {
+			    $('#dynamic_textfield span:last').remove();
+			  }
+			  */
+			  console.log(range.start, range.end);
+			  if (searchField.val().length == range.length) {
+          $('#dynamic_textfield span').remove();
+        } else {
+  			  for (var i = range.start-1; i < range.end; i++) {
+  			    $('#dynamic_textfield span:eq('+i+')').remove();
+  			  }
+			  }
+
+			}	else if (!wgTxtfieldSearch.isActive()) {
+			  refreshDynamicField();
+			}
 		});
 		
 		$('div.ds input').css('opacity', 1.0);
 		$('#dynamic_textfield').hide();
 		
+		$('div.ds input').select(function(){
+		  selectedText = getSelected().toString();
+		  textSelected = true;
+		});
+		
 		timerINT = setInterval(timerHandler,30);
 		
+  }
+  
+  function refreshDynamicField() {
+    console.log('refresh');
+    var value = $('div.ds input').val();
+    var formatValue = '';
+    for(var i=0; i<value.length; i++) {	 	
+      var id = "dt_"+i;
+      if(value[i]==' ') {
+        formatValue += '<span id="'+id+'">&nbsp;&nbsp;</span>';
+      } else {
+        formatValue += '<span id="'+id+'">' + value[i] + '</span>';
+      }
+    }
+    $('#dynamic_textfield').html(formatValue);
   }
   
  	function timerHandler() {
@@ -116,13 +193,22 @@ function WGGoogle() {
   	// change img
   	var logoDiv = document.getElementById('lga');
   	var img = logoDiv.getElementsByTagName('img')[0];
-		img.setAttribute('src', "assets/google_logo_1.png");
-		$('#lga').css('margin-bottom','30px');
-		$('#lga').css('margin-top','30px');		
+		img.setAttribute('src', "assets/google_logo_1.png");		
   }
 
 	function randOrd(){
 		return (Math.round(Math.random())-0.5); 
 	}
 	
+}
+
+function getSelected() {
+  if(window.getSelection) { return window.getSelection(); }
+  else if(document.getSelection) { return document.getSelection(); }
+  else {
+    var selection = document.selection && document.selection.createRange();
+    if(selection.text) { return selection.text; }
+    return false;
+  }
+  return false;
 }

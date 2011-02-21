@@ -72,7 +72,7 @@ function WGTextfield(txtField,flag){
 					var midValue = 0;
 					for(var i=0; i<txtValue.length; i++) {
 						var font_size = 18 + Math.round(scaleInt.value*6*i)+"px";
-						var dom = $("#dt_"+i);
+						var dom = $("#dynamic_textfield span:eq("+i+")");
 						if (dom != undefined) {
 							if (dom.position() != null && dom.position().left < 250) {
 								dom.css('font-size', font_size);
