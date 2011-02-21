@@ -148,7 +148,6 @@ var YawnTextField = {
 
 		yawnTextField.keyup(function(e){
 		  if (metaKey) {
-        //console.log('metakey');
         refreshDynamicField();
       }
 	  });
@@ -157,7 +156,6 @@ var YawnTextField = {
       if (e.metaKey) {
         console.log('metakey');
 			  metaKey = true;
-        //refreshDynamicField();
       } else { 
         metaKey = false;
       }
