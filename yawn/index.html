@@ -52,9 +52,12 @@
 			}
 	    div{border: none !important; border-bottom: none !important; border-top: none !important;}
 			a{text-decoration:none!important;color:#000!important;}
-			div#input_keywords input {
+		
+			div#input_div input {
 				/*font-size: 18px;*/
 				opacity: 0.0;
+				height:25px;
+				width:496px;
 			}
 			#result_container {
 				text-align: left;
@@ -103,11 +106,10 @@
 				<img src="assets/google_logo_1.png">
 			</div>
 			
-			<div style="width:500px;">
-		  <div id="input_keywords" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 name=q class="lst" title="Google Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/></div>
+			<div style="width:700px;">
+		  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Google Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
 			</div>
-	
-		  <div id="btn_container" style="margin: 10px 0 0">
+			<div id="btn_container" style="margin: 10px 0 0">
 		  <span class=ds >
 		    <span class=lsbb>
 		    <input name=btnG type=submit value="Google Search" class=lsb>
@@ -119,12 +121,15 @@
 		    </span>
 		  </span>
 		  </div>
+			</div>
+	
+		  
 			<!-- <div id="result_container">
 				<span class="result"><a href="http://processing.org">Processing.org</a></span>
 				<span class="result"><a href="http://processing.org">Processing.org</a></span>
 			</div>	   -->
 			
-				
+		</center>
 
 <script type="text/javascript" language="javascript">
 	var styleElement;

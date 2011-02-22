@@ -31,11 +31,11 @@ function WGGoogle() {
 		// console.log(sounds);
 
 		// draw textfield
-		var input = document.getElementById('input_keywords');
+		var input = document.getElementById('input_div');
 		input.style.position = 'relative';
 		input.childNodes[0].style.zIndex = 2;
 		wgTxtfieldSearch = new WGTextfield(input, flagTxtfield);
-		searchTextField = YawnTextField.create('div#input_keywords input', wgTxtfieldSearch);
+		searchTextField = YawnTextField.create('div#input_div input', wgTxtfieldSearch);
 		
 		var buttons = $('.lsbb input');
 		buttons.css('font-size','14px');
@@ -50,8 +50,8 @@ function WGGoogle() {
 		wgBtnSearch = new WGButtonForYawn( button1, btn0_left, btn0_top, flagBtn);
 		wgBtnLucky = new WGButtonForYawn( button2, btn1_left, btn1_top, flagBtn);
 		
-		$('div#input_keywords').append('<div id="dynamic_textfield"></div>');
-		$('div#input_keywords input').css('opacity', 1.0);
+		$('div#input_div').append('<div id="dynamic_textfield"></div>');
+		$('div#input_div input').css('opacity', 1.0);
 		$('#dynamic_textfield').hide();
 
 		timerINT = setInterval(timerHandler,30);
@@ -70,7 +70,7 @@ function WGGoogle() {
 				activateYawn();
 		}
 			
-		else if(timerCount==currentYawnPeriod*9) {
+		else if(timerCount==currentYawnPeriod*8) {
 			wgBtnSearch.resetPosition();
 			wgBtnLucky.resetPosition();
 			timerCount=-1;

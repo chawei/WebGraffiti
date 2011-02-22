@@ -28,8 +28,11 @@ function WGHyperLink(div) {
 function WGTextfield(txtField,flag){	
   var x = 300;
   var y = 80;
-  var width = txtField.offsetWidth;
-  var height = txtField.offsetHeight;
+	console.log(txtField.style.width);
+  var width = txtField.getElementsByTagName('input')[0].offsetWidth;
+  var height = txtField.getElementsByTagName('input')[0].offsetHeight;
+	var left = txtField.getElementsByTagName('input')[0].offsetLeft;
+	var top = txtField.getElementsByTagName('input')[0].offsetTop;
   var htmlTxtfield = txtField;
   var scaleInt;
 	var isActive = false;
@@ -44,8 +47,8 @@ function WGTextfield(txtField,flag){
   	canvasElement.height= Math.floor(height)+160;
   	canvasElement.width= Math.floor(width)+600;
   	canvasElement.style.position = "absolute";
-  	canvasElement.style.left = "-300px";
-  	canvasElement.style.top = "-80px";
+  	canvasElement.style.left = -300+left+"px";
+  	canvasElement.style.top = -80+top+"px";
   	canvasElement.style.zIndex = -10;
   	htmlTxtfield.appendChild(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
@@ -55,7 +58,7 @@ function WGTextfield(txtField,flag){
 		scaleInt = new Integrator(size,period);
 		isActive = true;
 		$('#dynamic_textfield').show();
-		$('div#input_keywords input').css('opacity', 0.0);
+		$('div#input_div input').css('opacity', 0.0);
 	}
 	
   function sketchProc(processing) {
@@ -69,7 +72,7 @@ function WGTextfield(txtField,flag){
     }
     processing.draw = function() {
 			var dynText   = $('#dynamic_textfield');
-			var searchBar = $('div#input_keywords input');
+			var searchBar = $('div#input_div input');
 			if(scaleInt!=null){
   	    if(scaleInt.stage==3){
 					searchBar.css('opacity', 1.0);
@@ -82,7 +85,7 @@ function WGTextfield(txtField,flag){
   	      scaleInt = null;
 					isActive = false;
 					
-					var txtValue = $('div#input_keywords input').val();
+					var txtValue = $('div#input_div input').val();
 					for(var i=0; i<txtValue.length; i++) { 
 						var dom = $("#dt_"+i);
 						dom.css('font-size', '18px');
@@ -98,10 +101,10 @@ function WGTextfield(txtField,flag){
 					var txtValue = searchBar.val();
 					var midValue = 0;
 					for(var i=0; i<txtValue.length; i++) {
-						var font_size = 18 + Math.round(scaleInt.value*6*i)+"px";
+						var font_size = 18 + Math.round(scaleInt.value*3*i)+"px";
 						var dom = $("#dynamic_textfield span:eq("+i+")");
 						if (dom != undefined) {
-							if (dom.position() != null && dom.position().left < 300) {
+							if (dom.position() != null && dom.position().left < 240) {
 								dom.css('font-size', font_size);
 							} 
 							else if(midValue==0){
@@ -109,7 +112,7 @@ function WGTextfield(txtField,flag){
 								midValue = i;
 							}
 							else {
-								var font_size3 = 18 + Math.round(scaleInt.value*6*(midValue-i+midValue))+"px";
+								var font_size3 = 18 + Math.round(scaleInt.value*3*(midValue-i+midValue))+"px";
 								dom.css('font-size', font_size3);
 							}
 						}
