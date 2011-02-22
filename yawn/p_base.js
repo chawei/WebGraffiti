@@ -28,11 +28,8 @@ function WGHyperLink(div) {
 function WGTextfield(txtField,flag){	
   var x = 300;
   var y = 80;
-	console.log(txtField.style.width);
-  var width = txtField.getElementsByTagName('input')[0].offsetWidth;
-  var height = txtField.getElementsByTagName('input')[0].offsetHeight;
-	var left = txtField.getElementsByTagName('input')[0].offsetLeft;
-	var top = txtField.getElementsByTagName('input')[0].offsetTop;
+  var width = txtField.offsetWidth;
+  var height = txtField.offsetHeight;
   var htmlTxtfield = txtField;
   var scaleInt;
 	var isActive = false;
@@ -47,8 +44,8 @@ function WGTextfield(txtField,flag){
   	canvasElement.height= Math.floor(height)+160;
   	canvasElement.width= Math.floor(width)+600;
   	canvasElement.style.position = "absolute";
-  	canvasElement.style.left = -300+left+"px";
-  	canvasElement.style.top = -80+top+"px";
+  	canvasElement.style.left = -300+"px";
+  	canvasElement.style.top = -80+"px";
   	canvasElement.style.zIndex = -10;
   	htmlTxtfield.appendChild(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
@@ -113,7 +110,7 @@ function WGTextfield(txtField,flag){
 							}
 							else {
 								var font_size3 = 18 + Math.round(scaleInt.value*3*(midValue-i+midValue))+"px";
-								if(dom.position().left>500)
+								if(dom.position().left>480)
 									dom.css('font-size', 0);
 								else
 									dom.css('font-size', font_size3);
