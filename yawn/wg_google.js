@@ -29,15 +29,13 @@ function WGGoogle() {
 		// init sounds
 		// sounds.sort( randOrd );
 		// console.log(sounds);
-		
-		modifyUI();
 
 		// draw textfield
-		var input = getElementsByClass(document,'ds','div')[0];
+		var input = document.getElementById('input_keywords');
 		input.style.position = 'relative';
 		input.childNodes[0].style.zIndex = 2;
 		wgTxtfieldSearch = new WGTextfield(input, flagTxtfield);
-		searchTextField = YawnTextField.create('div.ds input', wgTxtfieldSearch);
+		searchTextField = YawnTextField.create('div#input_keywords input', wgTxtfieldSearch);
 		
 		var buttons = $('.lsbb input');
 		buttons.css('font-size','14px');
@@ -52,11 +50,16 @@ function WGGoogle() {
 		wgBtnSearch = new WGButtonForYawn( button1, btn0_left, btn0_top, flagBtn);
 		wgBtnLucky = new WGButtonForYawn( button2, btn1_left, btn1_top, flagBtn);
 		
-		$('div.ds').append('<div id="dynamic_textfield"></div>');
-		$('div.ds input').css('opacity', 1.0);
+		$('div#input_keywords').append('<div id="dynamic_textfield"></div>');
+		$('div#input_keywords input').css('opacity', 1.0);
 		$('#dynamic_textfield').hide();
 
-		timerINT = setInterval(timerHandler,30);		
+		timerINT = setInterval(timerHandler,30);
+		
+		// new hyperlink
+		$('.result').each(function(index) {
+			var hl = new WGHyperLink($(this));
+		});
   }
   
  	function timerHandler() {
@@ -76,13 +79,6 @@ function WGGoogle() {
 			timerCount++;
 	}
 	
-  function modifyUI() {
-  	// change img
-  	var logoDiv = document.getElementById('lga');
-  	var img = logoDiv.getElementsByTagName('img')[0];
-		img.setAttribute('src', "assets/google_logo_1.png");		
-  }
-
 	function randOrd(){
 		return (Math.round(Math.random())-0.5); 
 	}

@@ -1,3 +1,30 @@
+function WGHyperLink(div) {
+	var width = div.width();
+	init();
+	function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= 10;
+  	canvasElement.width= Math.floor(width)+10;
+  	canvasElement.style.zIndex = -10;
+		canvasElement.className = "result_canvas";
+  	div.append(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+	function sketchProc(processing) {
+    processing.setup = function() {
+			processing.background(255);
+			processing.smooth();
+  		processing.frameRate(7);
+			processing.stroke(33);
+ 
+    }
+    processing.draw = function() {
+			processing.clear();
+			processing.drawFreehandLine(5,5,width,5);
+		}
+	}
+}
+
 function WGTextfield(txtField,flag){	
   var x = 300;
   var y = 80;
@@ -28,7 +55,7 @@ function WGTextfield(txtField,flag){
 		scaleInt = new Integrator(size,period);
 		isActive = true;
 		$('#dynamic_textfield').show();
-		$('div.ds input').css('opacity', 0.0);
+		$('div#input_keywords input').css('opacity', 0.0);
 	}
 	
   function sketchProc(processing) {
@@ -42,7 +69,7 @@ function WGTextfield(txtField,flag){
     }
     processing.draw = function() {
 			var dynText   = $('#dynamic_textfield');
-			var searchBar = $('div.ds input');
+			var searchBar = $('div#input_keywords input');
 			if(scaleInt!=null){
   	    if(scaleInt.stage==3){
 					searchBar.css('opacity', 1.0);
@@ -55,7 +82,7 @@ function WGTextfield(txtField,flag){
   	      scaleInt = null;
 					isActive = false;
 					
-					var txtValue = $('div.ds input').val();
+					var txtValue = $('div#input_keywords input').val();
 					for(var i=0; i<txtValue.length; i++) { 
 						var dom = $("#dt_"+i);
 						dom.css('font-size', '18px');
@@ -74,7 +101,7 @@ function WGTextfield(txtField,flag){
 						var font_size = 18 + Math.round(scaleInt.value*6*i)+"px";
 						var dom = $("#dynamic_textfield span:eq("+i+")");
 						if (dom != undefined) {
-							if (dom.position() != null && dom.position().left < 250) {
+							if (dom.position() != null && dom.position().left < 300) {
 								dom.css('font-size', font_size);
 							} 
 							else if(midValue==0){
@@ -100,7 +127,7 @@ function WGButtonForYawn(btn,left,top,mode){
   var x = 10;
   var y = 10;
   var width = btn.width()-7;
-  var height = btn.height();
+  var height = btn.height()+2;
   var targetX = 0;
   var targetY = 0;
   var isMoving = false;
@@ -204,7 +231,7 @@ Processing.prototype.drawFreehandLine = function(x1, y1, x2, y2) {
 	
 	for(var i=0; i<pieces; i++) {
 		var tx = x1 + dx*(i + this.random(2,4));
-		var ty = y1 + dy*(i + this.random(2,4));	
+		var ty = y1 + dy*(i + this.random(-4,4)) + this.random(-1,1);	
 		this.vertex( tx, ty);
 	}
 	
