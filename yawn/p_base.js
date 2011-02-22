@@ -104,7 +104,7 @@ function WGTextfield(txtField,flag){
 						var font_size = 18 + Math.round(scaleInt.value*3*i)+"px";
 						var dom = $("#dynamic_textfield span:eq("+i+")");
 						if (dom != undefined) {
-							if (dom.position() != null && dom.position().left < 240) {
+							if (dom.position() != null && dom.position().left < 220) {
 								dom.css('font-size', font_size);
 							} 
 							else if(midValue==0){
@@ -113,7 +113,10 @@ function WGTextfield(txtField,flag){
 							}
 							else {
 								var font_size3 = 18 + Math.round(scaleInt.value*3*(midValue-i+midValue))+"px";
-								dom.css('font-size', font_size3);
+								if(dom.position().left>500)
+									dom.css('font-size', 0);
+								else
+									dom.css('font-size', font_size3);
 							}
 						}
 					}

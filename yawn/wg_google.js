@@ -54,6 +54,8 @@ function WGGoogle() {
 		$('div#input_div input').css('opacity', 1.0);
 		$('#dynamic_textfield').hide();
 
+//		setTimeout( activateYawn,3000);
+
 		timerINT = setInterval(timerHandler,30);
 		
 		// new hyperlink
