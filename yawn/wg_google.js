@@ -13,8 +13,12 @@ function WGGoogle() {
 	var currentSoundIdx = 0;
 	var sound;
 	
+	var checkTimer = 0;
+	
 	var metaKey = false;	
 	var searchTextField;
+	
+	var currentYawnPeriod = 0;
 	
   this.init = function() {
 		
@@ -56,36 +60,14 @@ function WGGoogle() {
   }
   
  	function timerHandler() {
-
-		if(wgTxtfieldSearch.isActive()==false && Math.random()<0.003) {
-			if(currentSoundIdx<sounds.length-1)
-				currentSoundIdx++;
-			else
-				currentSoundIdx = 0;
-			
-			if(document.getElementById('yawn_audio')!=null)
-				document.body.removeChild(document.getElementById('yawn_audio'));
-			sound = document.createElement('embed');
-			sound.setAttribute("loop","false");
-	    sound.setAttribute("type","audio/x-wav");
-	    sound.setAttribute("hidden","true");
-			sound.setAttribute("id","yawn_audio");
-			sound.setAttribute("autostart","true");
-			sound.setAttribute('src', "assets/yawn/"+sounds[currentSoundIdx]+".mov");
-	    document.body.appendChild(sound);
-			
-			var idx = parseInt(sounds[currentSoundIdx])-1;
-			var yawnSize = soundsSize[idx];
-			var yawnPeriod = soundsPeriod[idx];
-			
-//			console.log(sounds[currentSoundIdx],yawnSize,yawnPeriod);
-			
-			wgTxtfieldSearch.activeYawn(yawnSize,yawnPeriod);
-			wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*50+30);
-			wgBtnLucky.setTargetPosition( 50-30*Math.random(), Math.random()*50+30);
-			timerCount=0;
+		
+		if(wgTxtfieldSearch.isActive()==false) {
+			checkTimer++;
+			if(Math.random()<0.006 || checkTimer>150*(Math.random()+1))
+				activateYawn();
 		}
-		else if(timerCount==140) {
+			
+		else if(timerCount==currentYawnPeriod*9) {
 			wgBtnSearch.resetPosition();
 			wgBtnLucky.resetPosition();
 			timerCount=-1;
@@ -103,6 +85,34 @@ function WGGoogle() {
 
 	function randOrd(){
 		return (Math.round(Math.random())-0.5); 
+	}
+	
+	function activateYawn() {
+		if(currentSoundIdx<sounds.length-1)
+			currentSoundIdx++;
+		else
+			currentSoundIdx = 0;
+		if(document.getElementById('yawn_audio')!=null)
+			document.body.removeChild(document.getElementById('yawn_audio'));
+		sound = document.createElement('embed');
+		sound.setAttribute("loop","false");
+    sound.setAttribute("type","audio/x-wav");
+    sound.setAttribute("hidden","true");
+		sound.setAttribute("id","yawn_audio");
+		sound.setAttribute("autostart","true");
+		sound.setAttribute('src', "assets/yawn/"+sounds[currentSoundIdx]+".mov");
+    document.body.appendChild(sound);
+		
+		var idx = parseInt(sounds[currentSoundIdx])-1;
+		var yawnSize = soundsSize[idx];
+		var yawnPeriod = soundsPeriod[idx];
+		currentYawnPeriod = yawnPeriod;
+		
+		wgTxtfieldSearch.activeYawn(yawnSize,yawnPeriod);
+		wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*40*yawnSize+40);
+		wgBtnLucky.setTargetPosition( 50-30*Math.random(), Math.random()*40*yawnSize+40);
+		timerCount = 0;
+		checkTimer = 0;
 	}	
 }
 
@@ -111,7 +121,7 @@ var YawnTextField = {
     var yawnTextField= $(selector);
     
     function refreshDynamicField() {
-      console.log('refresh');
+//      console.log('refresh');
       var value = yawnTextField.val();
       var formatValue = '';
       for(var i=0; i<value.length; i++) {	 	
@@ -154,7 +164,7 @@ var YawnTextField = {
 
 		yawnTextField.keydown(function(e){
       if (e.metaKey) {
-        console.log('metakey');
+//        console.log('metakey');
 			  metaKey = true;
       } else { 
         metaKey = false;
