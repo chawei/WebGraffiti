@@ -1,41 +1,93 @@
+<!--
+You are free to copy and use this sample in accordance with the terms of the
+Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>My Google API Application</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google AJAX Search API Sample</title>
     <script src="https://www.google.com/jsapi?key=ABQIAAAA6Xn9d4is7kUb3e3Ox3XBZBSyWalean-AU0tK_WRQij4fc27DrxTi6uN3Sy-jrVV2NZ2kMbxnWsiL_Q" type="text/javascript"></script>
-    <script language="Javascript" type="text/javascript">
-    //<![CDATA[
-
-    google.load("search", "1");
-
-    function OnLoad() {
-      // Create a search control
-      var searchControl = new google.search.SearchControl();
-
-      // Add in a full set of searchers
-      var localSearch = new google.search.LocalSearch();
-      searchControl.addSearcher(localSearch);
-      searchControl.addSearcher(new google.search.WebSearch());
-      searchControl.addSearcher(new google.search.VideoSearch());
-      searchControl.addSearcher(new google.search.BlogSearch());
-
-      // Set the Local Search center point
-      localSearch.setCenterPoint("New York, NY");
-
-      // Tell the searcher to draw itself and tell it where to attach
-      searchControl.draw(document.getElementById("searchcontrol"));
-
-      // Execute an inital search
-      searchControl.execute("processing");
-			
+		<script type="text/javascript" language="javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+    /*
+    *  How to search for images and restrict them by size.
+    *  This demo will also show how to use Raw Searchers, aka a searcher that is
+    *  not attached to a SearchControl.  Thus, we will handle and draw the results
+    *  manually.
+    */
+    
+    google.load('search', '1');
+    
+    function searchComplete(searcher) {
+      // Check that we got results
+      if (searcher.results && searcher.results.length > 0) {
+        // Grab our content div, clear it.
+        var contentDiv = document.getElementById('content');
+        contentDiv.innerHTML = '';
+    
+        // Loop through our results, printing them to the page.
+        var results = searcher.results;
+        for (var i = 0; i < results.length; i++) {
+          // For each result write it's title and image to the screen
+          var result = results[i];
+          var imgContainer = document.createElement('div');
+    
+          var title = document.createElement('h2');
+          // We use titleNoFormatting so that no HTML tags are left in the title
+          title.innerHTML = result.titleNoFormatting;
+    
+          var newImg = document.createElement('img');
+          // There is also a result.url property which has the escaped version
+          newImg.src = result.tbUrl;
+    
+          imgContainer.appendChild(title);
+          imgContainer.appendChild(newImg);
+    
+          // Put our title + image in the content
+          contentDiv.appendChild(imgContainer);
+        }
+      }
     }
-    google.setOnLoadCallback(OnLoad);
+    
+    function OnLoad(keywords) {
+      // Our ImageSearch instance.
+      var imageSearch = new google.search.ImageSearch();
+    
+      // Restrict to extra large images only
+      imageSearch.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE,
+                                 google.search.ImageSearch.IMAGESIZE_MEDIUM);
+    
+      // Here we set a callback so that anytime a search is executed, it will call
+      // the searchComplete function and pass it our ImageSearch searcher.
+      // When a search completes, our ImageSearch object is automatically
+      // populated with the results.
+      imageSearch.setSearchCompleteCallback(this, searchComplete, [imageSearch]);
+    
+      // Find me a beautiful car.
+      imageSearch.execute(keywords);
+    }
 
-    //]]>
+		function submitSearch() {
+			OnLoad( $('input').val() );
+		}
+		
     </script>
   </head>
-  <body>
-    <div id="searchcontrol">Loading...</div>
+  <body style="font-family: Arial;border: 0 none;">
+
+	<input autocomplete=off maxlength=2048 id="input" name=q title="Google Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
+
+		<div id="btn_container" style="margin: 10px 0 0">
+	  <span class=ds >
+	    <span class=lsbb>
+	    <input name=btnG type=submit value="Google Search" class=lsb onClick="submitSearch();">
+	    </span>
+	  </span>
+		
+	  <div id="content">Loading...</div>
 	
   </body>
 </html>
+​

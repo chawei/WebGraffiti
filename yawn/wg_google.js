@@ -62,6 +62,7 @@ function WGGoogle() {
 		$('.result').each(function(index) {
 			var hl = new WGHyperLink($(this));
 		});
+		
   }
   
  	function timerHandler() {

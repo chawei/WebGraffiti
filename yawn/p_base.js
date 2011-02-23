@@ -25,6 +25,41 @@ function WGHyperLink(div) {
 	}
 }
 
+function WGResultImage(div,w,h) {
+	var width = w;//div.offsetWidth;
+	var height = h;//div.offsetHeight;
+	var imgDiv = div;
+  init();
+	
+  function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= height+20;
+  	canvasElement.width= width+20;
+  	canvasElement.style.position = "absolute";
+  	canvasElement.style.left = -10+"px";
+  	canvasElement.style.top = -10+"px";
+  	canvasElement.style.zIndex = 10;
+  	imgDiv.appendChild(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+	
+  function sketchProc(processing) {
+    processing.setup = function() {
+			processing.background(255);
+			processing.smooth();
+  		processing.frameRate(10);
+			processing.stroke(33);
+			processing.noFill();
+			// processing.fill(255);
+  		processing.drawFreehandRect( 10, 10, width, height, false);
+    }
+    processing.draw = function() {
+			processing.clear();
+			processing.drawFreehandRect( 10, 10, width, height, false);
+		}
+	}
+}
+
 function WGTextfield(txtField,flag){	
   var x = 300;
   var y = 80;

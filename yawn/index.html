@@ -13,42 +13,89 @@
 		
 		<script src="https://www.google.com/jsapi?key=ABQIAAAA6Xn9d4is7kUb3e3Ox3XBZBSyWalean-AU0tK_WRQij4fc27DrxTi6uN3Sy-jrVV2NZ2kMbxnWsiL_Q" type="text/javascript"></script>
 		
-		<script language="Javascript" type="text/javascript">
-			$(document).ready(function() {
-				
-				//google.load("search", "1");
-				//OnLoad();
-				function OnLoad() {
-		      // Create a search control
-		      var searchControl = new google.search.SearchControl();
+		<script type="text/javascript">
+   
+    google.load('search', '1');
+    
+    function searchComplete(searcher) {
+      // Check that we got results
+      if (searcher.results && searcher.results.length > 0) {
+        // Grab our content div, clear it.
+        var contentDiv = document.getElementById('content');
+        contentDiv.innerHTML = '';
+    
+        var results = searcher.results;
+        for (var i = 0; i < results.length; i++) {
+		//			if(i<5) {
+          	var result = results[i];
+	          var imgContainer = document.createElement('div');
+   					imgContainer.style.position = "relative";
+						imgContainer.style.display = "inline-block";
+						
+	          var title = document.createElement('p');
+						title.className = 'result_img_title';
+	          title.innerHTML = result.titleNoFormatting;
+    
+	          var newImg = document.createElement('img');
+	          // There is also a result.url property which has the escaped version
+	          newImg.src = result.tbUrl;
+	    			newImg.className = 'result_img';
+	//          imgContainer.appendChild(title);
+	          imgContainer.appendChild(newImg);
+    
+	          contentDiv.appendChild(imgContainer);
+	
+						var rimage = new WGResultImage(imgContainer,100,100);
+	//				}
+        }
+      }
+    }
+    
+    function submitSearch() {
+      // Our ImageSearch instance.
+			var keywords = $('input').val();
+      var imageSearch = new google.search.ImageSearch();
+    
+      imageSearch.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE,
+                                 google.search.ImageSearch.IMAGESIZE_MEDIUM);
+    
+			var options = new GsearcherOptions();
+			var control = new GSearchControl();
+		  control.setResultSetSize(GSearch.LARGE_RESULTSET);
+//			control.addSearcher(imageSearch);
+			control.addSearcher(imageSearch, options);
+			
+      imageSearch.setSearchCompleteCallback(this, searchComplete, [imageSearch]);
+    	
 
-		      // Add in a full set of searchers
-		      searchControl.addSearcher(new google.search.WebSearch());
-		      searchControl.addSearcher(new google.search.VideoSearch());
-		      searchControl.addSearcher(new google.search.BlogSearch());
-
-		      // Tell the searcher to draw itself and tell it where to attach
-		      searchControl.draw(document.getElementById("searchcontrol"));
-
-		      // Execute an inital search
-		      searchControl.execute("processing");
-		    }
-			});
-		</script>
+      imageSearch.execute(keywords);
+    }
+		
+    </script>
 		
 		<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
 		
 		<style media="screen" type="text/css">
 			html > body, html > body * {
-/*					font-family: 'Reenie Beanie', arial, serif !important;*/
-/*					font-family: 'Vollkorn', arial, serif;*/
 				font-family: 'Coming Soon', arial, serif !important;
-/*					font-size: 18px;*/
 			}
 			span{ background:transparent !important; border:none !important; }
 			input{border: none !important; background: none !important; }
 			input:focus, textarea:focus {
 			    outline: none;
+			}
+			.result_container {
+				float: left;
+			}
+			.result_img {
+				width: 100px;
+				height: 100px;
+				float: left;
+				margin: 0 13px 0 0;
+			}
+			.result_img_title {
+				font-size: 11px;
+				width: 100px;
 			}
 	    div{border: none !important; border-bottom: none !important; border-top: none !important;}
 			a{text-decoration:none!important;color:#000!important;}
@@ -59,9 +106,7 @@
 				height:25px;
 				width:496px;
 			}
-			#result_container {
-				text-align: left;
-			}
+			
 			.result {
 				display: inline-block;
 				position:relative;
@@ -107,12 +152,12 @@
 			</div>
 			
 			<div style="width:510px;">
-		  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Google Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
+		  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Image Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
 			</div>
 			<div id="btn_container" style="margin: 10px 0 0">
 		  <span class=ds >
 		    <span class=lsbb>
-		    <input name=btnG type=submit value="Google Search" class=lsb>
+		    <input name=btnG type=submit value="Google Search" class=lsb onClick="submitSearch();">
 		    </span>
 		  </span>
 		  <span class=ds>
@@ -121,12 +166,12 @@
 		    </span>
 		  </span>
 		  </div>
+		
+				<div id="content" style="margin-top:150px;">Loading...</div>
+				
 			</div>
-			  
-			<!-- <div id="result_container">
-				<span class="result"><a href="http://processing.org">Processing.org</a></span>
-				<span class="result"><a href="http://processing.org">Processing.org</a></span>
-			</div>	   -->
+
+			
 			
 		</center>
 
