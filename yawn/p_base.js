@@ -131,7 +131,7 @@ function WGTextfield(txtField,flag){
   	      scaleInt.update();
 					processing.fill(255);
 					var sc = scaleInt.getScaleValue();
- 	      	processing.drawFreehandEllipse( processing.width/2, processing.height/2, sc*processing.map(scaleInt.value, 0, 1, 1, 1.5)*width, sc*processing.map(scaleInt.value, 0, 1, 1, 3.5)*height, 0, 2*Math.PI);
+ 	      	processing.drawFreehandEllipse( processing.width/2, processing.height/2, sc*processing.map(scaleInt.value, 0, 1, 1, 1.1)*width, sc*processing.map(scaleInt.value, 0, 1, 1, 3.9)*height, 0, 2*Math.PI);
 					
 					var txtValue = searchBar.val();
 					var midValue = 0;
