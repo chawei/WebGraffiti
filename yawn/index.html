@@ -89,7 +89,8 @@
 		<script type="text/javascript">
    
     google.load('search', '1');
-    
+    var currentKeywords = "";
+
     function searchComplete(searcher) {
       // Check that we got results
       if (searcher.results && searcher.results.length > 0) {
@@ -116,7 +117,7 @@
 				var contentDiv = document.getElementById('content');
         contentDiv.innerHTML = '';
 				var content_desc = document.getElementById('content_desc');
-		    content_desc.innerHTML = 'Oops! There is no results for '+keywords+". Try Again!";
+		    content_desc.innerHTML = 'Oops! There is no results for '+currentKeywords+". Try Again~";
 				
 			}
     }
@@ -146,7 +147,7 @@
 			
       imageSearch.setSearchCompleteCallback(this, searchComplete, [imageSearch]);
     	
-
+			currentKeywords = keywords;
       imageSearch.execute(keywords);
 			
 			$('#dynamic_textfield')[0].innerHTML = '';
