@@ -66,24 +66,24 @@ function WGGoogle() {
   }
   
  	function timerHandler() {
-		
 		if(wgTxtfieldSearch.isActive()==false) {
 			checkTimer++;
-			if(Math.random()<0.006 || checkTimer>150*(Math.random()+1))
+			if(Math.random()<0.003 || checkTimer>120*(Math.random()+1))
 				activateYawn();
 		}
-			
 		else if(timerCount==currentYawnPeriod*8) {
 			wgBtnSearch.resetPosition();
 			wgBtnLucky.resetPosition();
 			timerCount=-1;
+			checkTimer=0;
 		}
-		else if(timerCount!=-1)	
+		else if(timerCount!=-1)	{
 			timerCount++;
+		}
 	}
 	
 	function randOrd(){
-		return (Math.round(Math.random())-0.5); 
+		return (Math.round(Math.random())-0.5);
 	}
 	
 	function activateYawn() {

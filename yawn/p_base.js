@@ -33,7 +33,6 @@ function WGResultImage(div,w,h) {
 	var y = 13;//Math.random()*20+10;
   init();
 
-	
   function init() {
     var canvasElement = document.createElement('canvas');	
   	canvasElement.height= height+20;
