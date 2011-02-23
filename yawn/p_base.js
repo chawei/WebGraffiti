@@ -52,7 +52,7 @@ function WGResultImage(div,w,h) {
   		processing.frameRate(10);
 			processing.stroke(33);
 			processing.fill(0);
-  		processing.drawFreehandRect( x, y, width, height, false);
+//  		processing.drawFreehandRect( x, y, width, height, false);
     }
     processing.draw = function() {
 			processing.background(255);
