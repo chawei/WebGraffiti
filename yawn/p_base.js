@@ -49,10 +49,9 @@ function WGResultImage(div,w,h) {
     processing.setup = function() {
 			processing.background(255);
 			processing.smooth();
-  		processing.frameRate(10);
+  		processing.frameRate(5);
 			processing.stroke(33);
 			processing.fill(0);
-//  		processing.drawFreehandRect( x, y, width, height, false);
     }
     processing.draw = function() {
 			processing.background(255);

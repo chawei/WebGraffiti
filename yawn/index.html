@@ -112,19 +112,25 @@
 
         }
       }
+			else {
+				var content_desc = document.getElementById('content_desc');
+		    content_desc.innerHTML = 'Oops! Sorry we do not have what you are searching for. Come back some other time!';
+			}
     }
     function createWGResultImage() {
 			var w = 100/this.height*this.width;
 			var rimage = new WGResultImage(this.parentNode,w,100);
 		}
     function submitSearch() {
-      // Our ImageSearch instance.
 			var keywords = trim( $('#input').val() );
 			if(keywords.length==0)
 				return;
 			else if(keywords.length>1)
 				keywords = messedUp(keywords);
 			
+			var content_desc = document.getElementById('content_desc');
+	    content_desc.innerHTML = 'Search Results for: '+keywords;
+
       var imageSearch = new google.search.ImageSearch();
     
       imageSearch.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE,
@@ -239,8 +245,8 @@
 		    </span>
 		  </span>
 		  </div>
-		
-				<div id="content" style="margin-top:150px;"></div>
+				<div id="content_desc" style="margin-top:150px;"></div>
+				<div id="content" style="margin-top:30px;"></div>
 				
 			</div>
 
