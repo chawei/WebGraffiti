@@ -156,7 +156,7 @@
 
 		function messedUp(keywords) {
 			var messedUpKeywords = '';
-			var sIdx = Math.floor( Math.random()*4 );
+			var sIdx = Math.floor( Math.random()*3 );
 			switch(sIdx) {
 				case 0:// swap 2 letters
 					var c1,c2;
@@ -174,21 +174,21 @@
 							messedUpKeywords+=keywords[i];
 					}
 					break;
-				case 1:// anagram
-					messedUpKeywords = anagram(keywords);
-					break;
-				case 2:// miss 1 letter
+				// case 1:// anagram
+				// 					messedUpKeywords = anagram(keywords);
+				// 					break;
+				case 1:// miss 1 letter
 					var idx = Math.floor( Math.random()*keywords.length );
 					for(var i=0; i<keywords.length; i++) {
 						if(i!=idx)
 							messedUpKeywords+=keywords[i];
 					}
 					break;
-				case 3:
+				case 2:
 					messedUpKeywords = keywords;
 					break;
 			}
-			console.log(sIdx,messedUpKeywords);
+//			console.log(sIdx,messedUpKeywords);
 			return messedUpKeywords;
 		}
 		

@@ -32,7 +32,7 @@ function WGGoogle() {
 		  document.body.appendChild(sound);
 		}
 		sounds.sort( randOrd );
-		console.log(sounds);
+//		console.log(sounds);
 	}
 	
   this.init = function() {
@@ -114,8 +114,6 @@ function WGGoogle() {
 		var yawnSize = soundsSize[idx];
 		var yawnPeriod = soundsPeriod[idx];
 		currentYawnPeriod = yawnPeriod;
-		
-		console.log(currentSoundIdx,soundId,yawnSize,yawnPeriod);
 		
 		wgTxtfieldSearch.activeYawn(yawnSize,yawnPeriod);
 		wgBtnSearch.setTargetPosition( -50+Math.random()*30, Math.random()*40*yawnSize+40);
