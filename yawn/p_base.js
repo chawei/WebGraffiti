@@ -29,6 +29,8 @@ function WGResultImage(div,w,h) {
 	var width = w;//div.offsetWidth;
 	var height = h;//div.offsetHeight;
 	var imgDiv = div;
+	var x = 13;//Math.random()*20+10;
+	var y = 13;//Math.random()*20+10;
   init();
 
 	
@@ -51,13 +53,13 @@ function WGResultImage(div,w,h) {
   		processing.frameRate(10);
 			processing.stroke(33);
 			processing.fill(0);
-  		processing.drawFreehandRect( 10, 10, width, height, false);
+  		processing.drawFreehandRect( x, y, width, height, false);
     }
     processing.draw = function() {
 			processing.background(255);
 				processing.saveContext();
 			processing.globalCompositeOperation("destination-out");
-			processing.drawFreehandRect( 13, 13, width-6, height-6, false);
+			processing.drawFreehandRect( x, y, width-6, height-6, false);
 			processing.restoreContext();
 		}
 	}

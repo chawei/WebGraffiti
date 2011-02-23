@@ -27,25 +27,16 @@
         var results = searcher.results;
         for (var i = 0; i < results.length; i++) {
          	var result = results[i];
-          var imgContainer = document.createElement('div');
-  					imgContainer.style.position = "relative";
-					imgContainer.style.display = "inline-block";
+
+					var result_div = $('<div class="result_div"></div>');
+					$('#content').append(result_div);
+  				result_div.hide().delay(Math.random()*6000+200).fadeIn(2000);
+
+					var result_image = $('<img class="result_img"/>');
+					result_image.attr('src',result.tbUrl);
+					result_div.append(result_image);
 					
-          var title = document.createElement('p');
-					title.className = 'result_img_title';
-          title.innerHTML = result.titleNoFormatting;
-   
-          var newImg = document.createElement('img');
-          // There is also a result.url property which has the escaped version
-          newImg.src = result.tbUrl;
-    			newImg.className = 'result_img';
-//          imgContainer.appendChild(title);
-          imgContainer.appendChild(newImg);
-   
-          contentDiv.appendChild(imgContainer);
-
-					var rimage = new WGResultImage(imgContainer,100,100);
-
+					var rimage = new WGResultImage(result_div[0],100,100);
         }
       }
     }
@@ -70,6 +61,7 @@
       imageSearch.execute(keywords);
     }
 		
+		
     </script>
 		
 		<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
@@ -85,6 +77,10 @@
 			}
 			.result_container {
 				float: left;
+			}
+			.result_div {
+				position: relative;
+				display: inline-block;
 			}
 			.result_img {
 				width: 100px;
