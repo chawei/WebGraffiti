@@ -20,6 +20,21 @@ function WGGoogle() {
 	
 	var currentYawnPeriod = 0;
 	
+	function initAudio() {
+		for(var i=0; i<sounds.length; i++) {
+			var sound = document.createElement('embed');
+			sound.setAttribute("loop","false");
+		  sound.setAttribute("type","audio/x-wav");
+		  sound.setAttribute("hidden","true");
+			sound.setAttribute("id","yawn_audio_"+sounds[i]);
+			sound.setAttribute("autostart","false");
+			sound.setAttribute('src', "assets/yawn/"+sounds[currentSoundIdx]+".mov");
+		  document.body.appendChild(sound);
+		}
+		sounds.sort( randOrd );
+//		console.log(sounds);
+	}
+	
   this.init = function() {
 		
 		flagTxtfield = true;
@@ -27,9 +42,8 @@ function WGGoogle() {
 		flagClock = false;
 		
 		// init sounds
-		// sounds.sort( randOrd );
-		// console.log(sounds);
-
+		initAudio();
+		
 		// draw textfield
 		var input = document.getElementById('input_div');
 		input.style.position = 'relative';
@@ -71,7 +85,7 @@ function WGGoogle() {
 			if(Math.random()<0.003 || checkTimer>120*(Math.random()+1))
 				activateYawn();
 		}
-		else if(timerCount==currentYawnPeriod*8) {
+		else if(timerCount>=currentYawnPeriod*8) {
 			wgBtnSearch.resetPosition();
 			wgBtnLucky.resetPosition();
 			timerCount=-1;
@@ -91,16 +105,9 @@ function WGGoogle() {
 			currentSoundIdx++;
 		else
 			currentSoundIdx = 0;
-		if(document.getElementById('yawn_audio')!=null)
-			document.body.removeChild(document.getElementById('yawn_audio'));
-		sound = document.createElement('embed');
-		sound.setAttribute("loop","false");
-    sound.setAttribute("type","audio/x-wav");
-    sound.setAttribute("hidden","true");
-		sound.setAttribute("id","yawn_audio");
-		sound.setAttribute("autostart","true");
-		sound.setAttribute('src', "assets/yawn/"+sounds[currentSoundIdx]+".mov");
-    document.body.appendChild(sound);
+		
+		var soundId = "yawn_audio_"+sounds[currentSoundIdx];
+		document.getElementById(soundId).Play();
 		
 		var idx = parseInt(sounds[currentSoundIdx])-1;
 		var yawnSize = soundsSize[idx];
@@ -120,7 +127,6 @@ var YawnTextField = {
     var yawnTextField= $(selector);
     
     function refreshDynamicField() {
-//      console.log('refresh');
       var value = yawnTextField.val();
       var formatValue = '';
       for(var i=0; i<value.length; i++) {	 	
