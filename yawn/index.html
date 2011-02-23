@@ -232,22 +232,24 @@
 			<div id="img_container" style="margin-top:40px;margin-bottom:30px;">
 				<img src="assets/google_logo_1.png">
 			</div>
-		
+			
 			<div style="width:510px;">
-		  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Image Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
-			</div>
-			<div id="btn_container" style="margin: 10px 0 0">
-		  <span class=ds >
-		    <span class=lsbb>
-		    <input name=btnG type=submit value="Google Search" class=lsb onClick="submitSearch();">
-		    </span>
-		  </span>
-		  <span class=ds>
-		    <span class=lsbb>
-		      <input name=btnI type=submit value="I&#39;m Feeling Lucky" class=lsb>
-		    </span>
-		  </span>
-		  </div>
+				<form id="search_form">
+			  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Image Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
+				</div>
+				<div id="btn_container" style="margin: 10px 0 0">
+			  <span class=ds >
+			    <span class=lsbb>
+			    <input name=btnG type=submit value="Google Search" class=lsb>
+			    </span>
+			  </span>
+			  <span class=ds>
+			    <span class=lsbb>
+			      <input name=btnI type=submit value="I&#39;m Feeling Lucky" class=lsb>
+			    </span>
+			  </span>
+			  </div>
+				</form>
 				<div id="content_desc" style="margin-top:140px;"></div>
 				<div id="content" style="margin-top:10px;"></div>
 			</div>
@@ -263,6 +265,11 @@
 			webGraffiti = new WGGoogle();
 			webGraffiti.init();
 			$('center').fadeIn();
+			
+			$('#search_form').submit(function(e){
+				e.preventDefault();
+				submitSearch();
+			});
 		}
 	});
 </script>
