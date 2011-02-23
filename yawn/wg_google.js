@@ -155,7 +155,7 @@ var YawnTextField = {
 			} else {
 				insertHTML = '<span>' + newChar + '</span>';
 			}
-
+			
 			var insertIndex = range.start-1;
 			if (insertIndex < 0) {
 			  $('#dynamic_textfield').append(insertHTML);

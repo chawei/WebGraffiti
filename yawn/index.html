@@ -113,8 +113,11 @@
         }
       }
 			else {
+				var contentDiv = document.getElementById('content');
+        contentDiv.innerHTML = '';
 				var content_desc = document.getElementById('content_desc');
-		    content_desc.innerHTML = 'Oops! Sorry we do not have what you are searching for. Come back some other time!';
+		    content_desc.innerHTML = 'Oops! There is no results for '+keywords+". Try Again!";
+				
 			}
     }
     function createWGResultImage() {
@@ -229,7 +232,7 @@
 			<div id="img_container" style="margin-top:40px;margin-bottom:30px;">
 				<img src="assets/google_logo_1.png">
 			</div>
-			
+		
 			<div style="width:510px;">
 		  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Image Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
 			</div>
@@ -247,11 +250,7 @@
 		  </div>
 				<div id="content_desc" style="margin-top:140px;"></div>
 				<div id="content" style="margin-top:10px;"></div>
-				
 			</div>
-
-			
-			
 		</center>
 
 <script type="text/javascript" language="javascript">
