@@ -30,6 +30,7 @@ function WGResultImage(div,w,h) {
 	var height = h;//div.offsetHeight;
 	var imgDiv = div;
   init();
+
 	
   function init() {
     var canvasElement = document.createElement('canvas');	
@@ -38,7 +39,7 @@ function WGResultImage(div,w,h) {
   	canvasElement.style.position = "absolute";
   	canvasElement.style.left = -10+"px";
   	canvasElement.style.top = -10+"px";
-  	canvasElement.style.zIndex = 10;
+  	canvasElement.style.zIndex = 0;
   	imgDiv.appendChild(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
@@ -49,13 +50,15 @@ function WGResultImage(div,w,h) {
 			processing.smooth();
   		processing.frameRate(10);
 			processing.stroke(33);
-			processing.noFill();
-			// processing.fill(255);
+			processing.fill(0);
   		processing.drawFreehandRect( 10, 10, width, height, false);
     }
     processing.draw = function() {
-			processing.clear();
-			processing.drawFreehandRect( 10, 10, width, height, false);
+			processing.background(255);
+				processing.saveContext();
+			processing.globalCompositeOperation("destination-out");
+			processing.drawFreehandRect( 13, 13, width-6, height-6, false);
+			processing.restoreContext();
 		}
 	}
 }
@@ -352,7 +355,7 @@ Processing.prototype.drawFreehandArc = function(x, y, w, h, start, end) {
 
 Processing.prototype.drawFreehandRect = function(x, y, w, h, hasLeg) {
   var gap = 2;
-  var freeFactor = 0.2;
+  var freeFactor = 0.15;
 
   this.beginShape();
   this.vertex(x,y);  
@@ -397,7 +400,7 @@ Processing.prototype.drawFreehandRect = function(x, y, w, h, hasLeg) {
 		this.vertex( currentX, currentY);
 		vertex[3] = new Point(currentX, currentY);
 	}
-  this.endShape();
+  this.endShape(this.CLOSE);
 
   if(hasLeg){
 	  for(var i=0; i<3; i++){

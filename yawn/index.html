@@ -26,27 +26,26 @@
     
         var results = searcher.results;
         for (var i = 0; i < results.length; i++) {
-		//			if(i<5) {
-          	var result = results[i];
-	          var imgContainer = document.createElement('div');
-   					imgContainer.style.position = "relative";
-						imgContainer.style.display = "inline-block";
-						
-	          var title = document.createElement('p');
-						title.className = 'result_img_title';
-	          title.innerHTML = result.titleNoFormatting;
-    
-	          var newImg = document.createElement('img');
-	          // There is also a result.url property which has the escaped version
-	          newImg.src = result.tbUrl;
-	    			newImg.className = 'result_img';
-	//          imgContainer.appendChild(title);
-	          imgContainer.appendChild(newImg);
-    
-	          contentDiv.appendChild(imgContainer);
-	
-						var rimage = new WGResultImage(imgContainer,100,100);
-	//				}
+         	var result = results[i];
+          var imgContainer = document.createElement('div');
+  					imgContainer.style.position = "relative";
+					imgContainer.style.display = "inline-block";
+					
+          var title = document.createElement('p');
+					title.className = 'result_img_title';
+          title.innerHTML = result.titleNoFormatting;
+   
+          var newImg = document.createElement('img');
+          // There is also a result.url property which has the escaped version
+          newImg.src = result.tbUrl;
+    			newImg.className = 'result_img';
+//          imgContainer.appendChild(title);
+          imgContainer.appendChild(newImg);
+   
+          contentDiv.appendChild(imgContainer);
+
+					var rimage = new WGResultImage(imgContainer,100,100);
+
         }
       }
     }
@@ -92,6 +91,7 @@
 				height: 100px;
 				float: left;
 				margin: 0 13px 0 0;
+				z-index: -15;
 			}
 			.result_img_title {
 				font-size: 11px;
