@@ -1,0 +1,3 @@
+- store keywords in db
+
+- add twitter

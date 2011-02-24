@@ -85,7 +85,7 @@ function WGGoogle() {
 			if(Math.random()<0.003 || checkTimer>120*(Math.random()+1))
 				activateYawn();
 		}
-		else if(timerCount>=currentYawnPeriod*8) {
+		else if(timerCount>=currentYawnPeriod*9) {
 			wgBtnSearch.resetPosition();
 			wgBtnLucky.resetPosition();
 			timerCount=-1;
@@ -94,7 +94,6 @@ function WGGoogle() {
 		else if(timerCount!=-1)	{
 			timerCount++;
 		}
-//		console.log(checkTimer,timerCount,currentYawnPeriod);
 	}
 	
 	function randOrd(){

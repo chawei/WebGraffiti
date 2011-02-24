@@ -22,7 +22,6 @@
 				display: inline-block;
 			}
 			.result_img {
-/*				width: 100px;*/
 				height: 100px;
 				float: left;
 				margin: 0 10px 0 0;
@@ -170,7 +169,8 @@
 			
 			// $('#img_container').hide();
 			$('#img_container').css('width','900px').css('margin-top','10px');
-			$('#img_container img').css('width','150px').css('float','left');			
+			$('#img_container img').css('width','150px').css('float','left');
+			$('#main_container').css('padding-left','140px');
 			
 			var content_desc = document.getElementById('content_desc');
 	    content_desc.innerHTML = 'Search Results for: <b>'+keywords+'</b>';
@@ -281,11 +281,11 @@
 	<body bgcolor=#ffffff text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000>
 
 		<center>
-			<div id="img_container" style="margin-top:50px;">
-				<img src="assets/google_logo.png">
+			<div id="img_container" style="margin-top:54px;">
+				<a href="http://search.detourlab.com"><img src="assets/google_logo.png"></a>
 			</div>
 			
-			<div id="main_container" style="width:510px;margin-top:40px;">
+			<div id="main_container" style="width:510px;margin-top:40px;padding-top:6px;">
 				<form id="search_form">
 			  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Image Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
 				</div>
