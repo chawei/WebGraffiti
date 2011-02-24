@@ -42,10 +42,11 @@
 				width:496px;
 			}
 			
-			.result {
-				display: inline-block;
+			#result {
+/*				display: inline-block;
 				position:relative;
-				margin-right: 10px;
+				margin-right: 10px;*/
+				text-align: left;
 			}
 			.result_canvas {
 				position: absolute;
@@ -83,8 +84,11 @@
 			.websearch_content {
 				font-size: 13px;
 			}
+			.websearch_div {
+				margin-bottom: 10px;
+			}
 			#contentWeb {
-				text-align: left;
+/*				text-align: left;*/
 			}
 		</style>
 		
@@ -112,9 +116,9 @@
         for (var i = 0; i < results.length; i++) {
          	var result = results[i];
 
-					var result_div = $('<div class="result_div"></div>');
+					var result_div = $('<div class="websearch_div"></div>');
 					$('#contentWeb').append(result_div);
-//  				result_div.hide().delay(Math.random()*6000+200).fadeIn(2000);
+  				result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
 					
 					result_div.append('<div class="websearch_title">'+result.title+'</div>');
 					result_div.append('<div class="websearch_content">'+result.content+'</div>');
@@ -137,7 +141,7 @@
 
 					var result_div = $('<div class="result_div"></div>');
 					$('#content').append(result_div);
-  				result_div.hide().delay(Math.random()*6000+200).fadeIn(2000);
+  				result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
 
 					var result_image = $('<img class="result_img"/>');
 					result_image.attr('src',result.tbUrl);
@@ -168,7 +172,7 @@
 			$('#img_container').hide();
 			$('#main_container').css('margin-top','70px');
 			var content_desc = document.getElementById('content_desc');
-	    content_desc.innerHTML = 'Search Results for: '+keywords;
+	    content_desc.innerHTML = 'Search Results for: <b>'+keywords+'</b>';
 	
 			// if($('#content_border').length==0) {
 			// 				$('#content_desc').after('<div id="content_border"></div>');
@@ -236,7 +240,7 @@
 					break;
 			}
 //			console.log(sIdx,messedUpKeywords);
-			return messedUpKeywords;
+			return '"'+messedUpKeywords+'"';
 		}
 		
 		function anagram(beforeStr) {
@@ -302,11 +306,11 @@
 			
 			<div id="result" style="width:900px;">
 				<div id="content_desc" style="margin-top:140px;"></div>
-				<div>
-					<div id="content" style="margin-top:10px;"></div>
-				</div>
-				<div>
+				<div style="width:450px;float:left;">
 					<div id="contentWeb" style="margin-top:10px;"></div>
+				</div>
+				<div style="width:430px;float:left;margin-left:20px;">
+					<div id="content" style="margin-top:10px;"></div>
 				</div>
 			</div>
 			
@@ -325,6 +329,8 @@
 			
 			$('#search_form').submit(function(e){
 				e.preventDefault();
+				$('#content').html('');
+				$('#contentWeb').html('');				
 				submitSearch();
 			});
 		}
