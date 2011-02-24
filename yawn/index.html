@@ -119,11 +119,8 @@
 					var result_div = $('<div class="websearch_div"></div>');
 					$('#contentWeb').append(result_div);
   				result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
-					
 					result_div.append('<div class="websearch_title">'+result.title+'</div>');
 					result_div.append('<div class="websearch_content">'+result.content+'</div>');
-					
-
     		}
 			}
 		}
@@ -169,8 +166,10 @@
 			else if(keywords.length>1)
 				keywords = messedUp(keywords);
 			
-			$('#img_container').hide();
-			$('#main_container').css('margin-top','70px');
+			// $('#img_container').hide();
+			$('#img_container img').css('width','150px');
+			$('#img_container img').css('float','left');
+//			$('#main_container').css('margin-top','70px');
 			var content_desc = document.getElementById('content_desc');
 	    content_desc.innerHTML = 'Search Results for: <b>'+keywords+'</b>';
 	
@@ -239,7 +238,6 @@
 					messedUpKeywords = keywords;
 					break;
 			}
-//			console.log(sIdx,messedUpKeywords);
 			return '"'+messedUpKeywords+'"';
 		}
 		
@@ -282,7 +280,7 @@
 
 		<center>
 			<div id="img_container" style="margin-top:50px;">
-				<img src="assets/google_logo_1.png">
+				<img src="assets/google_logo.png">
 			</div>
 			
 			<div id="main_container" style="width:510px;margin-top:40px;">
@@ -305,7 +303,7 @@
 			</div>
 			
 			<div id="result" style="width:900px;">
-				<div id="content_desc" style="margin-top:140px;"></div>
+				<div id="content_desc" style="margin-top:140px;margin-bottom:10px;"></div>
 				<div style="width:450px;float:left;">
 					<div id="contentWeb" style="margin-top:10px;"></div>
 				</div>
