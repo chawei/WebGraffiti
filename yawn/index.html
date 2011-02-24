@@ -9,6 +9,7 @@
 			html > body, html > body * {
 				font-family: 'Coming Soon', arial, serif !important;
 			}
+			img {border: none; outline: none;}
 			span{ background:transparent !important; border:none !important; }
 			input{border: none !important; background: none !important; }
 			input:focus, textarea:focus {
@@ -329,6 +330,16 @@
 	var webGraffiti = null;
 
 	$(document).ready(function() {
+		if ($.browser.webkit) {
+		    //alert( "this is webkit!" );
+		}
+		else {
+			alert("This project only works in Chrome, and Safari!");
+			$('#main_container').html('Please Launch this Project in <b>Google Chrome</b> or <b>Safari</b>!');
+			
+			return;
+		}
+		
 		if(webGraffiti==null) {
 			webGraffiti = new WGGoogle();
 			webGraffiti.init();
