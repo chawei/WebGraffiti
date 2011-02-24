@@ -106,7 +106,7 @@
     var currentKeywords = "";
 
 		function webSearchComplete(searcher) {
-			console.log(searcher.results);
+			
 			if (searcher.results && searcher.results.length > 0) {
         // Grab our content div, clear it.
         var contentDiv = document.getElementById('contentWeb');
@@ -115,17 +115,18 @@
         var results = searcher.results;
         for (var i = 0; i < results.length; i++) {
          	var result = results[i];
-
+					
 					var result_div = $('<div class="websearch_div"></div>');
 					$('#contentWeb').append(result_div);
   				result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
-					result_div.append('<div class="websearch_title">'+result.title+'</div>');
+					result_div.append('<div class="websearch_title"><a href="'+result.url+'" target="_blank">'+result.title+'</a></div>');
 					result_div.append('<div class="websearch_content">'+result.content+'</div>');
+					
     		}
 			}
 		}
     function imageSearchComplete(searcher) {
-			
+			console.log(searcher.results);
       // Check that we got results
       if (searcher.results && searcher.results.length > 0) {
         // Grab our content div, clear it.
@@ -144,7 +145,8 @@
 					result_image.attr('src',result.tbUrl);
 					result_div.append(result_image);
 					result_image[0].onload = createWGResultImage;
-
+					
+					result_image.wrap('<a href="'+result.url+'" target="_blank"></a>');
         }
       }
 			else {
@@ -167,9 +169,9 @@
 				keywords = messedUp(keywords);
 			
 			// $('#img_container').hide();
-			$('#img_container img').css('width','150px');
-			$('#img_container img').css('float','left');
-//			$('#main_container').css('margin-top','70px');
+			$('#img_container').css('width','900px').css('margin-top','10px');
+			$('#img_container img').css('width','150px').css('float','left');			
+			
 			var content_desc = document.getElementById('content_desc');
 	    content_desc.innerHTML = 'Search Results for: <b>'+keywords+'</b>';
 	
