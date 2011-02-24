@@ -297,7 +297,7 @@
 			  </span>
 			  <span class=ds>
 			    <span class=lsbb>
-			      <input name=btnI type=submit value="I'm Feeling Lucky" class=lsb>
+			      <input name=btnI id="input_luck" type=submit value="I'm Feeling Lucky" class=lsb >
 			    </span>
 			  </span>
 			  </div>
@@ -333,6 +333,15 @@
 				$('#contentWeb').html('');				
 				submitSearch();
 			});
+			
+			$('#input_luck').hover(
+				function(){
+					this.value = "Out of Service...";
+				},
+				function(){
+					this.value = "I'm Feeling Lucky";
+				}
+			);
 		}
 	});
 </script>
