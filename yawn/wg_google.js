@@ -170,7 +170,6 @@ var YawnTextField = {
 
 		yawnTextField.keydown(function(e){
       if (e.metaKey) {
-//        console.log('metakey');
 			  metaKey = true;
       } else { 
         metaKey = false;

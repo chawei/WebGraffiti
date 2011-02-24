@@ -8,86 +8,39 @@ Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>Google AJAX Search API Sample</title>
-    <script src="https://www.google.com/jsapi?key=ABQIAAAA6Xn9d4is7kUb3e3Ox3XBZBSyWalean-AU0tK_WRQij4fc27DrxTi6uN3Sy-jrVV2NZ2kMbxnWsiL_Q" type="text/javascript"></script>
-		<script type="text/javascript" language="javascript" src="jquery.js"></script>
+    <script src="http://www.google.com/jsapi?key=AIzaSyA5m1Nc8ws2BbmPRwKu5gFradvD_hgq6G0" type="text/javascript"></script>
     <script type="text/javascript">
     /*
-    *  How to search for images and restrict them by size.
-    *  This demo will also show how to use Raw Searchers, aka a searcher that is
-    *  not attached to a SearchControl.  Thus, we will handle and draw the results
-    *  manually.
+    *  The Hello World of the AJAX Search API
     */
     
     google.load('search', '1');
     
-    function searchComplete(searcher) {
-      // Check that we got results
-      if (searcher.results && searcher.results.length > 0) {
-        // Grab our content div, clear it.
-        var contentDiv = document.getElementById('content');
-        contentDiv.innerHTML = '';
+    function OnLoad() {
+      // Create a search control
+      var searchControl = new google.search.SearchControl();
     
-        // Loop through our results, printing them to the page.
-        var results = searcher.results;
-        for (var i = 0; i < results.length; i++) {
-          // For each result write it's title and image to the screen
-          var result = results[i];
-          var imgContainer = document.createElement('div');
+      // Add in a full set of searchers
+      searchControl.addSearcher(new google.search.WebSearch());
+      searchControl.addSearcher(new google.search.VideoSearch());
+      searchControl.addSearcher(new google.search.BlogSearch());
+      searchControl.addSearcher(new google.search.NewsSearch());
+      searchControl.addSearcher(new google.search.ImageSearch());
     
-          var title = document.createElement('h2');
-          // We use titleNoFormatting so that no HTML tags are left in the title
-          title.innerHTML = result.titleNoFormatting;
     
-          var newImg = document.createElement('img');
-          // There is also a result.url property which has the escaped version
-          newImg.src = result.tbUrl;
+      // tell the searcher to draw itself and tell it where to attach
+      searchControl.draw(document.getElementById("content"));
     
-          imgContainer.appendChild(title);
-          imgContainer.appendChild(newImg);
-    
-          // Put our title + image in the content
-          contentDiv.appendChild(imgContainer);
-        }
-      }
+      // execute an inital search
+      searchControl.execute("VW GTI");
     }
     
-    function OnLoad(keywords) {
-      // Our ImageSearch instance.
-      var imageSearch = new google.search.ImageSearch();
+    google.setOnLoadCallback(OnLoad);
     
-      // Restrict to extra large images only
-      imageSearch.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE,
-                                 google.search.ImageSearch.IMAGESIZE_MEDIUM);
-    
-      // Here we set a callback so that anytime a search is executed, it will call
-      // the searchComplete function and pass it our ImageSearch searcher.
-      // When a search completes, our ImageSearch object is automatically
-      // populated with the results.
-      imageSearch.setSearchCompleteCallback(this, searchComplete, [imageSearch]);
-    
-      // Find me a beautiful car.
-      imageSearch.execute(keywords);
-    }
-
-		function submitSearch() {
-			OnLoad( $('input').val() );
-		}
-		
     </script>
   </head>
   <body style="font-family: Arial;border: 0 none;">
-
-	<input autocomplete=off maxlength=2048 id="input" name=q title="Google Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
-
-		<div id="btn_container" style="margin: 10px 0 0">
-	  <span class=ds >
-	    <span class=lsbb>
-	    <input name=btnG type=submit value="Google Search" class=lsb onClick="submitSearch();">
-	    </span>
-	  </span>
-		
-	  <div id="content">Loading...</div>
-	
+    <div id="content">Loading...</div>
   </body>
 </html>
 ​

@@ -1,3 +1,27 @@
+function WGBorder(div) {
+	var width = div.width();
+	init();
+	function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= 10;
+  	canvasElement.width= Math.floor(width)+10;
+  	canvasElement.style.zIndex = -10;
+  	div.append(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+	function sketchProc(processing) {
+    processing.setup = function() {
+			processing.smooth();
+  		processing.frameRate(7);
+			processing.stroke(33);
+    }
+    processing.draw = function() {
+			processing.clear();
+			processing.drawFreehandLine(5,5,width,5);
+		}
+	}
+}
+
 function WGHyperLink(div) {
 	var width = div.width();
 	init();
@@ -131,7 +155,7 @@ function WGTextfield(txtField,flag){
   	      scaleInt.update();
 					processing.fill(255);
 					var sc = scaleInt.getScaleValue();
- 	      	processing.drawFreehandEllipse( processing.width/2, processing.height/2, sc*processing.map(scaleInt.value, 0, 1, 1, 1.1)*width, sc*processing.map(scaleInt.value, 0, 1, 1, 3.9)*height, 0, 2*Math.PI);
+ 	      	processing.drawFreehandEllipse( processing.width/2, processing.height/2, sc*processing.map(scaleInt.value, 0, 1, 1, 1.05)*width, sc*processing.map(scaleInt.value, 0, 1, 1, 3.9)*height, 0, 2*Math.PI);
 					
 					var txtValue = searchBar.val();
 					var midValue = 0;
@@ -272,7 +296,7 @@ Processing.prototype.drawFreehandLine = function(x1, y1, x2, y2) {
 	
 	for(var i=0; i<pieces; i++) {
 		var tx = x1 + dx*(i + this.random(2,4));
-		var ty = y1 + dy*(i + this.random(-4,4)) + this.random(-1,1);	
+		var ty = y1 + dy*(i + this.random(-4,4)) + this.random(-.5,.5);	
 		this.vertex( tx, ty);
 	}
 	
