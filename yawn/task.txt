@@ -1,3 +1,1 @@
-- store keywords in db
-
-- add twitter
+- add margin-top to #footnote after submit search

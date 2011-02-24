@@ -336,7 +336,8 @@
 			$('#search_form').submit(function(e){
 				e.preventDefault();
 				$('#content').html('');
-				$('#contentWeb').html('');				
+				$('#contentWeb').html('');
+				$('#footnote').hide().delay(5000).fadeIn(1000);
 				submitSearch();
 			});
 			
