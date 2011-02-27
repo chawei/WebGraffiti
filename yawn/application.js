@@ -177,14 +177,16 @@ function trim(s){
 
 	$(document).ready(function() {
 	  
-		if ($.browser.webkit) {
-		  $('body').removeClass('hidden');
-		} else {
-			alert("This project only works in Chrome, and Safari!");
-			$('#main_container').html('Please Launch this Project in <b>Google Chrome</b> or <b>Safari</b>!');
-			$('body').removeClass('hidden');
-			return;
-		}
+		// if ($.browser.webkit) {
+		//   $('body').removeClass('hidden');
+		// } else {
+		// 	alert("This project only works in Chrome, and Safari!");
+		// 	$('#main_container').html('Please Launch this Project in <b>Google Chrome</b> or <b>Safari</b>!');
+		// 	$('body').removeClass('hidden');
+		// 	return;
+		// }
+		
+		$('body').removeClass('hidden');
 		
 		if(webGraffiti==null) {
 			webGraffiti = new WGGoogle();

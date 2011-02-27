@@ -137,7 +137,7 @@ function WGTextfield(txtField,flag){
 					searchBar.css('opacity', 1.0);
 					dynText.hide();
 					
-  	      processing.clear();
+  	      processing.clear();processing.background(255,255,255,0);
 					processing.stroke(33);
 					processing.noFill();
   				processing.drawFreehandRect(x, y, width, height,false);
@@ -151,7 +151,7 @@ function WGTextfield(txtField,flag){
 					}
   	    }
   	    else{
-  	      processing.clear();
+  	      processing.clear();processing.background(255,255,255,0);
   	      scaleInt.update();
 					processing.fill(255);
 					var sc = scaleInt.getScaleValue();
@@ -236,16 +236,20 @@ function WGButtonForYawn(btn,left,top,mode){
   		processing.frameRate(20);
 			processing.stroke(33);
 		  processing.fill(255, 255, 240);
-  		processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
+			processing.background(255,255,255,0);
+			var ww = 200;
+			var hh = 50;
+  		processing.drawFreehandRect( x, y, ww*1.3, hh*1.3, true);
     }
     processing.draw = function() {
       if(isMoving){
         updatePosition();
-        processing.clear();
+       	processing.clear();
+				processing.background(255,200,255,0);
 			  processing.stroke(33);
 			  processing.fill(255, 255, 240);
         processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
-      }    
+      }
     }
 		function updatePosition() {
 			var delta = 4;
@@ -385,10 +389,11 @@ Processing.prototype.drawFreehandRect = function(x, y, w, h, hasLeg) {
   this.vertex(x,y);  
   var currentX = x;
   var currentY = y;
-  var vertex = new Array();
+  var vertex = [];
 
   // MOUTH
 	// TOP 
+	console.log(currentX, (x+w));
 	while( currentX<(x+w) ){
 		var randomX = Math.random()*gap;
 		var randomY = Math.random()>0.5 ? Math.random() : -1*Math.random();
