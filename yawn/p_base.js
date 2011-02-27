@@ -203,7 +203,7 @@ function WGButtonForYawn(btn,left,top,mode){
 	var isActive = mode;
 	var originLeft;
 	var originTop;
-	
+	var canvasElement;
   init();
 	
   function init() {
@@ -216,7 +216,7 @@ function WGButtonForYawn(btn,left,top,mode){
 		outerBtn.css('position', 'absolute').css('left', left+'px').css('top', top+'px');
 		moveBtn = outerBtn;
 		
-    var canvasElement = document.createElement('canvas');	
+    canvasElement = document.createElement('canvas');
   	canvasElement.height= Math.floor(height)*1.3+20;
   	canvasElement.width= Math.floor(width)*1.3+20;
   	canvasElement.style.position = "absolute";
@@ -227,7 +227,9 @@ function WGButtonForYawn(btn,left,top,mode){
 		nativeMovingBtn = moveBtn[0];
 		originLeft = parseFloat(nativeMovingBtn.style.left);
 		originTop = parseFloat(nativeMovingBtn.style.top);
+		context = canvasElement.getContext("2d");
   	var processingInstance = new Processing(canvasElement, sketchProc);
+		
   }
 
   function sketchProc(processing) {
@@ -236,19 +238,20 @@ function WGButtonForYawn(btn,left,top,mode){
   		processing.frameRate(20);
 			processing.stroke(33);
 		  processing.fill(255, 255, 240);
-			processing.background(255,255,255,0);
-			var ww = 200;
-			var hh = 50;
-  		processing.drawFreehandRect( x, y, ww*1.3, hh*1.3, true);
+
+			//console.log(processing.width, processing.height)
+			//context.clearRect(0,0,processing.width,processing.height);
+			//processing.rect(10,10,30,30);
+  		processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
     }
     processing.draw = function() {
       if(isMoving){
         updatePosition();
-       	processing.clear();
-				processing.background(255,200,255,0);
+       	processing.clear(0,0,processing.width, processing.height);
+
 			  processing.stroke(33);
 			  processing.fill(255, 255, 240);
-        processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
+			  processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
       }
     }
 		function updatePosition() {

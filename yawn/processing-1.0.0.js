@@ -17876,7 +17876,7 @@
     this.attachFunction = attachFunction; // can be optional
     this.use3DContext = false;
     this.options = {
-      isTransparent: false,
+      isTransparent: true,
       crispLines: false,
       pauseOnBlur: false
     };
