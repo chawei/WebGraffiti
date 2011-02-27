@@ -242,6 +242,7 @@ function WGButtonForYawn(btn,left,top,mode){
 			//console.log(processing.width, processing.height)
 			//context.clearRect(0,0,processing.width,processing.height);
 			//processing.rect(10,10,30,30);
+			
   		processing.drawFreehandRect( x, y, width*1.3, height*1.3, true);
     }
     processing.draw = function() {
@@ -396,7 +397,6 @@ Processing.prototype.drawFreehandRect = function(x, y, w, h, hasLeg) {
 
   // MOUTH
 	// TOP 
-	console.log(currentX, (x+w));
 	while( currentX<(x+w) ){
 		var randomX = Math.random()*gap;
 		var randomY = Math.random()>0.5 ? Math.random() : -1*Math.random();
