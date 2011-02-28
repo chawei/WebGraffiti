@@ -2,7 +2,6 @@ google.load('search', '1');
 var currentKeywords = "";
 
 function webSearchComplete(searcher) {
-	
 	if (searcher.results && searcher.results.length > 0) {
     // Grab our content div, clear it.
     var contentDiv = document.getElementById('contentWeb');
@@ -17,12 +16,15 @@ function webSearchComplete(searcher) {
 			result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
 			result_div.append('<div class="websearch_title"><a href="'+result.url+'" target="_blank">'+result.title+'</a></div>');
 			result_div.append('<div class="websearch_content">'+result.content+'</div>');
-			
 		}
+	}
+	else {
+		$('#result_doc_container').addClass('hidden');
+		if( $('#result_img_container').hasClass('hidden') )
+			$('#content_desc').html('Oops! There is no search results for keyword: <b>'+currentKeywords+'</b>');
 	}
 }
 function imageSearchComplete(searcher) {
-	console.log(searcher.results);
   // Check that we got results
   if (searcher.results && searcher.results.length > 0) {
     // Grab our content div, clear it.
@@ -46,11 +48,9 @@ function imageSearchComplete(searcher) {
     }
   }
 	else {
-		var contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = '';
-		var content_desc = document.getElementById('content_desc');
-    content_desc.innerHTML = 'Oops! Your search - <span style="font-weight:bold">'+currentKeywords+"</span> - did not match any documents.";
-		
+		$('#result_img_container').addClass('hidden');
+		if( $('#result_doc_container').hasClass('hidden') )
+			$('#content_desc').html('Oops! There is no search results for keyword: <b>'+currentKeywords+'</b>');
 	}	
 }
 function createWGResultImage() {
@@ -86,7 +86,7 @@ function submitSearch() {
   control.setResultSetSize(GSearch.LARGE_RESULTSET);
 	control.addSearcher(imageSearch, options);
  	imageSearch.setSearchCompleteCallback(this, imageSearchComplete, [imageSearch]);
-  imageSearch.execute(keywords);
+  imageSearch.execute('"'+keywords+'"');
 
 	var webSearch = new google.search.WebSearch();
   var searchControl = new google.search.SearchControl();
@@ -105,7 +105,7 @@ function submitSearch() {
 
 function messedUp(keywords) {
 	var messedUpKeywords = '';
-	var sIdx = Math.floor( Math.random()*3 );
+	var sIdx = Math.floor( Math.random()*5 );
 	switch(sIdx) {
 		case 0:// swap 2 letters
 			var c1,c2;
@@ -136,8 +136,34 @@ function messedUp(keywords) {
 		case 2:
 			messedUpKeywords = keywords;
 			break;
+		case 3:// swap 2 letters
+			var c1,c2;
+			c1 = Math.floor( Math.random()*keywords.length );
+			if(c1<keywords.length-1)
+				c2 = c1+1;
+			else if(c1>0)
+				c2 = c1-1;
+			for(var i=0; i<keywords.length; i++) {
+				if(i==c1)
+					messedUpKeywords+=keywords[c2];
+				else if(i==c2)
+					messedUpKeywords+=keywords[c1];
+				else
+					messedUpKeywords+=keywords[i];
+			}
+			break;
+		// case 1:// anagram
+		// 					messedUpKeywords = anagram(keywords);
+		// 					break;
+		case 4:// miss 1 letter
+			var idx = Math.floor( Math.random()*keywords.length );
+			for(var i=0; i<keywords.length; i++) {
+				if(i!=idx)
+					messedUpKeywords+=keywords[i];
+			}
+			break;
 	}
-	return '"'+messedUpKeywords+'"';
+	return trim(messedUpKeywords);
 }
 
 function anagram(beforeStr) {
@@ -177,18 +203,15 @@ function trim(s){
 
 	$(document).ready(function() {
 	  
-		// if ($.browser.webkit) {
-		//   $('body').removeClass('hidden');
-		// } else {
-		// 	alert("This project only works in Chrome, and Safari!");
-		// 	$('#main_container').html('Please Launch this Project in <b>Google Chrome</b> or <b>Safari</b>!');
-		// 	$('body').removeClass('hidden');
-		// 	return;
-		// }
+		if (!$.browser.webkit) {
+	//		$('#btn_container').css('margin-top', '26px');
+		}
 		
 		$('body').removeClass('hidden');
 		
+		
 		if(webGraffiti==null) {
+			
 			webGraffiti = new WGGoogle();
 			webGraffiti.init();
 			$('center').fadeIn();
@@ -197,7 +220,13 @@ function trim(s){
 				e.preventDefault();
 				$('#content').html('');
 				$('#contentWeb').html('');
-				$('#footnote').hide().delay(5000).fadeIn(1000);
+				
+				if( $('#result_doc_container').hasClass('hidden') )
+					$('#result_doc_container').removeClass('hidden');
+				if( $('#result_img_container').hasClass('hidden') )
+					$('#result_img_container').removeClass('hidden');
+
+				$('#footnote').hide().delay(6000).fadeIn(1000);
 				submitSearch();
 			});
 			
@@ -208,6 +237,8 @@ function trim(s){
 				function(){
 					this.value = "I'm Feeling Lucky";
 				}
-			);
+			).click(function(e){
+				e.preventDefault();
+			});
 		}
 	});

@@ -47,12 +47,11 @@ function WGGoogle() {
 		// draw textfield
 		var input = document.getElementById('input_div');
 		input.style.position = 'relative';
-		input.childNodes[0].style.zIndex = 2;
+		input.childNodes[1].style.zIndex = 2;
 		wgTxtfieldSearch = new WGTextfield(input, flagTxtfield);
 		searchTextField = YawnTextField.create('div#input_div input', wgTxtfieldSearch);
 		
 		var buttons = $('.lsbb input');
-		buttons.css('font-size','14px');
 		
 		var button1 = $(buttons[0]);
 		var button2 = $(buttons[1]);

@@ -8,6 +8,10 @@
 		<style media="screen" type="text/css">
 			html > body, html > body * {
 				font-family: 'Coming Soon', arial, serif !important;
+			
+			}
+			body {
+/*				overflow-x: hidden;*/
 			}
 			img {border: none; outline: none;}
 			span{ background:transparent !important; border:none !important; }
@@ -26,6 +30,7 @@
 				height: 100px;
 				float: left;
 				margin: 0 10px 0 0;
+				max-width: 200px;
 				z-index: -15;
 			}
 			.result_img_title {
@@ -93,6 +98,13 @@
 			.hidden {
 			  display: none;
 			}
+			.lsbb {
+				font-size: 14px !important;
+			}
+			.lsb {
+				font-size: 14px !important;
+			}
+			
 		</style>
 		<script type="text/javascript">
 
@@ -108,48 +120,50 @@
 
     </script>
   </head>
-	<body bgcolor=#ffffff text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000 class="hidden">
+	<body bgcolor=#ffffff text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000 class="hidden" >
 		<div style="position: absolute;padding: 12px 14px 6px;background: #ffffc3;top:20px;right: 20px;">
 		<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://search.detourlab.com" data-text="The Sloppy Twin of Google Search" data-count="vertical" data-via="yuinchien">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 		</div>
 		
 		<center>
-			<div id="img_container" style="margin-top:54px;">
+		
+			<div id="img_container" style="margin-top:53px;">
 				<a href="http://search.detourlab.com"><img src="assets/google_logo.png"></a>
 			</div>
 			
 			<div id="main_container" style="width:510px;margin-top:40px;padding-top:6px;">
 				<form id="search_form">
-			  <div id="input_div" style="height:32px;margin:4px 0"><input autocomplete=off maxlength=2048 id="input" name=q title="Image Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top"/>
-				</div>
-				<div id="btn_container" style="margin: 10px 0 0">
-			  <span class=ds >
-			    <span class=lsbb>
-			    <input name=btnG type=submit value="Google Search" class=lsb style="cursor: pointer;">
-			    </span>
-			  </span>
-			  <span class=ds>
-			    <span class=lsbb>
-			      <input name=btnI id="input_luck" type=submit value="I'm Feeling Lucky" class=lsb style="cursor: pointer;">
-			    </span>
-			  </span>
-			  </div>
+				  <div id="input_div" style="height:32px;margin:4px 0 10px">
+						<input autocomplete=off maxlength=2048 id="input" name=q title="Image Search" value="" size=57 style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;margin:0;padding:5px 8px 0 6px;vertical-align:top;"/>
+					</div>
+					<div id="btn_container" style="margin: 10px 0 0;">
+				  <span class=ds>
+				    <span class=lsbb>
+				    <input name=btnG type=submit value="Google Search" class=lsb style="cursor: pointer;">
+				    </span>
+				  </span>
+				  <span class=ds>
+				    <span class=lsbb>
+				      <input name=btnI id="input_luck" type=submit value="I'm Feeling Lucky" class=lsb style="cursor: pointer;">
+				    </span>
+				  </span>
+				  </div>
 				</form>
 			</div>
 			
 			<div id="result" style="width:900px;">
 				<div id="content_desc" style="margin-top:140px;margin-bottom:10px;"></div>
-				<div style="width:450px;float:left;">
+				<div style="width:450px;padding-right:20px;float:left;" id="result_doc_container">
 					<div id="contentWeb" style="margin-top:10px;"></div>
 				</div>
-				<div style="width:430px;float:left;margin-left:20px;">
+				<div style="width:430px;float:left;" id="result_img_container">
 					<div id="content" style="margin-top:10px;"></div>
 				</div>
 				<div style="clear: both;"></div>
 			</div>
 			
 			<div id="footnote" style="width:900px;margin-top:20px;">
-				<div><a href="/about.html">- about -</a><div>
+				<div><a href="/about.html">- about -</a></div>
 			</div>
 		</center>
 
