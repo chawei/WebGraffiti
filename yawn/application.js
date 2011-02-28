@@ -203,12 +203,12 @@ function trim(s){
 
 	$(document).ready(function() {
 	  
-		if (!$.browser.webkit) {
-	//		$('#btn_container').css('margin-top', '26px');
+		if ($.browser.msie) {
+			alert("Current version only works on Chrome, Safari, and Firefox.");
+			return;
 		}
 		
 		$('body').removeClass('hidden');
-		
 		
 		if(webGraffiti==null) {
 			

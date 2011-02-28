@@ -207,8 +207,9 @@ function WGButtonForYawn(btn,left,top,mode){
   init();
 	
   function init() {
-		htmlBtn.wrap('<span class="wg_btn_inner" />');
-		htmlBtn.css('position', 'absolute').css('z-index', 5);
+		htmlBtn.wrap('<span class="wg_btn_inner"></span>');
+		htmlBtn.css('position', 'relative').css('z-index', 5);
+
 		var innerBtn = htmlBtn.parent('.wg_btn_inner');
 		innerBtn.css('position', 'relative');
 		innerBtn.wrap('<span class="wg_btn_outer" />');
@@ -216,6 +217,11 @@ function WGButtonForYawn(btn,left,top,mode){
 		outerBtn.css('position', 'absolute').css('left', left+'px').css('top', top+'px');
 		moveBtn = outerBtn;
 		
+		// $('.ds').each(function(index) {
+		// 		$(this).css('top','0px');
+		// 		console.log( this,this.offsetTop );
+		// 	});
+		// 	
     canvasElement = document.createElement('canvas');
   	canvasElement.height= Math.floor(height)*1.3+20;
   	canvasElement.width= Math.floor(width)*1.3+20;

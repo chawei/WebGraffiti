@@ -59,6 +59,7 @@ function WGGoogle() {
 		var btn0_top = button1.position().top+2;
 		var btn1_left = button2.position().left+7;
 		var btn1_top = button2.position().top+2;	
+
 		
 		wgBtnSearch = new WGButtonForYawn( button1, btn0_left, btn0_top, flagBtn);
 		wgBtnLucky = new WGButtonForYawn( button2, btn1_left, btn1_top, flagBtn);
@@ -67,15 +68,8 @@ function WGGoogle() {
 		$('div#input_div input').css('opacity', 1.0);
 		$('#dynamic_textfield').hide();
 
-//		setTimeout( activateYawn,3000);
-
 		timerINT = setInterval(timerHandler,30);
-		
-		// new hyperlink
-		$('.result').each(function(index) {
-			var hl = new WGHyperLink($(this));
-		});
-		
+				
   }
   
  	function timerHandler() {
