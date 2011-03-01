@@ -97,7 +97,7 @@ function submitSearch() {
   // searchControl.addSearcher(imageSearch);
   //searchControl.draw(document.getElementById("content2"));
 	webSearch.setSearchCompleteCallback(this, webSearchComplete, [webSearch]);
-  webSearch.execute(keywords);
+  webSearch.execute('"'+keywords+'"');
 	
 	$('#dynamic_textfield')[0].innerHTML = '';
 	$("#input").attr("value","");
