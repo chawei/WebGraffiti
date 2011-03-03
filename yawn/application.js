@@ -152,9 +152,6 @@ function messedUp(keywords) {
 					messedUpKeywords+=keywords[i];
 			}
 			break;
-		// case 1:// anagram
-		// 					messedUpKeywords = anagram(keywords);
-		// 					break;
 		case 4:// miss 1 letter
 			var idx = Math.floor( Math.random()*keywords.length );
 			for(var i=0; i<keywords.length; i++) {
