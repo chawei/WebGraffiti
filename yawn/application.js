@@ -58,11 +58,25 @@ function createWGResultImage() {
 	var rimage = new WGResultImage(this.parentNode,w,100);
 }
 function submitSearch() {
-	var keywords = trim( $('#input').val() );
-	if(keywords.length==0)
+	var raw_keywords = trim( $('#input').val() );
+	if(raw_keywords.length==0) {
 		return;
-	else if(keywords.length>1)
-		keywords = messedUp(keywords);
+	}
+	else if(raw_keywords.length>1) {
+		keywords = messedUp(raw_keywords);
+	}
+	
+	$.ajax({
+    type: 'GET',
+    url: "http://api.detourlab.com/search_logs/add",
+    data: {
+      search_log: {
+        query: raw_keywords,
+        messed_query: keywords
+      }
+    },
+    dataType: 'json'
+  });
 	
 	// $('#img_container').hide();
 	$('#img_container').css('width','900px').css('margin-top','10px');
