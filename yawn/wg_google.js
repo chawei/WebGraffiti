@@ -28,7 +28,7 @@ function WGGoogle() {
 		  sound.setAttribute("hidden","true");
 			sound.setAttribute("id","yawn_audio_"+sounds[i]);
 			sound.setAttribute("autostart","false");
-			sound.setAttribute('src', "assets/yawn/"+sounds[i]+".mov");
+			sound.setAttribute('src', "assets/yawn/"+sounds[i]+".mp3");
 		  document.body.appendChild(sound);
 		}
 		sounds.sort( randOrd );
