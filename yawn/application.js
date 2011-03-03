@@ -1,70 +1,107 @@
 google.load('search', '1');
-var currentKeywords = "";
 
-function webSearchComplete(searcher) {
+function SloppyGoogle() {
+  var currentKeywords = "";
+  var firstTime = true;
+  this.webResultContainer = $('#contentWeb');
+  this.imageResultContainer = $('#content');
+}
+
+SloppyGoogle.prototype.isFirstTime = function() {
+  return this.firstTime;
+}
+
+SloppyGoogle.prototype.enterTheSite = function() {
+  this.firstTime = false;
+}
+
+SloppyGoogle.prototype.webSearchComplete = function(searcher) {
 	if (searcher.results && searcher.results.length > 0) {
-    // Grab our content div, clear it.
-    var contentDiv = document.getElementById('contentWeb');
-    contentDiv.innerHTML = '';
+    this.webResultContainer.empty();
 
     var results = searcher.results;
     for (var i = 0; i < results.length; i++) {
      	var result = results[i];
 			
 			var result_div = $('<div class="websearch_div"></div>');
-			$('#contentWeb').append(result_div);
-			result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
 			result_div.append('<div class="websearch_title"><a href="'+result.url+'" target="_blank">'+result.title+'</a></div>');
 			result_div.append('<div class="websearch_content">'+result.content+'</div>');
+			result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
+			this.webResultContainer.append(result_div);
 		}
 	}
 	else {
 		$('#result_doc_container').addClass('hidden');
-		if( $('#result_img_container').hasClass('hidden') )
+		if( $('#result_img_container').hasClass('hidden') ) {
 			$('#content_desc').html('Oops! There is no search results for keyword: <b>'+currentKeywords+'</b>');
+		}
 	}
 }
-function imageSearchComplete(searcher) {
+
+SloppyGoogle.prototype.imageSearchComplete = function(searcher) {
   // Check that we got results
   if (searcher.results && searcher.results.length > 0) {
-    // Grab our content div, clear it.
-    var contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = '';
+    // Clear image results.
+    this.imageResultContainer.empty();
 
     var results = searcher.results;
     for (var i = 0; i < results.length; i++) {
      	var result = results[i];
 
 			var result_div = $('<div class="result_div"></div>');
-			$('#content').append(result_div);
+			this.imageResultContainer.append(result_div);
 			result_div.hide().delay(Math.random()*3000+200).fadeIn(1000);
 
 			var result_image = $('<img class="result_img"/>');
 			result_image.attr('src',result.tbUrl);
 			result_div.append(result_image);
-			result_image[0].onload = createWGResultImage;
+			result_image[0].onload = this.createWGResultImage;
 			
 			result_image.wrap('<a href="'+result.url+'" target="_blank"></a>');
     }
   }
 	else {
 		$('#result_img_container').addClass('hidden');
-		if( $('#result_doc_container').hasClass('hidden') )
+		if( $('#result_doc_container').hasClass('hidden') ) {
 			$('#content_desc').html('Oops! There is no search results for keyword: <b>'+currentKeywords+'</b>');
+		}
 	}	
 }
-function createWGResultImage() {
+
+SloppyGoogle.prototype.createWGResultImage = function() {
 	var w = 100/this.height*this.width;
 	var rimage = new WGResultImage(this.parentNode,w,100);
 }
-function submitSearch() {
-	var keywords = trim( $('#input').val() );
-	if(keywords.length==0)
+
+SloppyGoogle.prototype.submitSearch = function() {
+	var raw_keywords = trim( $('#input').val() );
+	if(raw_keywords.length==0) {
 		return;
-	else if(keywords.length>1)
-		keywords = messedUp(keywords);
+	}
+	else if(raw_keywords.length>1) {
+	  var index = Math.floor( Math.random()*9 );
+  	var messedUpModes = [0,0,0,0,1,1,1,1,2];
+  	var messedUpMode = messedUpModes[index];
+  	
+	  if (this.isFirstTime()) {
+  	  messedUpMode = 1;
+  	  this.enterTheSite();
+  	}
+		keywords = messedUp(raw_keywords, messedUpMode);
+	}
 	
-	// $('#img_container').hide();
+	$.ajax({
+    type: 'GET',
+    url: "http://api.detourlab.com/search_logs/add.json",
+    data: {
+      search_log: {
+        query: raw_keywords,
+        messed_query: keywords
+      }
+    },
+    dataType: 'json'
+  });
+	
 	$('#img_container').css('width','900px').css('margin-top','10px');
 	$('#img_container img').css('width','150px').css('float','left');
 	$('#main_container').css('padding-left','140px');
@@ -85,7 +122,7 @@ function submitSearch() {
 	var control = new GSearchControl();
   control.setResultSetSize(GSearch.LARGE_RESULTSET);
 	control.addSearcher(imageSearch, options);
- 	imageSearch.setSearchCompleteCallback(this, imageSearchComplete, [imageSearch]);
+ 	imageSearch.setSearchCompleteCallback(this, this.imageSearchComplete, [imageSearch]);
   imageSearch.execute('"'+keywords+'"');
 
 	var webSearch = new google.search.WebSearch();
@@ -96,17 +133,17 @@ function submitSearch() {
   //      searchControl.addSearcher(new google.search.NewsSearch());
   // searchControl.addSearcher(imageSearch);
   //searchControl.draw(document.getElementById("content2"));
-	webSearch.setSearchCompleteCallback(this, webSearchComplete, [webSearch]);
+	webSearch.setSearchCompleteCallback(this, this.webSearchComplete, [webSearch]);
   webSearch.execute('"'+keywords+'"');
 	
 	$('#dynamic_textfield')[0].innerHTML = '';
 	$("#input").attr("value","");
 }
 
-function messedUp(keywords) {
+function messedUp(keywords, mode) {
 	var messedUpKeywords = '';
-	var sIdx = Math.floor( Math.random()*5 );
-	switch(sIdx) {
+
+	switch(mode) {
 		case 0:// swap 2 letters
 			var c1,c2;
 			c1 = Math.floor( Math.random()*keywords.length );
@@ -135,29 +172,6 @@ function messedUp(keywords) {
 			break;
 		case 2:
 			messedUpKeywords = keywords;
-			break;
-		case 3:// swap 2 letters
-			var c1,c2;
-			c1 = Math.floor( Math.random()*keywords.length );
-			if(c1<keywords.length-1)
-				c2 = c1+1;
-			else if(c1>0)
-				c2 = c1-1;
-			for(var i=0; i<keywords.length; i++) {
-				if(i==c1)
-					messedUpKeywords+=keywords[c2];
-				else if(i==c2)
-					messedUpKeywords+=keywords[c1];
-				else
-					messedUpKeywords+=keywords[i];
-			}
-			break;
-		case 4:// miss 1 letter
-			var idx = Math.floor( Math.random()*keywords.length );
-			for(var i=0; i<keywords.length; i++) {
-				if(i!=idx)
-					messedUpKeywords+=keywords[i];
-			}
 			break;
 	}
 	return trim(messedUpKeywords);
@@ -190,52 +204,58 @@ function anagram(beforeStr) {
 
 	return NewName;
 }
+
 function trim(s){
   return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
 }
 
-	var styleElement;
-	var canvasElement;
-	var webGraffiti = null;
 
-	$(document).ready(function() {
-	  
-		if ($.browser.msie) {
-			alert("Current version only works on Chrome, Safari, and Firefox.");
-			return;
-		}
-		
-		$('body').removeClass('hidden');
-		
-		if(webGraffiti==null) {
-			
-			webGraffiti = new WGGoogle();
-			webGraffiti.init();
-			$('center').fadeIn();
-			
-			$('#search_form').submit(function(e){
-				e.preventDefault();
-				$('#content').html('');
-				$('#contentWeb').html('');
-				
-				if( $('#result_doc_container').hasClass('hidden') )
-					$('#result_doc_container').removeClass('hidden');
-				if( $('#result_img_container').hasClass('hidden') )
-					$('#result_img_container').removeClass('hidden');
+// Main function
+var styleElement;
+var canvasElement;
+var webGraffiti = null;
 
-				$('#footnote').hide().delay(6000).fadeIn(1000);
-				submitSearch();
-			});
+$(document).ready(function() {
+  
+	if ($.browser.msie) {
+		alert("Current version only works on Chrome, Safari, and Firefox.");
+		return;
+	}
+	
+	$('body').removeClass('hidden');
+	
+	if(webGraffiti==null) {
+		webGraffiti = new WGGoogle();
+		webGraffiti.init();
+		$('center').fadeIn();
+		
+		var sloppyGoogle = new SloppyGoogle();
+		
+		$('#search_form').submit(function(e){
+			e.preventDefault();
+			sloppyGoogle.webResultContainer.empty();
+			sloppyGoogle.imageResultContainer.empty();
 			
-			$('#input_luck').hover(
-				function(){
-					this.value = "Out of Service...";
-				},
-				function(){
-					this.value = "I'm Feeling Lucky";
-				}
-			).click(function(e){
-				e.preventDefault();
-			});
-		}
-	});
+			if ( $('#result_doc_container').hasClass('hidden') ) {
+				$('#result_doc_container').removeClass('hidden');
+			}
+			if ( $('#result_img_container').hasClass('hidden') ) {
+				$('#result_img_container').removeClass('hidden');
+			}
+
+			$('#footnote').hide().delay(6000).fadeIn(1000);
+			sloppyGoogle.submitSearch();
+		});
+		
+		$('#input_luck').hover(
+			function(){
+				this.value = "Out of Service...";
+			},
+			function(){
+				this.value = "I'm Feeling Lucky";
+			}
+		).click(function(e){
+			e.preventDefault();
+		});
+	}
+});
