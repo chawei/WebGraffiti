@@ -1,5 +1,14 @@
 google.load('search', '1');
 var currentKeywords = "";
+var firstTime = true;
+
+function isFirstTime() {
+  return firstTime;
+}
+
+function enterTheSite() {
+  firstTime = false;
+}
 
 function webSearchComplete(searcher) {
 	if (searcher.results && searcher.results.length > 0) {
@@ -119,8 +128,14 @@ function submitSearch() {
 
 function messedUp(keywords) {
 	var messedUpKeywords = '';
-	var sIdx = Math.floor( Math.random()*5 );
-	switch(sIdx) {
+	var sIdx = Math.floor( Math.random()*9 );
+	var targetActions = [0,0,0,0,1,1,1,1,2];
+	var targetAction = targetActions[sIdx];
+	if (isFirstTime()) {
+	  targetAction = 1;
+	  enterTheSite();
+	}
+	switch(targetAction) {
 		case 0:// swap 2 letters
 			var c1,c2;
 			c1 = Math.floor( Math.random()*keywords.length );
@@ -149,32 +164,6 @@ function messedUp(keywords) {
 			break;
 		case 2:
 			messedUpKeywords = keywords;
-			break;
-		case 3:// swap 2 letters
-			var c1,c2;
-			c1 = Math.floor( Math.random()*keywords.length );
-			if(c1<keywords.length-1)
-				c2 = c1+1;
-			else if(c1>0)
-				c2 = c1-1;
-			for(var i=0; i<keywords.length; i++) {
-				if(i==c1)
-					messedUpKeywords+=keywords[c2];
-				else if(i==c2)
-					messedUpKeywords+=keywords[c1];
-				else
-					messedUpKeywords+=keywords[i];
-			}
-			break;
-		// case 1:// anagram
-		// 					messedUpKeywords = anagram(keywords);
-		// 					break;
-		case 4:// miss 1 letter
-			var idx = Math.floor( Math.random()*keywords.length );
-			for(var i=0; i<keywords.length; i++) {
-				if(i!=idx)
-					messedUpKeywords+=keywords[i];
-			}
 			break;
 	}
 	return trim(messedUpKeywords);
