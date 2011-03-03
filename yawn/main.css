@@ -1,0 +1,92 @@
+html > body, html > body * {
+	font-family: 'Coming Soon', arial, serif !important;
+
+}
+img {border: none; outline: none;}
+span{ background:transparent !important; border:none !important; }
+input{border: none !important; background: none !important; }
+input:focus, textarea:focus {
+    outline: none;
+}
+.result_container {
+	float: left;
+}
+.result_div {
+	position: relative;
+	display: inline-block;
+}
+.result_img {
+	height: 100px;
+	float: left;
+	margin: 0 10px 0 0;
+	max-width: 200px;
+	z-index: -15;
+}
+.result_img_title {
+	font-size: 11px;
+	width: 100px;
+}
+div{border: none !important; border-bottom: none !important; border-top: none !important;}
+a{text-decoration:none!important;color:#000!important;}
+
+div#input_div input {
+	/*font-size: 18px;*/
+	opacity: 0.0;
+	height:25px;
+	width:496px;
+}
+
+#result {
+/*				display: inline-block;
+	position:relative;
+	margin-right: 10px;*/
+	text-align: left;
+}
+.result_canvas {
+	position: absolute;
+	left: -6px;
+	top: 10px;
+}
+div#lga {
+  margin: 30px 0;
+}
+
+#dynamic_textfield {
+	text-align: left;
+	height: 130px;
+	line-height: 300px;
+	position: absolute; 
+	top: -81px;
+	padding-left: 7px;
+	z-index: -20;
+}
+	#dynamic_textfield span {
+		height: 192px;
+		line-height: 192px;
+		display: block;
+		float: left;
+		font-size: 18px;
+	}
+	
+#btn_container {
+  position: relative;
+}
+.websearch_title {
+	font-size: 15px;			
+	text-decoration: underline;
+}
+.websearch_content {
+	font-size: 13px;
+}
+.websearch_div {
+	margin-bottom: 10px;
+}
+.hidden {
+  display: none;
+}
+.lsbb {
+	font-size: 14px !important;
+}
+.lsb {
+	font-size: 14px !important;
+}

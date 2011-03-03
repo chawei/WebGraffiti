@@ -24,7 +24,6 @@ function WGGoogle() {
 		for(var i=0; i<sounds.length; i++) {
 			var sound = document.createElement('embed');
 			sound.setAttribute("loop","false");
-		  sound.setAttribute("type","audio/x-wav");
 		  sound.setAttribute("hidden","true");
 			sound.setAttribute("id","yawn_audio_"+sounds[i]);
 			sound.setAttribute("autostart","false");

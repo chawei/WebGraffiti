@@ -1,0 +1,36 @@
+html > body, html > body * {
+	font-family: 'Inconsolata', arial, serif;
+}
+
+a { text-decoration:underline;color:#000!important; }
+
+.id_container {
+	width: 184px;
+	height: 240px;
+	border: 1px solid #CCC;
+	font-size: 13px;
+	margin: 10px 18px 10px 0;
+	padding: 12px;
+	float: left;
+	background-color: #F0F0F0;
+}
+.profile {
+	float: right;
+}
+.name {
+	font-size: 21px;
+	margin-bottom:7px;
+}
+.desc {
+	margin-top: 2px;
+}
+.profile_title {
+	margin-top: 120px;
+}
+.google_logo {
+	margin:27px auto;
+	font-size:23px;
+}		
+.hidden {
+  display: none;
+}
