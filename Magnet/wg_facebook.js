@@ -177,7 +177,11 @@ function WGFacebook() {
       }
   	});
   }
-
+  
+  function captureMagnet() {
+    chrome.extension.sendRequest({'action': 'captureMagnet'});
+  }
+  
   function countTotalNumOfButtons(button_set) {
     var numBtn = 0;
     $.each(button_set, function(key, elems) {
@@ -292,6 +296,17 @@ function WGFacebook() {
 		});
 	}
 	
+	function initShareButton() {
+	  $('body').append('<div id="share-magnet" style="position:fixed;right:3px;top:'+(magnetTop-40)+'px; \
+												background: none; \
+		                  	height:20px;width:100px;cursor:pointer;z-index:10;display:block; overflow:hidden;\
+											">share</div>');
+											
+		$('#share-magnet').click(function(){
+      captureMagnet();
+		});
+	}
+	
 	function modifyUI() {
 	  detectLikeButtons();
     
@@ -308,6 +323,7 @@ function WGFacebook() {
 		initStatCounter();
 		initMagnetPanel();
 		initMagnetImage();
+		initShareButton();
 		
 		magnetINT = new DIntegrator(-200, 0.6, 0.55);
 		magnetINT.setTarget(0);

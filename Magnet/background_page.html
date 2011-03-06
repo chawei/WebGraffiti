@@ -41,7 +41,8 @@ var objCurrentPage = new CurrentPage;
 chrome.tabs.onSelectionChanged.addListener(objCurrentPage.updatePageAction);
 chrome.tabs.onUpdated.addListener(objCurrentPage.updatePageAction);
 
-var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
+//var API_URL = "http://magnet.detourlab.com";
+var API_URL = "http://localhost:3000";
 
 function onRequest(request, sender, callback) {
   if (request.action == 'getJSON') {
@@ -50,6 +51,16 @@ function onRequest(request, sender, callback) {
   if (request.action == 'postToServer') {
     postToServer($.param(request.json_data));
   }
+  if (request.action == 'captureMagnet') {
+    chrome.tabs.captureVisibleTab(null, function(dataUrl){  
+      var url = API_URL+"/shared_images/create_from_app";
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: { shared_image: { data: dataUrl } }
+      });
+    });
+  }
 }
 
 function postToServer(params) {
@@ -57,7 +68,7 @@ function postToServer(params) {
 
   // Note that any URL fetched here must be matched by a permission in
   // the manifest.json file!
-  var url = API_URL+"?"+params;
+  var url = API_URL+"/disabling_logs/add?"+params;
   xhr.open('GET', url, true);
   xhr.send();
 };
@@ -72,7 +83,6 @@ if (window.localStorage.getItem("version") == undefined) {
 </script>
 </head>
 <body>
-	
-
+  
 </body>
 </html>

@@ -1,6 +1,6 @@
 {
   "name": "Anti-Like Magnet",
-  "version": "0.2.5",
+  "version": "0.3",
   "description": "Magnet for disabling facebook like feature",
   "icons": { "16": "icons/colors_icons.png",
              "32": "icons/colors_icons.png",
