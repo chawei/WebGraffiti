@@ -128,7 +128,7 @@ function WGHotnessLevel(elem, aHotnessINT) { // hotnessINT: 0-4
     processing.setup = function() {
 			processing.background(255);
 			processing.smooth();
-  		processing.frameRate(10);
+  		processing.frameRate(5);
 			processing.noStroke();
     }
 		processing.draw = function() {
