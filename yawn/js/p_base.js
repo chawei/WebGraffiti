@@ -222,19 +222,21 @@ function WGLabel(div) {
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
 	function sketchProc(processing) {
+		var counter=0;
     processing.setup = function() {
 			processing.background(255);
 			processing.smooth();
-  		processing.frameRate(7);
-			processing.stroke(150);
+  		processing.frameRate(5);
 			processing.strokeWeight(0.2);
-			processing.drawFreehandRect(5,5,width+10,height+9,false);
-			processing.fill(255,255,150);
-			processing.noLoop();
     }
     processing.draw = function() {
-			processing.clear();
-			processing.drawFreehandRect(5,5,width+10,height+9,false);
+			if(counter<255) {
+				counter+=15;
+				processing.clear();
+				processing.stroke(150,counter);
+				processing.fill(255,255,150,counter);
+				processing.drawFreehandRect(5,5,width+10,height+9,false);
+			}
 		}
 	}
 }
