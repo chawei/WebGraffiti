@@ -40,41 +40,60 @@ function WGHotnessGraph(elem, aData) {
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
 	function sketchProc(processing) {
+		var gapX;
+		var sorting = [];
+		var activeNodes = [];
+		var positions = [];
+		var maxY = 0;
     processing.setup = function() {
 			processing.smooth();
-//			processing.background(240);
-			processing.noLoop();
-			processing.frameRate(7);
-			processing.stroke(33);
-			processing.noFill();
-
-			var maxY = 0;
+			processing.frameRate(5);
+			
 			for(var i=0; i<data.length; i++) {
+				sorting[i] = i;
+				positions.push( height-50 );
 				if( data[i][1]>maxY )
 					maxY = data[i][1];
 			}
-			var gapX = Math.round( (width-100)/(data.length-1) );
+			sorting.sort( randOrd );
+			gapX = Math.round( (width-100)/(data.length-1) );
+    }
+		processing.draw = function() {
+			if(Math.random()<0.1 && sorting.length>0) {
+				activeNodes.push( sorting.pop() );
+			}	
+			if(activeNodes.length>0) {
+				processing.background(255);
+				drawGraph();
+			}
+		}		
+		function drawGraph() {
+			// update activeNodes position
+			for(var j=0; j<activeNodes.length; j++) {
+				var idx = activeNodes[j];
+				positions[idx] -= (height-100)/maxY*data[idx][1]/30;
+				var targetY = height-50 - (height-100)/maxY*data[idx][1];
+				if( positions[idx]<=targetY )
+					activeNodes.splice(j,1);
+			}
 			
 			processing.stroke(33);
 			processing.strokeWeight(1);
 			processing.noFill();
-			for(var j=0; j<data.length-1; j++) {
-				var x1 = 50+j*gapX;
-				var y1 = height-50 - (height-100)/maxY*data[j][1];
-				var x2 = 50+(j+1)*gapX;
-				var y2 = height-50 - (height-100)/maxY*data[j+1][1];
-				processing.drawFreehandLineGraph( x1, y1, x2, y2);
+			for(var i=0; i<positions.length-1; i++) {
+				processing.drawFreehandLineGraph(50+i*gapX, positions[i],50+i*gapX+gapX, positions[i+1]);
 			}
-			processing.stroke(150);
-			processing.strokeWeight(1);
-			processing.fill(150);
-			for(var k=0; k<data.length; k++) {
+			processing.stroke(255,0,0);
+			processing.strokeWeight(3);
+			processing.noFill();
+			for(var k=0; k<positions.length; k++) {
 				var x1 = 50+k*gapX;
-				var y1 = height-50 - (height-100)/maxY*data[k][1];
-				processing.drawFreehandArc(x1, y1, 7, 7, 0, 2*Math.PI);
+				processing.drawFreehandLineGraph(x1+2, positions[k]-2,x1, positions[k]+2);
 			}
-			
-    }
+		}
+		function randOrd(){
+			return (Math.round(Math.random())-0.5);
+		}
 	}	
 }
 
@@ -443,7 +462,7 @@ Processing.prototype.drawFreehandLineGraph = function(x1, y1, x2, y2) {
 	
 	for(var i=0; i<pieces; i++) {
 		var tx = x1 + dx*(i + this.random(0,.8));
-		var ty = y1 + dy*(i + this.random(0,.8));// + this.random(-.5,.5);	
+		var ty = y1 + dy*(i + this.random(-0.3,0.3));// + this.random(-.5,.5);	
 		this.vertex( tx, ty);
 	}
 	this.vertex(x2,y2);
