@@ -22,16 +22,58 @@ function WGBorder(div) {
 	}
 }
 
-function WGHyperLink(div) {
-	var width = div.width();
+function WGHotnessGraph(elem, data) {
+	
+}
+
+function WGHotnessLevel(elem, aHotnessINT) { // hotnessINT: 0-4
+	elem.css('position','relative');
+	var hotnessINT = aHotnessINT;
+	init();
+	function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= 20;
+  	canvasElement.width= 340;
+  	canvasElement.style.zIndex = -10;
+		canvasElement.style.position = "absolute";
+		canvasElement.style.top = "0px";
+		canvasElement.style.left = "-2px";
+  	elem.append(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+	function sketchProc(processing) {
+    processing.setup = function() {
+			processing.background(255);
+			processing.smooth();
+			processing.noLoop();
+  		processing.frameRate(7);
+			processing.noStroke(33);
+			processing.fill(255,10,10);
+			var w = 45;
+			var h = 4;
+			for(var i=0; i<5; i++) {
+				if(i>hotnessINT)
+					processing.fill(200);
+				processing.drawFreehandRect(2+(w+6)*i,2,w,h);
+			}
+    }
+	}
+}
+
+function WGHyperLink(elem) {
+	var innerDOM = elem.find('.custom_link');
+	var width = innerDOM.width();
+
 	init();
 	function init() {
     var canvasElement = document.createElement('canvas');	
   	canvasElement.height= 10;
   	canvasElement.width= Math.floor(width)+10;
   	canvasElement.style.zIndex = -10;
-		canvasElement.className = "result_canvas";
-  	div.append(canvasElement);
+		canvasElement.style.position = "absolute";
+		canvasElement.style.top = "10px";
+		canvasElement.style.left = "-7px";
+  	innerDOM.append(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
 	function sketchProc(processing) {
@@ -40,7 +82,9 @@ function WGHyperLink(div) {
 			processing.smooth();
   		processing.frameRate(7);
 			processing.stroke(33);
- 
+			processing.strokeWeight(1);
+			processing.drawFreehandLine(5,5,width,5);
+			processing.noLoop();
     }
     processing.draw = function() {
 			processing.clear();
@@ -48,6 +92,42 @@ function WGHyperLink(div) {
 		}
 	}
 }
+
+function WGLabel(div) {
+	div.css('position',"relative");
+	var width = div.width();
+	var height = div.height();
+	init();
+	function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= height+20;
+  	canvasElement.width= Math.floor(width)+20;
+  	canvasElement.style.zIndex = -10;
+		canvasElement.style.position = 'absolute';
+		canvasElement.style.top = '-10px';
+		canvasElement.style.left = '-12px';
+  	div.append(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+	function sketchProc(processing) {
+    processing.setup = function() {
+			processing.background(255);
+			processing.smooth();
+  		processing.frameRate(7);
+			processing.stroke(150);
+			processing.strokeWeight(0.2);
+			processing.drawFreehandRect(5,5,width+10,height+9,false);
+			processing.fill(255,255,150);
+			processing.noLoop();
+    }
+    processing.draw = function() {
+			processing.clear();
+			processing.drawFreehandRect(5,5,width+10,height+9,false);
+		}
+	}
+}
+
+
 
 function WGResultImage(div,w,h) {
 	var width = w;//div.offsetWidth;
@@ -86,6 +166,7 @@ function WGResultImage(div,w,h) {
 		}
 	}
 }
+
 
 function WGTextfield(txtField,flag){	
   var x = 300;
@@ -392,9 +473,13 @@ Processing.prototype.drawFreehandArc = function(x, y, w, h, start, end) {
 
 
 Processing.prototype.drawFreehandRect = function(x, y, w, h, hasLeg) {
+	
   var gap = 2;
-  var freeFactor = 0.15;
 
+  var freeFactor = 0.15;
+	if(h<5)
+		freeFactor = 0.05;
+	
   this.beginShape();
   this.vertex(x,y);  
   var currentX = x;
@@ -447,6 +532,10 @@ Processing.prototype.drawFreehandRect = function(x, y, w, h, hasLeg) {
 	}
 
 }
+
+
+
+
 
 function Point(x,y){
   this.x = x;

@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>The Search Operators</title>
+		<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" href="trends.css" type="text/css" media="screen" charset="utf-8" />
+		<script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20216223-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </head>
+
+  <body>
+		<center>	
+			<div id="img_container" style="margin:53px 0 50px 0;">
+				<a href="http://search.detourlab.com"><img src="assets/google_logo.png"></a>
+			</div>
+			
+			<div style="width:650px;text-align:left;">
+				<div style="float:left;width:300px;margin-right:40px;">
+					<div class="label_cate">Hot Languages</div>
+					<div id="search_list" >
+						<ol>
+							<li><span class="custom_link">English</span></li>
+							<li><span class="custom_link">Spanish</span></li>
+							<li><span class="custom_link">Japanese</span></li>
+							<li><span class="custom_link">Portage</span></li>
+							<li><span class="custom_link">Chinese</span></li>
+							<li><span class="custom_link">Deutsch</span></li>
+							<li><span class="custom_link">fcebook</span></li>
+							<li><span class="custom_link">Arabic</span></li>
+							<li><span class="custom_link">Hebrew</span></li>
+							<li><span class="custom_link">French</span></li>
+						</ol>
+					</div>
+				</div>
+				<div style="float:left;width:300px;">
+					<div class="label_cate">Hot Searches</div>
+					<div id="language_list">
+						<ol>
+							<li><span class="custom_link">google</span></li>
+							<li><span class="custom_link">fcebook</span></li>
+							<li><span class="custom_link">Charlie Shem</span></li>
+							<li><span class="custom_link">test</span></li>
+							<li><span class="custom_link">slopy</span></li>
+							<li><span class="custom_link">aple</span></li>
+							<li><span class="custom_link">bok</span></li>
+							<li><span class="custom_link">sam</span></li>
+							<li><span class="custom_link">heaaa</span></li>
+							<li><span class="custom_link">sdadl</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both"></div>
+			
+			<div style="margin-top:60px; line-height:23px;">
+				<div style="margin-bottom:10px;">Total Searches: <span div="total_search">174571</span></div>
+
+				<!-- <div>- About Sloppy Google Trends -</div> -->
+				<div><a href="/">- Sloppy Google -</a></div>
+				<div>* Sloppy Google is not affiliated with Google Inc.</div>
+				
+			</div>
+		</center>
+		
+		<script type="text/javascript" language="javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" language="javascript" src="js/processing-1.0.0.js"></script>
+    <script type="text/javascript" language="javascript" src="js/p_base.js"></script>		
+
+		<script type="text/javascript" language="javascript">
+
+			$(document).ready(function() {
+				$('.label_cate').each(function() {
+					var label_search = new WGLabel( $(this) );
+				});
+				$('#search_list li').each(function(){
+					var item = new WGHyperLink( $(this) );
+				});
+				$('#language_list li').each(function(){
+					var item = new WGHyperLink( $(this) );
+				});
+				
+			});
+		</script>
+		
+	</body>
+	
+</html>
