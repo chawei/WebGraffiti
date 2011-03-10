@@ -42,7 +42,7 @@ function WGHotnessGraph(elem, aData) {
 	function sketchProc(processing) {
     processing.setup = function() {
 			processing.smooth();
-			processing.background(250);
+//			processing.background(240);
 			processing.noLoop();
 			processing.frameRate(7);
 			processing.stroke(33);
@@ -53,13 +53,25 @@ function WGHotnessGraph(elem, aData) {
 				if( data[i][1]>maxY )
 					maxY = data[i][1];
 			}
-			var gapX = Math.round( (width-100)/(data.length-1) ); 
+			var gapX = Math.round( (width-100)/(data.length-1) );
+			
+			processing.stroke(33);
+			processing.strokeWeight(1);
+			processing.noFill();
 			for(var j=0; j<data.length-1; j++) {
 				var x1 = 50+j*gapX;
 				var y1 = height-50 - (height-100)/maxY*data[j][1];
 				var x2 = 50+(j+1)*gapX;
 				var y2 = height-50 - (height-100)/maxY*data[j+1][1];
 				processing.drawFreehandLineGraph( x1, y1, x2, y2);
+			}
+			processing.stroke(150);
+			processing.strokeWeight(1);
+			processing.fill(150);
+			for(var k=0; k<data.length; k++) {
+				var x1 = 50+k*gapX;
+				var y1 = height-50 - (height-100)/maxY*data[k][1];
+				processing.drawFreehandArc(x1, y1, 7, 7, 0, 2*Math.PI);
 			}
 			
     }
