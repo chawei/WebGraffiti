@@ -27,8 +27,8 @@
 				<a href="http://search.detourlab.com"><img src="assets/google_logo.png" width="130"></a>
 			</div>
 			
-			<div style="width:240px;text-align:left;float:left;">
-				<div style="width:200px;margin:0 40px 30px 0;">
+			<div style="width:220px;text-align:left;float:left;">
+				<div style="width:220px;margin:0 40px 30px 0;">
 					<div class="label_cate">Hot Languages</div>
 					<div id="search_list" >
 						<ol>
@@ -45,7 +45,7 @@
 						</ol>
 					</div>
 				</div>
-				<div style="width:240px;">
+				<div style="width:220px;">
 					<div class="label_cate">Hot Searches</div>
 					<div id="language_list">
 						<ol>
@@ -64,7 +64,9 @@
 				</div>
 			</div>
 			
-			<div style="width:900px;float:left;line-height:18px;">
+			<div style="width:20px;height:600px;margin-left:20px; position:absolute; left:220px;" id="hBorder" />
+			
+			<div style="width:900px;position:absolute; left: 30px; line-height:18px;">
 				<div id="keyword" style="font-size:21px;">fcebook</div>
 				<div id="hotness_graph" style='margin:8px 0 4px 0'></div>
 				<div style="margin-top:23px;">Hotness: <span id="hotness_level" style="color:#ff0000;">On Fire</span></div>
@@ -72,13 +74,11 @@
 				<div style="margin-top:5px;width:500px;" id="related_searches">facebook, fabook, bookface, dfasdbok, adkajdl, kakdklaj, bookface, dfasdbok, adkajdl, kakdkl</div>
 				<div style="margin-top:18px;">[ Total Searches ]</div>
 				<div style="margin-top:5px;" id="total_search">3201 / 102311 (8%)</div>
-			</div>
-			
-			<div style="width:900px;margin-top:20px;float:left;" id="hotnessGraph">
 				
+				<div style="width:900px;margin-top:20px;float:left;" id="hotnessGraph" />
 			</div>
-
 			
+		
 			<div style="clear:both"></div>
 			
 		</div>
@@ -93,12 +93,9 @@
 				var hotnessINT = 3;
 				var hotnessLevel = new WGHotnessLevel( $('#hotness_graph'), hotnessINT );
 				
-				$('#search_list li').each(function(){
-					$(this).hide().delay(Math.random()*3000+200).fadeIn(1000);
-					var item = new WGHyperLink( $(this) );
-					
-				});
-				$('#language_list li').each(function(){
+				var border = new WGBorder( $('#hBorder'),0,580 );
+				
+				$('#search_list li,#language_list li').each(function(){
 					$(this).hide().delay(Math.random()*3000+200).fadeIn(1000);
 					var item = new WGHyperLink( $(this) );
 				});

@@ -1,24 +1,46 @@
-function WGBorder(div) {
-	var width = div.width();
+function WGBorder(aDiv,aWidth,aHeight) {
+	var width = aWidth;
+	var height = aHeight;
+	var div = aDiv;
 	init();
 	function init() {
     var canvasElement = document.createElement('canvas');	
-  	canvasElement.height= 10;
-  	canvasElement.width= Math.floor(width)+10;
+  	canvasElement.width= Math.floor(aWidth)+10;
+		canvasElement.height= Math.floor(aHeight)+10;
   	canvasElement.style.zIndex = -10;
+		canvasElement.style.top = "-10px";
+		canvasElement.style.position = "absolute";
   	div.append(canvasElement);
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
 	function sketchProc(processing) {
     processing.setup = function() {
+			processing.noLoop();
 			processing.smooth();
-  		processing.frameRate(7);
 			processing.stroke(33);
+			processing.strokeWeight(1);
+			processing.noFill();
+			var x1 = 5;
+			var y1 = 5;
+			var x2 = 5+width;
+			var y2 = 5+height;
+			var dist = processing.dist(x1, y1, x2, y2);
+			var basic = 10;
+			var pieces = dist/basic;
+
+			var dx = (x2-x1)/pieces;
+			var dy = (y2-y1)/pieces;
+
+		 	processing.beginShape();
+		  processing.vertex(x1,y1);
+
+			for(var i=0; i<pieces; i++) {
+				var tx = x1 + dx*(i + processing.random(2,4)) + processing.random(-1,1);	
+				var ty = y1 + dy*i + processing.random(-1,1);	
+				processing.vertex( tx, ty);
+			}
+			processing.endShape();
     }
-    processing.draw = function() {
-			processing.clear();
-			processing.drawFreehandLine(5,5,width,5);
-		}
 	}
 }
 
@@ -152,8 +174,7 @@ function WGHotnessLevel(elem, aHotnessINT) { // hotnessINT: 0-4
 
 function WGHyperLink(elem) {
 	var innerDOM = elem.find('.custom_link');
-	var width = innerDOM.width();
-
+	var width = innerDOM.text().length*8;//innerDOM.width();
 	init();
 	function init() {
     var canvasElement = document.createElement('canvas');	

@@ -98,9 +98,11 @@
 				var hotnessLevel = new WGHotnessLevel( $('#hotness_graph'), hotnessINT );
 				
 				$('#search_list li').each(function(){
+					$(this).hide().delay(Math.random()*3000+200).fadeIn(1000);
 					var item = new WGHyperLink( $(this) );
 				});
 				$('#language_list li').each(function(){
+					$(this).hide().delay(Math.random()*3000+200).fadeIn(1000);
 					var item = new WGHyperLink( $(this) );
 				});
 				
