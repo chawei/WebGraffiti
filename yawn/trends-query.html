@@ -22,12 +22,12 @@
 
   <body>
 		
-		<div style="padding:40px;">
-			<div id="img_container" style="margin:0px 0 30px 0;">
-				<a href="http://search.detourlab.com"><img src="assets/google_logo.png" width="180"></a>
+		<div style="padding:20px 0px 0 30px;">
+			<div id="img_container" style="margin:0px 0 20px 0;">
+				<a href="http://search.detourlab.com"><img src="assets/google_logo.png" width="130"></a>
 			</div>
 			
-			<div style="width:210px;text-align:left;float:left;">
+			<div style="width:240px;text-align:left;float:left;">
 				<div style="width:200px;margin:0 40px 30px 0;">
 					<div class="label_cate">Hot Languages</div>
 					<div id="search_list" >
@@ -45,7 +45,7 @@
 						</ol>
 					</div>
 				</div>
-				<div style="width:200px;">
+				<div style="width:240px;">
 					<div class="label_cate">Hot Searches</div>
 					<div id="language_list">
 						<ol>
@@ -75,17 +75,18 @@
 				<div style="margin-top:5px;" id="total_search">3201 / 102311 (8%)</div>
 			</div>
 			
-			<div style="width:900px;" id="hotnessGraph">
+			<div style="width:900px;margin-top:20px;float:left;" id="hotnessGraph">
 				
 			</div>
 			
 			
+			<!-- <div style="margin-top:60px; line-height:23px;">
+						<div><a href="/">- Sloppy Google -</a></div>
+					</div> -->
+			
 			<div style="clear:both"></div>
 			
-			<div style="margin-top:60px; line-height:23px;">
-
-				<div><a href="/">- Sloppy Google -</a></div>
-			</div>
+			
 
 		</div>
 		
@@ -106,7 +107,8 @@
 					var item = new WGHyperLink( $(this) );
 				});
 				
-				var hotnessGraph = new WGHotnessGraph( $('#hotnessGraph') );
+				var data = [ [0, 150], [1, 0], [2, 190], [3, 70], [4, 1510], [5, 10] ];
+				var hotnessGraph = new WGHotnessGraph( $('#hotnessGraph'), data );
 				
 			});
 		</script>

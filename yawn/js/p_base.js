@@ -22,8 +22,48 @@ function WGBorder(div) {
 	}
 }
 
-function WGHotnessGraph(elem, data) {
-	
+function WGHotnessGraph(elem, aData) {
+	elem.css('position','relative');
+	var data = aData;
+	var width = 800;
+	var height = 300;
+	init();
+	function init() {
+    var canvasElement = document.createElement('canvas');	
+  	canvasElement.height= height;
+  	canvasElement.width= width;
+  	canvasElement.style.zIndex = -10;
+		canvasElement.style.position = "absolute";
+		canvasElement.style.top = "0px";
+		canvasElement.style.left = "0px";
+  	elem.append(canvasElement);
+  	var processingInstance = new Processing(canvasElement, sketchProc);
+  }
+	function sketchProc(processing) {
+    processing.setup = function() {
+			processing.smooth();
+			processing.background(250);
+			processing.noLoop();
+			processing.frameRate(7);
+			processing.stroke(33);
+			processing.noFill();
+
+			var maxY = 0;
+			for(var i=0; i<data.length; i++) {
+				if( data[i][1]>maxY )
+					maxY = data[i][1];
+			}
+			var gapX = Math.round( (width-100)/(data.length-1) ); 
+			for(var j=0; j<data.length-1; j++) {
+				var x1 = 50+j*gapX;
+				var y1 = height-50 - (height-100)/maxY*data[j][1];
+				var x2 = 50+(j+1)*gapX;
+				var y2 = height-50 - (height-100)/maxY*data[j+1][1];
+				processing.drawFreehandLineGraph( x1, y1, x2, y2);
+			}
+			
+    }
+	}	
 }
 
 function WGHotnessLevel(elem, aHotnessINT) { // hotnessINT: 0-4
@@ -374,6 +414,29 @@ function WGButtonForYawn(btn,left,top,mode){
 		this.setTargetPosition( originLeft-parseFloat(nativeMovingBtn.style.left), originTop-parseFloat(nativeMovingBtn.style.top) ); 
 	}
   
+}
+
+
+Processing.prototype.drawFreehandLineGraph = function(x1, y1, x2, y2) {
+
+	var dist = this.dist(x1, y1, x2, y2);
+	var basic = 4;
+	var pieces = dist/basic;
+	
+	var dx = (x2-x1)/pieces;
+	var dy = (y2-y1)/pieces;
+	
+ 	this.beginShape();
+  this.vertex(x1,y1);
+	
+	for(var i=0; i<pieces; i++) {
+		var tx = x1 + dx*(i + this.random(0,.8));
+		var ty = y1 + dy*(i + this.random(0,.8));// + this.random(-.5,.5);	
+		this.vertex( tx, ty);
+	}
+	this.vertex(x2,y2);
+	
+	this.endShape();
 }
 
 
