@@ -47,7 +47,7 @@ function WGHotnessGraph(elem, aData) {
 		var maxY = 0;
     processing.setup = function() {
 			processing.smooth();
-			processing.frameRate(5);
+			processing.frameRate(8);
 			
 			for(var i=0; i<data.length; i++) {
 				sorting[i] = i;
@@ -59,36 +59,47 @@ function WGHotnessGraph(elem, aData) {
 			gapX = Math.round( (width-100)/(data.length-1) );
     }
 		processing.draw = function() {
-			if(Math.random()<0.1 && sorting.length>0) {
+			if(Math.random()<0.3 && sorting.length>0) {
 				activeNodes.push( sorting.pop() );
 			}	
 			if(activeNodes.length>0) {
 				processing.background(255);
 				drawGraph();
 			}
+
 		}		
 		function drawGraph() {
+//			processing.noStroke();
+			processing.fill(240);
+			processing.strokeWeight(0.7);
+			processing.stroke(30);
+			processing.drawFreehandRect(12,height-20,width-40,4);
+			processing.drawFreehandRect(20,20,4,height-26);
+			var arrow1 = [ [width-22,height-18], [width-22-8,height-18+8], [width-22-8,height-18-8]];
+			var arrow2 = [ [22,15], [22-8,15+8], [22+8,15+8]];
+			processing.drawFreehandShape(arrow1,true);
+			processing.drawFreehandShape(arrow2,true);			
 			// update activeNodes position
 			for(var j=0; j<activeNodes.length; j++) {
 				var idx = activeNodes[j];
-				positions[idx] -= (height-100)/maxY*data[idx][1]/30;
+				positions[idx] -= 9;//(height-100)/maxY*data[idx][1]/50;
 				var targetY = height-50 - (height-100)/maxY*data[idx][1];
 				if( positions[idx]<=targetY )
 					activeNodes.splice(j,1);
 			}
-			
-			processing.stroke(33);
-			processing.strokeWeight(1);
+
+			processing.stroke(210);
+			processing.strokeWeight(2);
 			processing.noFill();
 			for(var i=0; i<positions.length-1; i++) {
 				processing.drawFreehandLineGraph(50+i*gapX, positions[i],50+i*gapX+gapX, positions[i+1]);
 			}
-			processing.stroke(255,0,0);
-			processing.strokeWeight(3);
-			processing.noFill();
+			processing.stroke(255);
+			processing.strokeWeight(2);
+			processing.fill(255,0,0);
 			for(var k=0; k<positions.length; k++) {
 				var x1 = 50+k*gapX;
-				processing.drawFreehandLineGraph(x1+2, positions[k]-2,x1, positions[k]+2);
+				processing.drawFreehandArc(x1, positions[k], 8, 8, 0, 2*Math.PI);
 			}
 		}
 		function randOrd(){
@@ -113,21 +124,29 @@ function WGHotnessLevel(elem, aHotnessINT) { // hotnessINT: 0-4
   	var processingInstance = new Processing(canvasElement, sketchProc);
   }
 	function sketchProc(processing) {
+		var counter = 0;
     processing.setup = function() {
 			processing.background(255);
 			processing.smooth();
-			processing.noLoop();
-  		processing.frameRate(7);
-			processing.noStroke(33);
-			processing.fill(255,10,10);
-			var w = 45;
-			var h = 4;
-			for(var i=0; i<5; i++) {
-				if(i>hotnessINT)
-					processing.fill(200);
-				processing.drawFreehandRect(2+(w+6)*i,2,w,h);
-			}
+  		processing.frameRate(10);
+			processing.noStroke();
     }
+		processing.draw = function() {
+			if(counter<255) {
+				counter+=15;
+				var w = 45;
+				var h = 5;
+				processing.background(255);
+				for(var i=0; i<5; i++) {
+					var tempH = processing.map(counter,0,255,0,h);
+					var tempY = 2+(4-tempH);
+					processing.fill(200);
+					if(i<hotnessINT)
+						processing.fill(255,0,0);
+					processing.drawFreehandRect(2+(w+6)*i,tempY,w,tempH);
+				}
+			}
+		}
 	}
 }
 
@@ -447,6 +466,31 @@ function WGButtonForYawn(btn,left,top,mode){
   
 }
 
+Processing.prototype.drawFreehandShape = function(points,isCloseShape) {
+		
+ 	this.beginShape();
+  this.vertex(points[0][0],points[0][1]);
+	
+	for(var j=0; j<points.length-1; j++) {	
+		var dist = this.dist(points[j][0], points[j][1], points[j+1][0], points[j+1][1]);
+		var basic = 4;
+		var pieces = dist/basic;
+		var dx = (points[j+1][0]-points[j][0])/pieces;
+		var dy = (points[j+1][1]-points[j][1])/pieces;
+	
+		for(var i=0; i<pieces; i++) {	
+			var tx = points[j][0] + dx*(i + this.random(0,.8));
+			var ty = points[j][1] + dy*(i + this.random(-0.3,0.3));// + this.random(-.5,.5);	
+			this.vertex( tx, ty);
+		}
+	}
+	
+	this.vertex(points[points.length-1][0],points[points.length-1][1]);
+	if(isCloseShape)
+		this.endShape(this.CLOSE);
+	else
+		this.endShape();
+}
 
 Processing.prototype.drawFreehandLineGraph = function(x1, y1, x2, y2) {
 
