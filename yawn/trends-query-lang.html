@@ -67,10 +67,10 @@
 			<div style="width:20px;height:600px;margin-left:20px; position:absolute; left:220px;" id="hBorder" />
 			
 			<div style="width:900px;position:absolute; left: 30px; line-height:18px;">
-				<div id="keyword" style="font-size:21px;">fcebook</div>
+				<div id="keyword" style="font-size:21px;">English</div>
 				<div id="hotness_graph" style='margin:8px 0 4px 0'></div>
-				<div style="margin-top:23px;">Hotness: <span id="hotness_level" style="color:#ff0000;">On Fire</span></div>
-				<div style="margin-top:20px;">[ Related Searches ]</div>
+				<div style="margin-top:23px;">Hotness: <span id="hotness_level" style="color:#ff0000;"></span></div>
+				<div style="margin-top:20px;">[ Top Searches ]</div>
 				<div style="margin-top:5px;width:500px;" id="related_searches">facebook, fabook, bookface, dfasdbok, adkajdl, kakdklaj, bookface, dfasdbok, adkajdl, kakdkl</div>
 				<div style="margin-top:18px;">[ Total Searches ]</div>
 				<div style="margin-top:5px;" id="total_search">3201 / 102311 (8%)</div>
@@ -88,10 +88,13 @@
     <script type="text/javascript" language="javascript" src="js/p_base.js"></script>		
 
 		<script type="text/javascript" language="javascript">
-
+			var hotnessLevelLabels = ['Mild','Medium','Spicy','On Fire','Volcanic']; 
+			
 			$(document).ready(function() {
 				var hotnessINT = 3;
 				var hotnessLevel = new WGHotnessLevel( $('#hotness_graph'), hotnessINT );
+				console.log();
+				$('#hotness_level').html(hotnessLevelLabels[hotnessINT-1]);
 				
 				var border = new WGBorder( $('#hBorder'),0,580 );
 				

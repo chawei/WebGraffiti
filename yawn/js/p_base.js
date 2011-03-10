@@ -69,7 +69,7 @@ function WGHotnessGraph(elem, aData) {
 		var maxY = 0;
     processing.setup = function() {
 			processing.smooth();
-			processing.frameRate(8);
+			processing.frameRate(10);
 			
 			for(var i=0; i<data.length; i++) {
 				sorting[i] = i;
@@ -79,9 +79,10 @@ function WGHotnessGraph(elem, aData) {
 			}
 			sorting.sort( randOrd );
 			gapX = Math.round( (width-100)/(data.length-1) );
+			activeNodes.push( sorting.pop() );
     }
 		processing.draw = function() {
-			if(Math.random()<0.3 && sorting.length>0) {
+			if(Math.random()<0.1 && sorting.length>0) {
 				activeNodes.push( sorting.pop() );
 			}	
 			if(activeNodes.length>0) {
