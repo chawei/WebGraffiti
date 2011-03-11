@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
 <head>
   <script src='jquery.js'></script>
+  <script src='pixastic.custom.js'></script>
 <script type="text/javascript">
 
 function CurrentPage ()
@@ -49,16 +50,33 @@ function onRequest(request, sender, callback) {
     $.getJSON(request.url, callback);
   }
   if (request.action == 'postToServer') {
-    postToServer($.param(request.json_data));
+//    postToServer($.param(request.json_data));
   }
   if (request.action == 'captureMagnet') {
-    chrome.tabs.captureVisibleTab(null, function(dataUrl){  
-      var url = API_URL+"/shared_images/create_from_app";
-      $.ajax({
-        type: 'POST',
-        url: url,
-        data: { shared_image: { data: dataUrl } }
-      });
+    chrome.tabs.captureVisibleTab(null, function(dataUrl){
+	
+			// crop
+			var img = new Image();
+			img.setAttribute('id','croppedMagnet');
+			img.onload = function() {
+				Pixastic.process(img, "crop", {
+					rect : {
+						left : 50, top : 50, width : 50, height : 50
+					}
+				}, 	function(croppedCanvas) {
+							var strDataURI = croppedCanvas.toDataURL();
+							var url = API_URL+"/shared_images/create_from_app";
+					    $.ajax({
+					      type: 'POST',
+					      url: url,
+					      data: { shared_image: { data: strDataURI } }
+					    });
+						}
+				);
+			}
+			document.body.appendChild(img);
+			img.src = dataUrl;
+
     });
   }
 }

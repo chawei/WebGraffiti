@@ -13,7 +13,7 @@
 	  {
 	  "run_at": "document_start",
     "matches": ["http://*/*", "https://*/*"], 
-    "js": [ "jquery.js", "jquery.store.js", "convert.js", "wg_facebook.js"],
+    "js": [ "jquery.js", "jquery.store.js", "convert.js", "pixastic.custom.js", "wg_facebook.js"],
     "all_frames": true
     }
   ],

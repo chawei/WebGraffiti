@@ -174,10 +174,17 @@ function WGHotnessLevel(elem, aHotnessINT) { // hotnessINT: 0-4
 }
 
 function WGHyperLink(elem) {
+	var ele = elem;
 	var innerDOM = elem.find('.custom_link');
 	var width = innerDOM.text().length*8;//innerDOM.width();
 	init();
 	function init() {
+		ele.mouseenter(function() {
+			this.isMouseEnter = true;
+		});
+		ele.mouseleave(function() {
+			this.isMouseEnter = false;
+		});
     var canvasElement = document.createElement('canvas');	
   	canvasElement.height= 10;
   	canvasElement.width= Math.floor(width)+10;
@@ -196,11 +203,12 @@ function WGHyperLink(elem) {
 			processing.stroke(33);
 			processing.strokeWeight(1);
 			processing.drawFreehandLine(5,5,width,5);
-			processing.noLoop();
     }
     processing.draw = function() {
-			processing.clear();
-			processing.drawFreehandLine(5,5,width,5);
+			if(ele[0].isMouseEnter) {
+				processing.clear();
+				processing.drawFreehandLine(5,5,width,5);
+			}
 		}
 	}
 }

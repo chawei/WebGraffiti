@@ -179,6 +179,7 @@ function WGFacebook() {
   }
   
   function captureMagnet() {
+
     chrome.extension.sendRequest({'action': 'captureMagnet'});
   }
   
