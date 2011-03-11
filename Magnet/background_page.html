@@ -42,8 +42,8 @@ var objCurrentPage = new CurrentPage;
 chrome.tabs.onSelectionChanged.addListener(objCurrentPage.updatePageAction);
 chrome.tabs.onUpdated.addListener(objCurrentPage.updatePageAction);
 
-//var API_URL = "http://magnet.detourlab.com";
-var API_URL = "http://localhost:3000";
+var API_URL = "http://magnet.detourlab.com";
+//var API_URL = "http://localhost:3000";
 
 function onRequest(request, sender, callback) {
   if (request.action == 'getJSON') {
@@ -53,18 +53,18 @@ function onRequest(request, sender, callback) {
 //    postToServer($.param(request.json_data));
   }
   if (request.action == 'captureMagnet') {
-    chrome.tabs.captureVisibleTab(null, function(dataUrl){
-	
+    chrome.tabs.captureVisibleTab(null, { format:'png' }, function(dataUrl){	    
 			// crop
 			var img = new Image();
 			img.setAttribute('id','croppedMagnet');
 			img.onload = function() {
 				Pixastic.process(img, "crop", {
 					rect : {
-						left : 50, top : 50, width : 50, height : 50
+						left : request.details.left, top : request.details.top, 
+						width : request.details.width, height : request.details.height
 					}
-				}, 	function(croppedCanvas) {
-							var strDataURI = croppedCanvas.toDataURL();
+				}, function(croppedCanvas) {
+						  var strDataURI = croppedCanvas.toDataURL();
 							var url = API_URL+"/shared_images/create_from_app";
 					    $.ajax({
 					      type: 'POST',

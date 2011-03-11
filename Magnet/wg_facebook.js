@@ -179,8 +179,12 @@ function WGFacebook() {
   }
   
   function captureMagnet() {
-		var magnet = $('#like-magnet');		
-    chrome.extension.sendRequest({'action': 'captureMagnet'});
+    var left   = $('#like-magnet').offset().left;
+    var top    = $('#like-magnet').offset().top;
+    var width  = $('#like-magnet').width();
+    var height = $('#like-magnet').height();
+    chrome.extension.sendRequest({'action': 'captureMagnet', 
+                                  'details': {'left': left, 'top': top, 'width': width, 'height': height}});
   }
   
   function countTotalNumOfButtons(button_set) {
