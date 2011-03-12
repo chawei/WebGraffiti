@@ -179,10 +179,14 @@ function WGFacebook() {
   }
   
   function captureMagnet() {
-    var left   = $('#like-magnet').offset().left;
-    var top    = $('#like-magnet').offset().top;
-    var width  = $('#like-magnet').width();
-    var height = $('#like-magnet').height();
+		
+    var left   = $('#like-magnet').offset().left - 40;
+    var top    = magnetTop-10;
+    var width  = 220;
+    var height = 200; // height:160px;width:185px;
+		
+		console.log(left,top,width,height);
+
     chrome.extension.sendRequest({'action': 'captureMagnet', 
                                   'details': {'left': left, 'top': top, 'width': width, 'height': height}});
   }
@@ -248,10 +252,9 @@ function WGFacebook() {
   }
   
   function initMagnetImage() {
-
     $('body').append('<div id="like-magnet" style="position:fixed;right:3px;top:'+magnetTop+'px; \
 												background: url(http://chaweihsu.com/yuinchien.com/assets/magnet_icon_0215.png) no-repeat 0 0; \
-		                  	height:160px;width:185px;cursor:pointer;z-index:100;display:block; overflow:hidden;\
+		                  	height:160px;width:185px;cursor:pointer;z-index:10;display:block; overflow:hidden;\
 											"></div>');
   }
 	
@@ -401,7 +404,7 @@ function WGFacebook() {
 			  });
 			});	
 			
-			captureMagnet();
+			setTimeout(function(){captureMagnet()}, 2000);
 		});
 			
 	}
