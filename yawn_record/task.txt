@@ -1,0 +1,1 @@
+- add margin-top to #footnote after submit search

@@ -1,0 +1,59 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"> 
+<head> 
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+   <title>Like Rainfall</title> 
+   <meta name="author" content="" /> 
+ 
+   <!-- Homepage CSS --> 
+   <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection" /> 
+   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'> 
+
+</head>
+ 
+<body> 
+
+	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="raphael-min.js"></script>
+	<script type="text/javascript" language="javascript" src="animation.js"></script>
+	
+	<script type="text/javascript" language="javascript">
+		var triggerINT;
+		
+		$(document).ready(function() {
+			triggerINT = setInterval(trigger,200);
+			
+		});
+		//var cityList = ['Los Angeles','Pasadena','Taipei','Seul','Tokyo','New York','Boston'];
+		var cityList = ['Los Angeles','Pasadena'];
+		var cities = new Array();
+		var diffLikes = ["Like",'讚','Je tame'];
+		
+		function trigger() {
+			if(Math.random()>0.9) {
+				var currentCity = cityList[ Math.floor(Math.random()*cityList.length) ];
+				var theCity = null;
+				for(var i=0; i<cities.length; i++) {
+					if( cities[i].getName()==currentCity ) {
+						theCity = cities[i];
+						break;
+					}
+				}
+				if(theCity==null) {
+					var nx = Math.random()*100+200;
+					var ny = 0;
+					cities.push( new City(currentCity, nx, ny) );
+				}
+				else {
+					theCity.bounce();
+				}
+
+				var rand = Math.floor( Math.random()*diffLikes.length );
+				var likes = new Likes( Math.ceil(Math.random()*10)+5,diffLikes[rand],'Pasadena','English');	
+			}
+		}
+		
+	</script>
+	
+</body> 
+</html>
