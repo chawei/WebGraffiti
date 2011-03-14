@@ -53,6 +53,8 @@ function City(name,x,y) {
 	var _minRadius = 40;
 	var paper;
 	var circle;
+	var self = this;
+	var mid_bounce = false;
 	
 	init();
 	
@@ -80,23 +82,20 @@ function City(name,x,y) {
 	}
 	
 	circle.onAnimation(function(){
-		//console.log('animate');
 		var r = circle.attrs.r;
 		var c_x = circle.attrs.cx + _x;
 		var c_y = circle.attrs.cy + _y;
-		var f = 1.1
-    var c_el = document.elementFromPoint(c_x-r*f, c_y-r*f);
-    var c_el_rb = document.elementFromPoint(c_x+r*f, c_y+r*f);
-
+		$(paper.canvas).css('z-index', -1);
+    var c_el = document.elementFromPoint(c_x-r-3, c_y);
+    var c_el_r = document.elementFromPoint(c_x+r+3, c_y);
+    $(paper.canvas).css('z-index', 1);
 																				
-    //console.log(c_el);
-    //console.log(circle.node);
+    //console.log(c_x+r*f, c_y+r*f);
+    //console.log(paper.canvas);
 
-    if (c_el != circle.node && c_el_rb != circle.node) {
+    if (c_el != paper.canvas && c_el_r != paper.canvas) {
       console.log("collision!");
       circle.stop();
-			//this._bounce_away(20,20);
-			//this.animate({cx: 100, cy: 100}, 500, "bounce");
     }
 		
 		if (circle.getBBox().width >= (_maxRadius*2)) {
