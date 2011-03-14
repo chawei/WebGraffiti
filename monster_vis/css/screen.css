@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  /*font-family: "Inconsolata",monospace;*/
+	font-family: "Georgia",serif;
+  font-size: 14px;
+  text-align: left;
+  color: #4d4d4d;
+}
+
+a {
+  color: #666666;
+  text-decoration: none;
+}
+a:hover { color: #000000; }
+
+img {
+	border: 1px solid #eee;
+	margin:0 1px 0 1px;
+}
+
+#main {
+	margin: 40px;
+	width:1000px;	
+}
+
+#menu {
+	font-size: 20px;
+	position: fixed;
+	bottom: 0px;
+	right: 30px;
+	background-color: #f0f0f0;
+	padding: 6px 10px 6px 10px;
+}
+#monster_wall {
+	text-decoration: underline;
+}
+#monster_about {
+	
+}
+
+
+.ip_list {
+	text-align: left;
+	width: 290px;
+	float: left;
+}
+	.ip_list .title {
+/*		font-weight: bold;*/
+		font-size: 18px;
+		margin-bottom: 6px;
+	}
+	.ip_list .ip {
+		padding-bottom:2px;
+		cursor: pointer;
+	}
+
+.content {
+	width: 710px;
+	float: left;
+/*	text-align: left;*/
+}
+
+.today {
+	position: relative;
+}
+	.today .left_col {
+		width: 120px;
+		margin: 0 10px 0 0;
+	}
+		.today .date {
+			float: right;
+		}
+	.today .img_container {
+		width: 550px;
+		margin-left:10px;
+		float: left;
+	}
+		.today .img_container span {
+			display: inline-block;
+			float: left;
+		}
+	.today img {
+		width: 50px;
+		height: 50px;
+		margin: 0 2px 0 1px;
+	}
+	#latest_label {
+		top: -25px;
+		left: 143px;
+		text-align: left;
+		position: absolute;
+	}
+
+
+#calendar {
+	margin-top: 10px;
+	text-align: center;
+}
+
+#calendar table {
+	width: 565px;
+	margin-bottom: 10px;
+}
+
+#calendar table td {
+	width: 80px;	
+	margin: auto;
+}
+#calendar table th {
+	color: #969696;
+	font-weight: normal;
+}
+
+
+.month .title {
+	float:left;
+	width: 120px;
+	text-align: right;
+	display: inline-block;
+	margin: 2px 12px 0 0;
+	cursor: pointer;
+}
+
+.date {
+	font-style: italic;
+	width: 60px;
+	margin: auto;
+	margin-top:6px;
+}
+	.date .count {
+		color: #FF0092;
+		margin-bottom: 4px;
+	}
+	.date .time {
+		padding-top: 2px;
+		border-top: 1px solid black;
+	}
+	
+.left {
+	float:left; 
+}
+.clear {
+	clear: both;
+}

@@ -1,8 +1,0 @@
-<!ENTITY magnet.label "Your localized menuitem">
-<!ENTITY magnetContext.label "Your Menuitem">
-<!ENTITY magnetContext.accesskey "Y">
-<!ENTITY magnetToolbarButton.label "Your Toolbar Button">
-<!ENTITY magnetToolbarButton.tooltip "This is your toolbar button!">
-<!ENTITY magnetSidebar.label "Your Sidebar">
-<!ENTITY magnetToolbar.name  "example">
-<!ENTITY magnetToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &magnetToolbar.name;">
