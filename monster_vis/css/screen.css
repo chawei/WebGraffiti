@@ -49,6 +49,7 @@ img {
 }
 	.ip_list .title {
 /*		font-weight: bold;*/
+		border-bottom: 1px solid #999;
 		font-size: 18px;
 		margin-bottom: 6px;
 	}
@@ -88,16 +89,24 @@ img {
 		margin: 0 2px 0 1px;
 	}
 	#latest_label {
-		top: -25px;
-		left: 143px;
 		text-align: left;
-		position: absolute;
+		margin: 0 22px 10px 60px;
+		font-size: 18px;
+		border-bottom: 1px solid #000;
 	}
 
 
 #calendar {
 	margin-top: 10px;
 	text-align: center;
+	margin-bottom: 100px;
+}
+
+#archive {
+	text-align: left;
+	margin: 0 22px 10px 60px;
+	font-size: 18px;
+	border-bottom: 1px solid #999;
 }
 
 #calendar table {
@@ -129,14 +138,21 @@ img {
 	width: 60px;
 	margin: auto;
 	margin-top:6px;
+	cursor: pointer;
 }
 	.date .count {
-		color: #FF0092;
-		margin-bottom: 4px;
+		color: #999;
+		background-image:url('../assets/circle_45_gray.png');
+		background-repeat:no-repeat;
+		text-align: center;
+		line-height: 43px;
+		margin: auto;
+		height: 45px;
+		width: 45px;
 	}
 	.date .time {
 		padding-top: 2px;
-		border-top: 1px solid black;
+/*		border-top: 1px solid black;*/
 	}
 	
 .left {
