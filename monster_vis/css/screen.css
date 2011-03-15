@@ -23,7 +23,7 @@ img {
 
 #main {
 	margin: 40px;
-	width:1000px;	
+	width:1080px;	
 }
 
 #menu {
@@ -45,13 +45,14 @@ img {
 .ip_list {
 	text-align: left;
 	width: 290px;
+	margin-left: 10px;
 	float: left;
 }
 	.ip_list .title {
 /*		font-weight: bold;*/
 		border-bottom: 1px solid #999;
 		font-size: 18px;
-		margin-bottom: 6px;
+		margin-bottom: 14px;
 	}
 	.ip_list .ip {
 		padding-bottom:2px;
@@ -74,6 +75,17 @@ img {
 		.today .date {
 			float: right;
 		}
+		.today #count {
+			color: #999;
+			font-size: 17px;
+			background-image:url('../assets/circle_52_gray.png');
+			background-repeat:no-repeat;
+			text-align: center;
+			line-height: 49px;
+			margin: auto;
+			height: 52px;
+			width: 52px;
+		}
 	.today .img_container {
 		width: 550px;
 		margin-left:10px;
@@ -90,14 +102,14 @@ img {
 	}
 	#latest_label {
 		text-align: left;
-		margin: 0 22px 10px 60px;
+		margin: 0 13px 18px 60px;
 		font-size: 18px;
 		border-bottom: 1px solid #000;
 	}
 
 
 #calendar {
-	margin-top: 10px;
+	margin-top: 20px;
 	text-align: center;
 	margin-bottom: 100px;
 }
