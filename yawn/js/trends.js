@@ -1,8 +1,9 @@
 var hotnessLevelLabels = ['Mild','Medium','Spicy','On Fire','Volcanic']; 
 
 $(document).ready(function() {
-	var hotnessINT = 3;
-	var hotnessLevel = new WGHotnessLevel( $('#hotness_graph'), hotnessINT );
+	var hotnessINT = Math.round(Math.random()*4);
+	var hotnessLevel = new WGHotnessLevel( $('#hotness_graph'), hotnessINT+1 );
+	$('#hotness_level').html(hotnessLevelLabels[hotnessINT]);
 	
 	var border = new WGBorder( $('#hBorder'),0,580 );
 	
