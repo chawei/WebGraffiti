@@ -72,10 +72,11 @@ function WGHotnessGraph(elem, aData) {
 			processing.frameRate(10);
 			
 			for(var i=0; i<data.length; i++) {
+			  var data_value = parseInt(data[i][1]);
 				sorting[i] = i;
 				positions.push( height-50 );
-				if( data[i][1]>maxY )
-					maxY = data[i][1];
+				if( data_value>maxY )
+					maxY = data_value;
 			}
 			sorting.sort( randOrd );
 			gapX = Math.round( (width-100)/(data.length-1) );
