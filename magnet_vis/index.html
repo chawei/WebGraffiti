@@ -12,44 +12,35 @@
 </head>
  
 <body> 
+	<div id="lang_container_bg"></div>	
+	<div id="lang_container"></div>
 
+	
 	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<script type="text/javascript" language="javascript" src="raphael-min.js"></script>
 	<script type="text/javascript" language="javascript" src="animation.js"></script>
 	
 	<script type="text/javascript" language="javascript">
+	
+		var languages = new Array();
+		var langList = ['English','Chinese','French','Deutsch','Filipino','Italiano','Japanese','Euskara'];
+		var diffLikes = ["Like",'讚','Je tame','Gefällt mir','Gustuhin','Mi piace','いいね！','Atsegin dut'];
+		
 		var triggerINT;
 		
 		$(document).ready(function() {
+			for(var i=0; i<langList.length; i++) {
+				languages.push( new Language(langList[i]) );
+			}
 			triggerINT = setInterval(trigger,200);
-			
 		});
-		//var cityList = ['Los Angeles','Pasadena','Taipei','Seul','Tokyo','New York','Boston'];
-		var cityList = ['Los Angeles','Pasadena'];
-		var cities = new Array();
-		var diffLikes = ["Like",'讚','Je tame'];
 		
 		function trigger() {
 			if(Math.random()>0.9) {
-				var currentCity = cityList[ Math.floor(Math.random()*cityList.length) ];
-				var theCity = null;
-				for(var i=0; i<cities.length; i++) {
-					if( cities[i].getName()==currentCity ) {
-						theCity = cities[i];
-						break;
-					}
-				}
-				if(theCity==null) {
-					var nx = Math.random()*100+200;
-					var ny = 0;
-					cities.push( new City(currentCity, nx, ny) );
-				}
-				else {
-					theCity.bounce();
-				}
-
-				var rand = Math.floor( Math.random()*diffLikes.length );
-				var likes = new Likes( Math.ceil(Math.random()*10)+5,diffLikes[rand],'Pasadena','English');	
+				var randINT = Math.floor(Math.random()*diffLikes.length);
+				var randAmount = Math.ceil(Math.random()*10)+5;
+				var likes = new Likes( randAmount, diffLikes[randINT], langList[randINT]);
+				languages[randINT].updateCounter(randAmount);
 			}
 		}
 		

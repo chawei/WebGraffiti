@@ -2,11 +2,13 @@
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: "Inconsolata",monospace;
-  font-size: 11px;
+  font-size: 13px;
   text-align: left;
   color: #4d4d4d;
+	overflow: hidden;
 }
 
 a {
@@ -33,3 +35,36 @@ img {
 	z-index: -1;
 }
 
+#lang_container {
+	position: fixed;
+	bottom: 0px;
+	padding-bottom: 20px;
+	width: 100%;
+	text-align: center;
+}
+#lang_container_bg {
+	position: fixed;
+	bottom: 0px;
+	padding-bottom: 20px;
+	width: 100%;
+	text-align: center;
+	height: 46px;
+	background-color: #fff;
+}
+
+.language {
+	text-align: left;
+	display: inline-block;
+	margin-left: 14px;
+	width: 120px;
+	font-size: 15px;
+	background-color: #fff;
+}
+.language .title {
+	margin-bottom: 30px;
+}
+.language .box {
+	background-color: #000;
+	height: 2px;
+	width: 120px;
+}

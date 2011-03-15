@@ -1,28 +1,32 @@
 
-function Likes(amount,likeString,city,language) {
-	var _amount = amount;
-	var _city = city;
-	var _likeString = likeString;
-	var _language = language;
-	init();
-	function init() {
-		var top = -100 - Math.random()*100;
-		var left = 1000*( Math.random()*0.8 + 0.2 );
-		for(var i=0; i<_amount; i++) {
-			var div = $('<div class="like">'+_likeString+'</div>');
-			div.css('top',top+Math.random()*100);
-			div.css('left',left+Math.random()*150);
-			$('body').append(div);
-			var likeLabel = new Like(div);
-		}
+function Likes(amount,likeStr,lang) { 
+	
+	var langDivID = '#'+lang.toLowerCase();
+	var top = $(langDivID).offset().top;
+	var left = $(langDivID).offset().left;
+	
+	for(var i=0; i<amount; i++) {
+		var div = $('<div class="like">'+likeStr+'</div>');
+		div.css('top',-100-Math.random()*10);
+		div.css('left',left+Math.random()*90);
+		var targetTop = 700+Math.random()*30;
+		// div.animate({
+		// 		    top: '+='+targetTop,
+		// 		  }, 3000, function() {
+		// 		    $(this).remove();
+		// 		  });
+				$('body').append(div);
+		
+		var likeLabel = new Like(div);
 	}
+	
 }
 
 function Like(div) {
 	var _div = div;
 	var _startY = div.offset().top;
-  var _force = 0.15+Math.random()*0.1;
-	var _target = 600-Math.random()*60;
+  var _force = 0.05+Math.random()*0.05;
+	var _target = 750-Math.random()*30;
 	var _t = 0;
 	var _y;
 	var _fallINT = setInterval(falling,40);
@@ -32,15 +36,40 @@ function Like(div) {
 		_y = _startY + _force*_t*_t;
 		_div.css('top',_y);
 		if(_y>=_target) {
-			
-			_div.animate({
+			_div.delay(1000).animate({
 				opacity: 0.0,
 		  }, Math.random()*300 + 800, function() {
-				$(this).delay(8000).remove();
+				$(this).remove();
 		  });
 		
 			clearInterval(_fallINT);
 		}
+	}
+}
+
+function City2(name,x,y) {
+	this.getName = function() {
+		return _name;
+	}
+}
+
+function Language(name) {
+	var _name = name;
+	var _counter = 0;
+	var _div;
+	init();
+	function init() {
+		_div = $('<div id="'+_name.toLowerCase()+'" class="language"></div>');
+		_div.wrapInner('<div class="box"></div><div class="title">'+_name+'</div>');
+		$('#lang_container').append(_div);
+	}
+	this.getName = function() {
+		return _name;
+	}
+	this.updateCounter = function(addUp) {
+		_counter += addUp/2;
+		var value = _counter+'px solid #000';
+		_div.find('.box').delay(3000).animate({height: '+='+addUp/2}, 0);
 	}
 }
 
