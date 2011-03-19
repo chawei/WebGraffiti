@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"> 
 <head> 
    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
-   <title>Like Rainfall</title> 
+   <title>Anti-Like Magnet</title> 
    <meta name="author" content="" /> 
  
    <!-- Homepage CSS --> 
@@ -11,38 +11,95 @@
 
 </head>
  
-<body> 
-	<div id="lang_container_bg"></div>	
-	<div id="lang_container"></div>
+<body>
+	
+	<div id="menu">
+		<a id="logo">ANTI-LIKE MAGNET</a>
+		<a class="item">ABOUT</a>
+		<a class="item">ARCHIVE</a>
+	</div>
+
+	<div id="title">[TODAY] Visualization of Disabled FB Like Buttons</div>
+		
+	<!-- 
+		<div id="canvas">
+				<div id="lang_container"></div>
+		</div> 
+	-->
+		
+	<div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+		<div class="box2d">Like</div>
+	</div>
+	
 
 	
+
 	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-	<script type="text/javascript" language="javascript" src="raphael-min.js"></script>
-	<script type="text/javascript" language="javascript" src="animation.js"></script>
+	<script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.10.custom.min.js"></script>
+	
+	<!--[if IE]><script type="text/javascript" src="lib/excanvas.js"></script><![endif]--> 
+	<script type="text/javascript" language="javascript" src="js/protoclass.js"></script>
+	<script type="text/javascript" language="javascript" src="js/box2d.js"></script>	
+	
+	<script type="text/javascript" language="javascript" src="lang_mapping.js"></script>
+	<script type="text/javascript" language="javascript" src="js/Main.js"></script>
+		<script type="text/javascript" language="javascript" src="js/like_animation.js"></script>
 	
 	<script type="text/javascript" language="javascript">
 	
-		var languages = new Array();
-		var langList = ['English','Chinese','French','Deutsch','Filipino','Italiano','Japanese','Euskara'];
-		var diffLikes = ["Like",'讚','Je tame','Gefällt mir','Gustuhin','Mi piace','いいね！','Atsegin dut'];
-		
+		var languages = {};
 		var triggerINT;
+		var lang_keys = [];
+		
+		var elements;
 		
 		$(document).ready(function() {
-			for(var i=0; i<langList.length; i++) {
-				languages.push( new Language(langList[i]) );
-			}
-			triggerINT = setInterval(trigger,200);
+			$.each(LangMapping, function(key, value){
+				lang_keys.push(key);
+			});
+			init();
+//			triggerINT = setInterval(trigger,300);
 		});
 		
 		function trigger() {
-			if(Math.random()>0.9) {
-				var randINT = Math.floor(Math.random()*diffLikes.length);
-				var randAmount = Math.ceil(Math.random()*10)+5;
-				var likes = new Likes( randAmount, diffLikes[randINT], langList[randINT]);
-				languages[randINT].updateCounter(randAmount);
-			}
+			
 		}
+	
+	
+		function trigger() {
+				if(Math.random()>0.9) {
+					
+					var randINT = Math.floor(Math.random()*lang_keys.length);
+					var lang_name = lang_keys[randINT];
+					var rand_amount = Math.ceil(Math.random()*40)+10;
+					var likeStr = LangMapping[lang_name]['like'];
+					add_likes(likeStr,rand_amount);
+					
+					// var language = languages[lang_name];
+					// 					if( language==null ) {
+					// 						var lang = new Language( LangMapping[lang_name]['name'], LangMapping[lang_name]['like'], rand_amount );
+					// 						languages[lang_name] = lang;
+					// 					}
+					// 					else {
+					// 			 					// update size
+					// 						language.updateCount( rand_amount );	
+					// 					}
+				}
+			}
 		
 	</script>
 	

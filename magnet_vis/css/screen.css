@@ -5,10 +5,10 @@
 
 body {
   font-family: "Inconsolata",monospace;
-  font-size: 13px;
+  font-size: 16px;
   text-align: left;
   color: #4d4d4d;
-	overflow: hidden;
+/*	overflow: hidden;*/
 }
 
 a {
@@ -21,29 +21,60 @@ img {
 	border: 1px solid #eee;
 }
 
-#main {
-
+#title {
+	position: fixed;
+	top: 0px;
+	left: 30px;
+	display: inline-block;
+	padding: 13px 9px 7px 9px;
 }
 
-.city {
-
+#menu {
+	position: fixed;
+	top: 0px;
+	right: 200px;
 }
+
+#menu #logo {
+	background-color: #F9FF03;
+	display: inline-block;
+	padding: 13px 9px 7px 9px;
+	margin-right: 3px;
+}
+#menu .item {
+	display: inline-block;
+	margin-left: 4px;
+}
+
+#canvas {
+	width: 900px;
+	height: 600px;
+	margin: 80px auto 30px auto;
+	background-color: #f5f5f5;
+	position: relative;
+}
+
 
 .like {
-	font-family: 'lucida grande', sans-serif;
+	margin: auto;
+	display: inline-block;
+	border: 1px solid #ff0000;
+}
+
+.like_box {
 	position: absolute;
-	z-index: -1;
+	border: 1px solid #eee;
+	text-align: center;
 }
 
 #lang_container {
-	position: fixed;
+	position: absolute;
 	bottom: 0px;
-	padding-bottom: 20px;
 	width: 100%;
 	text-align: center;
 }
 #lang_container_bg {
-	position: fixed;
+	position: absolute;
 	bottom: 0px;
 	padding-bottom: 20px;
 	width: 100%;
@@ -55,16 +86,17 @@ img {
 .language {
 	text-align: left;
 	display: inline-block;
-	margin-left: 14px;
-	width: 120px;
+	margin-left: 3px;
+	width: 90px;
 	font-size: 15px;
 	background-color: #fff;
 }
 .language .title {
-	margin-bottom: 30px;
+	margin-bottom: 10px;
+	padding-top: 4px;
 }
 .language .box {
 	background-color: #000;
-	height: 2px;
-	width: 120px;
+	height: 3px;
+	width: 30px;
 }

@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"> 
+<head> 
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+   <title>Like Rainfall</title> 
+   <meta name="author" content="" /> 
+ 
+   <!-- Homepage CSS --> 
+   <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection" /> 
+   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'> 
+
+</head>
+ 
+<body> 
+	<div id="lang_container_bg"></div>	
+	<div id="lang_container"></div>
+
+	
+	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="raphael-min.js"></script>
+	<script type="text/javascript" language="javascript" src="animation_animation.js"></script>
+	
+	<script type="text/javascript" language="javascript">
+	
+		var languages = new Array();
+		var langList = ['English','Chinese','French','Deutsch','Filipino','Italiano','Japanese','Euskara'];
+		var diffLikes = ["Like",'讚','Je tame','Gefällt mir','Gustuhin','Mi piace','いいね！','Atsegin dut'];
+		
+		var triggerINT;
+		
+		$(document).ready(function() {
+			for(var i=0; i<langList.length*7; i++) {
+				languages.push( new Language(langList[i%langList.length]) );
+			}
+//			triggerINT = setInterval(trigger,1000);
+		});
+		
+		function trigger() {
+			if(Math.random()>0.9) {
+				var randINT = Math.floor(Math.random()*diffLikes.length);
+				var randAmount = Math.ceil(Math.random()*40)+10;
+				var likes = new Likes( randAmount, diffLikes[randINT], langList[randINT]);
+				languages[randINT].updateCounter(randAmount);
+			}
+		}
+		
+	</script>
+	
+</body> 
+</html>
