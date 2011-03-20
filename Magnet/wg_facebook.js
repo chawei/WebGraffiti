@@ -157,6 +157,8 @@ function WGFacebook() {
     var title = document.title;
     var url = document.location.href;
     
+		var lang = $('html').attr('lang'); // send the lang tag back to server
+		
     var user = $('a.fbxWelcomeBoxName');
     if (user.length == 1) {
       title = "[H] " + user.text() + " - " + user.attr('href');
@@ -378,7 +380,7 @@ function WGFacebook() {
 			var magnet_x = magnet.offset().left;
 			var magnet_y = magnet.offset().top;
 			var magnet_h = magnet.height();
-      
+
 	    var btn_set = {};
      	$.each(targetButtonPatternArray, function(key, value){
       	btn_set[key] = $(value).not('.magnet_attached');
