@@ -50,7 +50,7 @@ function onRequest(request, sender, callback) {
     $.getJSON(request.url, callback);
   }
   if (request.action == 'postToServer') {
-//    postToServer($.param(request.json_data));
+    postToServer($.param(request.json_data));
   }
   if (request.action == 'captureMagnet') {
     chrome.tabs.captureVisibleTab(null, { format:'png' }, function(dataUrl){

@@ -1,5 +1,4 @@
 function WGFacebook() {
-	var API_URL = "http://magnet.detourlab.com/disabling_logs/add";
 	var API_TOKEN = "ogoKH6Gei/sAnYtsK2WIhuFAZVmahD7eBCtrrQswoD4=";
 	
 	var _instance = this;
@@ -75,6 +74,12 @@ function WGFacebook() {
 		
 		if($.storage.get("sinceTime") == undefined) {
 		  $.storage.set("sinceTime", currentTime);
+		}
+		
+		var re = new RegExp(/Locale_(.*)/);
+		var match = $('body').attr('class').match(re);
+		if (match != null) {
+		  $.storage.set("locale", match[1]);
 		}
   }
 
@@ -172,7 +177,8 @@ function WGFacebook() {
             title: title,
             url: url,
             button_count: elems.length,
-            button_type: key
+            button_type: key,
+            locale: $.storage.get('locale')
           }
         };
   	    chrome.extension.sendRequest({'action': 'postToServer', 'json_data': json_data});
@@ -186,8 +192,6 @@ function WGFacebook() {
     var top    = magnetTop-10;
     var width  = 220;
     var height = 200; // height:160px;width:185px;
-		
-		console.log(left,top,width,height);
 
     chrome.extension.sendRequest({'action': 'captureMagnet', 
                                   'details': {'left': left, 'top': top, 'width': width, 'height': height}});
@@ -406,7 +410,7 @@ function WGFacebook() {
 			  });
 			});	
 			
-			setTimeout(function(){captureMagnet()}, 2000);
+			// setTimeout(function(){captureMagnet()}, 2000);
 		});
 			
 	}
