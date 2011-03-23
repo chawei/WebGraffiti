@@ -13,9 +13,9 @@
   }*/
 
 .section_container {
-  background-color: #fff;
+  background-color: rgba(255,255,255,1);
   margin: 60px auto 0;
-	width: 850px;
+	width: 90%;
   padding: 20px 0;
 }
   .section {
@@ -93,7 +93,7 @@ a#visit_magnet:hover {
 #footer {
 	margin: 0 auto 0;
 /*	width: 1000px;*/
-	width: 850px;
+	width: 90%;
   padding: 10px 0 20px;
 	color: rgba(0,0,0,0.5);
 }

@@ -43,24 +43,24 @@ img {
 }
 
 #update {
-/*	background-color: rgba(0, 0, 0, 0.4);*/
-	margin: 60px auto 0px auto;
-	padding: 14px 0px 5px 0px;
+	background-color: rgba(0, 0, 0, 0.5);
+	margin: 60px auto 10px auto;
+	padding: 12px 0px 5px 0px;
 	width: 90%;
-	border-bottom: 1px dashed #666;
-	color: rgba(0,0,0, 0.5);
+	border-bottom: 1px dashed #ffff00;
+	color: #ffff00;
 }
-#update #count {
+#update #info {
 	width: 90px;
+	margin-left:60px;
+	font-family: "Trade-Gothic-Bold", sans-serif;
 }
+
 #update #timestamp {
 	font-family: "Trade-Gothic-Eig-Con", sans-serif;
-/*	float: right;*/
+
 }
-#update .slash {
-	font-family: "Trade-Gothic-Eig-Con", sans-serif;
-	font-size: 15px;
-}
+
 
 #main {
 	background-color: rgba(0,0,0, 0.5);
