@@ -63,6 +63,7 @@ img {
 
 
 #main {
+	border-bottom: 1px dashed #ffff00;
 	background-color: rgba(0,0,0, 0.5);
 	margin: 0px auto 60px auto;
 	padding: 30px 0 0 0;
