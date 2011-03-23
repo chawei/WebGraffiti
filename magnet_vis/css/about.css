@@ -13,7 +13,8 @@
   }*/
 
 .section_container {
-  background-color: rgba(255,255,255,1);
+	color: #ffff00;
+  background-color: rgba(0,0,0,0.5);
   margin: 60px auto 0;
 	width: 90%;
   padding: 20px 0;
@@ -35,8 +36,19 @@
     float: left;
   } 
  	.section .description {
-		margin: 24px 0 0;
+		margin: 24px 0 0 120px;
+		width: 590px;
+		line-height: 22px;
 	}
+	
+.description #logo {
+	font-size: 35px;
+}
+.description .desc {
+	margin-top: 10px;
+	font-size: 20px;
+/*	font-family: "Trade-Gothic", sans-serif;*/
+}
 
 #video_container {
 	position: relative;
@@ -63,19 +75,31 @@
 	}
 		
 #magnet_image {
-	margin: 10px 0 18px 0;
+	margin: 23px 0 25px 36px;
 }
   
-a#magnet_download {
-	margin: 0 0 0 5px;
-	width: 207px;
-	height: 34px;
-	overflow: hidden;
-	display: block;
-	background: url(../assets/images/download.png) no-repeat 0 0;
+#download_magnet {
+	font-size: 23px;
+	margin-left: 33px;
+	padding: 10px	30px 6px 30px;
+	background-color: #ffff00;
 }
-a#magnet_download:hover {
-	background-position: 0 -34px;
+
+#visit_wall {
+	width: 580px;
+	margin-left: 120px;
+	color: #ffff00;
+}
+#visit_wall a {
+	text-decoration: underline;
+	color: #ffff00;
+}
+#author {
+	margin: 10px 0 20px 120px;
+}
+#author a{
+	text-decoration: underline;
+	color: #ffff00;
 }
 
 a#visit_magnet {
