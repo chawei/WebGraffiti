@@ -10,8 +10,12 @@ function add_likes(likeString,amount) {
 		
 	for (var i = 0; i < amount; i++) {
 		var element = $('<div>'+likeString+'</div>');
+		var top = 100-Math.random()*100;
+		var left = Math.random()*600+100;
+		element.css('top',top+'px');
+		element.css('left',left+'px');
+		console.log(top,left);
 		$('body').append(element);
-		
 		
 		element = element[0];
 		
@@ -22,8 +26,6 @@ function add_likes(likeString,amount) {
 		properties[index][3] = element.offsetHeight;
 	
 	}
-	
-	
 		
 		for (var i = 0; i < amount; i++) {
 			var element = elements[preAmount+i];
