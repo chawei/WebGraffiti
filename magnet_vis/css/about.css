@@ -14,7 +14,7 @@
 
 .section_container {
 	color: #ffff00;
-  background-color: rgba(0,0,0,0.5);
+  background-color: #666600;
   margin: 60px auto 0;
 	width: 90%;
   padding: 20px 0;
@@ -42,18 +42,22 @@
 	}
 	
 .description #logo {
-	font-size: 35px;
+	font-size: 31px;
+	margin-bottom: 13px;
+	font-family: "Trade-Gothic-Bold-Con", sans-serif;
 }
 .description .desc {
 	margin-top: 10px;
-	font-size: 20px;
-/*	font-family: "Trade-Gothic", sans-serif;*/
+	font-size: 23px;
+	line-height: 28px;
+/*	font-family: "Trade-Gothic-Eig-Con", sans-serif;*/
+		font-family: "Trade-Gothic-Bold-Con", sans-serif;
 }
 
 #video_container {
 	position: relative;
 	width: 463px;
-	margin-top: 8px;
+	margin-top: 13px;
 }
   #video_container .video_desc {
   	position: absolute;
@@ -64,6 +68,7 @@
 
 #video {
 	margin: 0 10px 0 0;
+  border:2px solid #ffff00;
 }
 
 #quote {
@@ -75,7 +80,7 @@
 	}
 		
 #magnet_image {
-	margin: 23px 0 25px 36px;
+	margin: 33px 0 25px 36px;
 }
   
 #download_magnet {

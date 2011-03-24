@@ -33,7 +33,7 @@ body {
 }
 
 a {
-	color: rgba(0,0,0, 0.5);
+	color: #666600;
   text-decoration: none;
 }
 a:hover { color: #999; }
@@ -43,7 +43,7 @@ img {
 }
 
 #update {
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: #666600;
 	margin: 60px auto 10px auto;
 	padding: 12px 0px 5px 0px;
 	width: 90%;
@@ -64,7 +64,7 @@ img {
 
 #main {
 	border-bottom: 1px dashed #ffff00;
-	background-color: rgba(0,0,0, 0.5);
+	background-color: #666600; /*rgba(0,0,0, 0.5);*/
 	margin: 0px auto 60px auto;
 	padding: 30px 0 0 0;
 	width: 90%;
