@@ -27,6 +27,7 @@ $(document).ready(function() {
 	$.ajax({
 	  url: API_URL+'/search_logs/'+METHOD_URL+'.json?query='+query+'&date='+date,
 	  type: 'GET',
+	  dataType: 'jsonp',
 	  success: function(data) {
 	    $.each(data.hot_languages, function(index, value){
 	      $("#language_list ol").append("<li><a class=\"custom_link\" href=\"trends-lang.html?method=lang&query="+value[1]+"&title="+value[2]+"&date="+date+"\">"+value[2]+"</a></li>");
