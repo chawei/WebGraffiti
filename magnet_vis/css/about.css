@@ -13,11 +13,12 @@
   }*/
 
 .section_container {
-	color: #ffff00;
-  background-color: #666600;
+	color: #555;
+/*  background-color: #666600;*/
+	background-color: #fff;
   margin: 60px auto 0;
-	width: 90%;
-  padding: 20px 0;
+	width: 100%;
+  padding: 20px 0 174px;
 }
   .section {
     margin: 0 auto;

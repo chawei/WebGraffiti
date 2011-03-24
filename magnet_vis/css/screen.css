@@ -27,9 +27,7 @@ body {
 	font-family: "Trade-Gothic-Bold", sans-serif;
   font-size: 19px;
   text-align: left;
-
-	background-color: #ffff00;
-/*	overflow: hidden;*/
+	color: #666600;
 }
 
 a {
@@ -38,37 +36,47 @@ a {
 }
 a:hover { color: #999; }
 
-img {
-/*	border: 1px solid #eee;*/
+
+/* Menu
+------------------ */
+#menu {
+	background-color: #fff;
+	color: #666600;
+	margin: 20px auto 0 auto;
+	width: 90%;
+	min-width: 800px;
+}
+#menu #selection {
+	width:30%; 
+	min-width: 280px;
+}
+#menu #logo {
+	font-family: "Trade-Gothic-Bold", sans-serif;
+	display: inline-block;
+	padding: 8px 6px 7px 9px;
+}
+#menu .item {
+	font-family: "Trade-Gothic-Eig-Con", sans-serif;
+	display: inline-block;
+	margin-left: 8px;
 }
 
 #update {
-	background-color: #666600;
-	margin: 60px auto 10px auto;
-	padding: 12px 0px 5px 0px;
-	width: 90%;
-	border-bottom: 1px dashed #ffff00;
-	color: #ffff00;
-}
-#update #info {
-	width: 90px;
-	margin-left:60px;
+	width: 60%;
+	border-bottom: 1px dashed #666600;
+	border-top: 1px solid #666600;
+	padding: 10px 0 4px 0;
+	margin-left: 20px;
+	display: inline-block;
 	font-family: "Trade-Gothic-Bold", sans-serif;
 }
 
-#update #timestamp {
-	font-family: "Trade-Gothic-Eig-Con", sans-serif;
 
-}
-
-
+/* Content
+------------------ */
 #main {
-	border-bottom: 1px dashed #ffff00;
-	background-color: #666600; /*rgba(0,0,0, 0.5);*/
-	margin: 0px auto 60px auto;
-	padding: 30px 0 0 0;
+	margin: 60px auto 60px auto;
 	width: 90%;
-/*	border-top: 1px solid #ffff00;*/
 }
 
 #title {
@@ -79,27 +87,7 @@ img {
 	padding: 13px 9px 7px 9px;
 }
 
-#menu {
-	color: #333;
-	position: fixed;
-	top: 0px;
-	right: 150px;
-}
-
-#menu #logo {
-	font-family: "Trade-Gothic-Bold", sans-serif;
-	display: inline-block;
-	padding: 8px 9px 7px 9px;
-	margin-right: 3px;
-}
-#menu .item {
-	font-family: "Trade-Gothic-Eig-Con", sans-serif;
-	display: inline-block;
-	margin-left: 4px;
-}
-
 .like_box {
-	color: #ffff00;
 	width: 310px;
 	float: left;
 	padding-bottom: 30px;
@@ -109,9 +97,9 @@ img {
 	float: left;
 	width: 80px;
 	text-align: right;
-	padding: 12px 10px 0 0;
-	font-family: "Trade-Gothic-Eig-Con", sans-serif;
-	font-size: 23px;
+	padding: 6px 10px 0 0;
+	font-family: "Trade-Gothic-Bold-Con", sans-serif;
+	font-size: 33px;
 }
 .like_box .info {
 	float: left;
