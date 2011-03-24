@@ -60,6 +60,13 @@ a:hover { color: #000; }
 	display: inline-block;
 	margin-left: 8px;
 }
+#menu .item_selected {
+	border-top: 4px solid rgba(0,0,0, 0.5); 
+	padding:7px 2px 0 0;
+	font-family: "Trade-Gothic-Eig-Con", sans-serif;
+	display: inline-block;
+	margin-left: 8px;
+}
 
 #update {
 	width: 60%;
