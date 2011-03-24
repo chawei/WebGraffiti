@@ -136,9 +136,9 @@ line-height: 38px;
 }
 
 .about_desc {
-	font-family: "Trade-Gothic", sans-serif;
-	width: 620px;
-	margin-left: 80px;
+	font-family: "Trade-Gothic-Bold", sans-serif;
+	width: 570px;
+	margin-left: 110px;
 	line-height: 22px;
 	margin-top: 10px;
 }
@@ -147,7 +147,7 @@ line-height: 38px;
 }
 
 #download {
-	padding: 40px 0 0 30px;
+	padding: 40px 0 0 24px;
 }
 #download_magnet {
 	background-color: #ffff00;
@@ -156,7 +156,7 @@ line-height: 38px;
 	padding: 11px 8px 6px 8px;
 }
 #circle_in {
-	margin-left: 10px;
+	margin-left: 28px;
 }
 #circle_out {
 	margin: 174px 0 0 35px;
