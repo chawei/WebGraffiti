@@ -1,65 +1,130 @@
 <!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"> 
 <head> 
-   <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
-   <title>Anti-Like Magnet</title> 
-   <meta name="author" content="" /> 
- 
-   <!-- Homepage CSS --> 
-   <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection" /> 
-   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'> 
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+  <title>Anti-Like Magnet</title> 
+  <meta name="author" content="" /> 
 
+  <!-- Homepage CSS --> 
+  <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection" /> 
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+	
 </head>
  
 <body>
 	
 	<div id="menu">
 		<a id="logo">ANTI-LIKE MAGNET</a>
-		<a class="item">ABOUT</a>
-		<a class="item">ARCHIVE</a>
+		<a class="item" href="/" style="border-top: 4px solid rgba(0,0,0, 0.5); padding:7px 2px 0 0;"> DATA</a>
+		<a class="item" href="/about.html"> ABOUT</a>
 	</div>
-
-	<div id="title">[TODAY] Visualization of Disabled FB Like Buttons</div>
 		
-	<!-- 
-		<div id="canvas">
-				<div id="lang_container"></div>
-		</div> 
-	-->
+	<div id="update" class="clear_fix">	
+		<span id="info"> 12 Like disabled in Pasadena</span> </span> <span id="timestamp">10 mins ago </span>
+	</div>	
 		
-	<div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-		<div class="box2d">Like</div>
-	</div>
-	
-
-	
+	<div id="main" class="clear_fix">
+		
+		<div class="like_box">
+			<div class="clear_fix">
+				<div class="count">2319</div>
+				<div class="info">
+					<div class="like">Like</div>
+					<div class="city">
+						<div>PASADEN</div>
+						<div>NEW YORK</div>
+						<div>BEIGIN</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="like_box">
+			<div class="clear_fix">
+				<div class="count">167</div>
+				<div class="info">
+					<div class="like">讚</div>
+					<div class="city">
+						<div>PARIS</div>
+						<div>VAN COUVER</div>
+						<div>SIDNEY</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="like_box">
+			<div class="clear_fix">
+				<div class="count">121</div>
+				<div class="info">
+					<div class="like">Gefällt mir</div>
+					<div class="city">
+						<div>BERLIN</div>
+						<div>VAN COUVER</div>
+						<div>SIDNEY</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="like_box">
+			<div class="clear_fix">
+				<div class="count">97</div>
+				<div class="info">
+					<div class="like">Mi piace</div>
+					<div class="city">
+						<div>ROME</div>
+						<div>VAN COUVER</div>
+						<div>SIDNEY</div>
+						<div>PARIS</div>
+						<div>VAN COUVER</div>
+						<div>SIDNEY</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="like_box">
+			<div class="clear_fix">
+				<div class="count">21</div>
+				<div class="info">
+					<div class="like">Je Tame</div>
+					<div class="city">
+						<div>PARIS</div>
+						<div>VAN COUVER</div>
+						<div>SIDNEY</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="like_box">
+			<div class="clear_fix">
+				<div class="count">2319</div>
+				<div class="info">
+					<div class="like">'いいね！</div>
+					<div class="city">
+						<div>TOKYO</div>
+						<div>OSAKA</div>
+						<div>SIDNEY</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div> 
 
 	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.10.custom.min.js"></script>
-	
-	<!--[if IE]><script type="text/javascript" src="lib/excanvas.js"></script><![endif]--> 
-	<script type="text/javascript" language="javascript" src="js/protoclass.js"></script>
-	<script type="text/javascript" language="javascript" src="js/box2d.js"></script>	
-	
+
+	<script type="text/javascript" language="javascript" src="js/modernizr-1.7.min.js"></script>
 	<script type="text/javascript" language="javascript" src="lang_mapping.js"></script>
-	<script type="text/javascript" language="javascript" src="js/Main.js"></script>
-		<script type="text/javascript" language="javascript" src="js/like_animation.js"></script>
-	
+	<script type="text/javascript" language="javascript" src="animation.js"></script>
+		
 	<script type="text/javascript" language="javascript">
+		if (Modernizr.flexbox) {
+			console.log('loaded');
+		}
 	
 		var languages = {};
 		var triggerINT;
@@ -71,36 +136,34 @@
 			$.each(LangMapping, function(key, value){
 				lang_keys.push(key);
 			});
-			init();
-//			triggerINT = setInterval(trigger,300);
-		});
-		
-		function trigger() {
+
 			
-		}
-	
+//			init();
+//			triggerINT = setInterval(trigger,500);
+		});
 	
 		function trigger() {
-				if(Math.random()>0.9) {
-					
-					var randINT = Math.floor(Math.random()*lang_keys.length);
-					var lang_name = lang_keys[randINT];
-					var rand_amount = Math.ceil(Math.random()*40)+10;
-					var likeStr = LangMapping[lang_name]['like'];
-					add_likes(likeStr,rand_amount);
-					
-					// var language = languages[lang_name];
-					// 					if( language==null ) {
-					// 						var lang = new Language( LangMapping[lang_name]['name'], LangMapping[lang_name]['like'], rand_amount );
-					// 						languages[lang_name] = lang;
-					// 					}
-					// 					else {
-					// 			 					// update size
-					// 						language.updateCount( rand_amount );	
-					// 					}
+			if(Math.random()>0.7) {
+				
+				var randINT = Math.floor(Math.random()*lang_keys.length);
+				var lang_name = lang_keys[randINT];
+				var rand_amount = Math.ceil(Math.random()*40)+10;
+				var likeStr = LangMapping[lang_name]['like'];
+				
+				var language = languages[lang_name];
+				if( language==null ) {
+					var lang = new Language( LangMapping[lang_name]['name'], LangMapping[lang_name]['like'], rand_amount );
+					languages[lang_name] = lang;
 				}
+				else {
+					language.updateCount( rand_amount );	
+				}
+				// down scale font-size 
+				checkFontSize();
+				
 			}
-		
+		}
+
 	</script>
 	
 </body> 

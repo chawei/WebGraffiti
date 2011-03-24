@@ -3,22 +3,72 @@
   padding: 0;
 }
 
+@font-face { 
+	font-family: Trade-Gothic; 
+	src: url('../assets/font/TradeGot.ttf'); 
+}
+
+@font-face { 
+	font-family: Trade-Gothic-Bold; 
+	src: url('../assets/font/TradeGotBol.ttf'); 
+}
+
+@font-face { 
+	font-family: Trade-Gothic-Bold-Con; 
+	src: url('../assets/font/TradeGotBolConTweObl.ttf'); 
+}
+
+@font-face { 
+	font-family: Trade-Gothic-Eig-Con; 
+	src: url('../assets/font/TradeGotConEig.ttf'); 
+}
+
 body {
-  font-family: "Inconsolata",monospace;
-  font-size: 16px;
+	font-family: "Trade-Gothic-Bold", sans-serif;
+  font-size: 19px;
   text-align: left;
-  color: #4d4d4d;
+
+	background-color: #ffff00;
 /*	overflow: hidden;*/
 }
 
 a {
-  color: #666666;
+	color: #666600;
   text-decoration: none;
 }
-a:hover { color: #000000; }
+a:hover { color: #999; }
 
 img {
-	border: 1px solid #eee;
+/*	border: 1px solid #eee;*/
+}
+
+#update {
+	background-color: #666600;
+	margin: 60px auto 10px auto;
+	padding: 12px 0px 5px 0px;
+	width: 90%;
+	border-bottom: 1px dashed #ffff00;
+	color: #ffff00;
+}
+#update #info {
+	width: 90px;
+	margin-left:60px;
+	font-family: "Trade-Gothic-Bold", sans-serif;
+}
+
+#update #timestamp {
+	font-family: "Trade-Gothic-Eig-Con", sans-serif;
+
+}
+
+
+#main {
+	border-bottom: 1px dashed #ffff00;
+	background-color: #666600; /*rgba(0,0,0, 0.5);*/
+	margin: 0px auto 60px auto;
+	padding: 30px 0 0 0;
+	width: 90%;
+/*	border-top: 1px solid #ffff00;*/
 }
 
 #title {
@@ -30,73 +80,78 @@ img {
 }
 
 #menu {
+	color: #333;
 	position: fixed;
 	top: 0px;
-	right: 200px;
+	right: 150px;
 }
 
 #menu #logo {
-	background-color: #F9FF03;
+	font-family: "Trade-Gothic-Bold", sans-serif;
 	display: inline-block;
-	padding: 13px 9px 7px 9px;
+	padding: 8px 9px 7px 9px;
 	margin-right: 3px;
 }
 #menu .item {
+	font-family: "Trade-Gothic-Eig-Con", sans-serif;
 	display: inline-block;
 	margin-left: 4px;
 }
 
-#canvas {
-	width: 900px;
-	height: 600px;
-	margin: 80px auto 30px auto;
-	background-color: #f5f5f5;
-	position: relative;
-}
-
-
-.like {
-	margin: auto;
-	display: inline-block;
-	border: 1px solid #ff0000;
-}
-
 .like_box {
-	position: absolute;
-	border: 1px solid #eee;
-	text-align: center;
+	color: #ffff00;
+	width: 310px;
+	float: left;
+	padding-bottom: 30px;
 }
 
-#lang_container {
-	position: absolute;
-	bottom: 0px;
-	width: 100%;
-	text-align: center;
+.like_box .count {
+	float: left;
+	width: 80px;
+	text-align: right;
+	padding: 12px 10px 0 0;
+	font-family: "Trade-Gothic-Eig-Con", sans-serif;
+	font-size: 23px;
 }
-#lang_container_bg {
-	position: absolute;
-	bottom: 0px;
-	padding-bottom: 20px;
-	width: 100%;
-	text-align: center;
-	height: 46px;
-	background-color: #fff;
-}
-
-.language {
+.like_box .info {
+	float: left;
+	width: 200px;
 	text-align: left;
-	display: inline-block;
-	margin-left: 3px;
-	width: 90px;
+}
+.like_box .like {
+	font-family: "Trade-Gothic-Bold-Con", sans-serif;
+line-height: 38px;
+	font-size: 43px;
+}
+
+.like_box .city {
+	font-family: "Trade-Gothic-Eig-Con", sans-serif;	
 	font-size: 15px;
-	background-color: #fff;
+	margin-top: 4px;
+	line-height: 17px;
 }
-.language .title {
-	margin-bottom: 10px;
-	padding-top: 4px;
+
+/* Misc
+------------------ */
+.left {
+	float:left; 
 }
-.language .box {
-	background-color: #000;
-	height: 3px;
-	width: 30px;
+.clear {
+	clear: both;
+}
+.hidden {
+  display: none;
+}
+
+.clear_fix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+/* IE7 Hack */
+.clear_fix {
+  clear: both;
+  *display: inline-block;
 }
