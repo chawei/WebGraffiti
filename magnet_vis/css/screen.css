@@ -34,7 +34,7 @@ a {
 	color: #666600;
   text-decoration: none;
 }
-a:hover { color: #999; }
+a:hover { color: #000; }
 
 
 /* Menu
@@ -75,7 +75,7 @@ a:hover { color: #999; }
 /* Content
 ------------------ */
 #main {
-	margin: 60px auto 60px auto;
+	margin: 50px auto 60px auto;
 	width: 90%;
 }
 
@@ -117,6 +117,52 @@ line-height: 38px;
 	font-size: 15px;
 	margin-top: 4px;
 	line-height: 17px;
+}
+
+/* About
+------------------ */
+#main_about {
+	width:70%;
+	min-width:800px;
+	margin: 50px auto 60px auto;
+}
+#video_container {
+	margin-top: 20px;
+}
+
+#video {
+/*	margin: 0 10px 0 0;
+  border:2px solid #ffff00;*/
+}
+
+.about_desc {
+	font-family: "Trade-Gothic", sans-serif;
+	width: 620px;
+	margin-left: 80px;
+	line-height: 22px;
+	margin-top: 10px;
+}
+.about_desc a{
+	text-decoration: underline;
+}
+
+#download {
+	padding: 40px 0 0 30px;
+}
+#download_magnet {
+	background-color: #ffff00;
+	text-align: center;
+	margin: 20px 0 0 0;
+	padding: 11px 8px 6px 8px;
+}
+#circle_in {
+	margin-left: 10px;
+}
+#circle_out {
+	margin: 174px 0 0 35px;
+}
+#arrow {
+	margin: 18px 0 0 150px;
 }
 
 /* Misc

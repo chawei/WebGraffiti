@@ -1,92 +1,57 @@
-
 <!DOCTYPE html> 
 <html> 
 <head> 
   <title>Magnet</title> 
   <meta name="google-site-verification" content="t4NllCtzqEyu2hU99nn43Wl2rz-gy2iYzEOryvcZNGk" /> 
   
-	<!-- <link href='http://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'> --> 
-	<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'> 
- 
   <link href="css/screen.css" media="screen" rel="stylesheet" type="text/css" /> 
-	<link href="css/about.css" media="screen" rel="stylesheet" type="text/css" /> 
 
-  <script src="/javascripts/jquery.min.js?1296330084" type="text/javascript"></script> 
-<script src="/javascripts/jquery.timeago.js?1296838966" type="text/javascript"></script> 
-<script src="/javascripts/rails.js?1296330084" type="text/javascript"></script> 
-<script src="/javascripts/application.js?1296838966" type="text/javascript"></script> 
   <meta name="csrf-param" content="authenticity_token"/> 
 <meta name="csrf-token" content="TG9vFy2DY1Uv+6Vp0vLPdxTaQDJvqg+dVN7Ef4apMsQ="/> 
 </head> 
 <body> 
-  <!-- <div id="counter_container"> 
-    <div id="counter"> 
-      <span class="desc"># LIKE DISABLED</span> 
-      <span id="counter_data"> 
-        <span class='digit'>0</span><span class='digit'>0</span><span class='digit'>0</span><span class='digit'>5</span><span class='digit'>1</span><span class='digit'>1</span><span class='digit'>3</span><span class='digit'>3</span><span class='last_update'>Last Update: <abbr class='time_ago' title='2011-03-23T15:18:36Z'>about 3 hours ago</abbr></span> 
-      </span> 
-    </div> 
-  </div>  -->
   
-  <!-- <div id="header" class="clear_fix">
-    <div id="logo"><img src="/images/logo.png" /></div>   
-  </div> --> 
-  
-	<div id="menu">
-		<a id="logo">ANTI-LIKE MAGNET</a>
-		<a class="item" href="/" > DATA</a>
-		<a class="item" href="/about.html" style="border-top: 4px solid rgba(0,0,0, 0.5); padding:7px 2px 0 0;"> ABOUT</a>
+	<div id="menu" class="clear_fix">
+		<div id="selection" class="left">
+			<a id="logo">ANTI-LIKE MAGNET</a>
+			<a class="item" href="/" style="border-top: 4px solid rgba(0,0,0, 0.5); padding:7px 2px 0 0;"> DATA</a>
+			<a class="item" href="/about.html"> ABOUT</a>
+		</div>
+		<div id="update" class="left">
+			<span id="timestamp">10 mins ago </span>:<span id="info"> 12 Like disabled in Pasadena</span>
+		</div>
 	</div>
-
-  <div id="main_container"> 
-    <div> 
-      <div class="section_container"> 
-  <div class="section clear_fix"> 
-    <div class="description"> 
-			<div id="logo">ANTI-LIKE MAGNET</div>
-      <div class="desc">The Magnet lives in your Facebook, where it magnetizes & paralyzes the "like" feature. Your Social Network becomes "Like"-button-proof. This is a Chrome Extension, which only works on Google Chrome.</div>
- 			<!-- <div class="desc">"The More the Data Banks Record About Each One of Us, The Less We Exist."- Marshall Mcluhan</div> -->
-    </div>
-
-		<!-- <div class="section" style="margin-top: 10px;"> 
-			    <div id="visit_wall">Visit <a target="_blank" href="http://www.facebook.com/pages/Anti-Like-Magnet/177952818914121?v=wall">Magnet Wall on Facebook</a>. Project by <a href="http://yuinchien.com" target="_blank">yuin</a> and <a href="http://chaweihsu.com" target="_blank">chawei</a></span>
-
-			  </div> -->
-		
-    <div class="left_col left"> 
-	    <div id="video_container" class="clear_fix"> 
-				<div id="video"> 
-	        <object width="450" height="249"> 
-	          <param name="movie" value="http://www.youtube.com/v/8df3zShqYlo?fs=1&amp;hl=en_US&amp;rel=0" /> 
-	          <param name="allowFullScreen" value="true" /> 
-	          <param name="allowscriptaccess" value="always" /> 
-	          <embed src="http://www.youtube.com/v/8df3zShqYlo?fs=1&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="450" height="249" /> 
-	        </object> 
-	      </div> 
-			</div> 
-	  </div> 
 	
-	
-    <div class="left"> 
-      <div id="magnet_image"> 
-        <img src="assets/images/icon4.png" style="width:200px" title="magnet" /> 
+	<div id="main_about" class="clear_fix" style="">
+		<div id="circle_in" class="left"><img src="assets/images/circle_in.png" /></div>
+  	<div class="about_desc">The Magnet lives in your Facebook, where it magnetizes & paralyzes the "like" feature. Your Social Network then becomes Like-button-proof. This is a Chrome Extension, which only works on Google Chrome.</div>
+		<div class="about_desc">As Marshall McLuhan wrote, "The More the Data Banks Record About Each One of Us, The Less We Exist."</div>
+   
+	  <div id="video_container" class="left"> 
+			<div id="video"> 
+        <object width="450" height="249"> 
+          <param name="movie" value="http://www.youtube.com/v/8df3zShqYlo?fs=1&amp;hl=en_US&amp;rel=0" /> 
+          <param name="allowFullScreen" value="true" /> 
+          <param name="allowscriptaccess" value="always" /> 
+          <embed src="http://www.youtube.com/v/8df3zShqYlo?fs=1&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="450" height="249" /> 
+        </object> 
       </div> 
-      <a id="download_magnet" target="_blank" href="https://chrome.google.com/webstore/detail/mgeeepihnhfpcjlaiipihaabmmgjllio">INSTALL MAGNET</a> 
-	  </div> 
-	  
-		<div style="clear:both;margin-left:120px;margin-bottom: 30px; padding-top:20px;font-size:25px;line-height:31px;">"The More the Data Banks Record About Each One of Us, The Less We Exist."- Marshall Mcluhan</div>
+		</div> 
+	
+		<div id="download" class="left">
+			<img src="assets/images/magnet.png" />
+			<div id="download_magnet"><a target="_blank" href="https://chrome.google.com/webstore/detail/mgeeepihnhfpcjlaiipihaabmmgjllio">INSTALL MAGNET</a></div>
+		</div>
 		
-  </div>
- 
-  
-      
-</div> 
- 
- 
-    </div> 
+		<div id="circle_out" class="left"><img src="assets/images/circle_out.png" /></div>
+		
+		<div class="clear_fix" />
+		<div class="about_desc" style="padding-top:20px;">Anti-Like Magnet is a <a href="http://thesis.yuinchien.com/" target="_blank">thesis experiment</a> by <a href="http://yuinchien.com" target="_blank">yuin chien</a> and <a href="http://chaweihsu.com" target="_blank">chawei hsu</a>. Visit <a href="http://www.facebook.com/AntiLikeMagnet?v=wall" target="_blank">Magnet Wall</a> on Facebook.</div>
+			
+		<div id="arrow"><img src="assets/images/arrow.png" /></div>
+		
   </div> 
  
-  
  
   <script type="text/javascript" charset="utf-8"> 
     $(function() {
