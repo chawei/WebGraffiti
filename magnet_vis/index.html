@@ -121,7 +121,7 @@
 	
 	<div id="top_list" class="left" >
 		<div id="top_list_arrows" class="verticaltext"> >>>>>>>>>>>>>> </div>
-		<div id="top_list_title">TOP 10</div>
+		<div id="top_list_title">TOP 10 LANGUAGE</div>
 		<div class="item">English (US)</div>
 		<div class="item">Spanish</div>
 		<div class="item">Italian</div>
@@ -142,9 +142,7 @@
 	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.10.custom.min.js"></script>
 
-	<script type="text/javascript" language="javascript" src="js/modernizr-1.7.min.js"></script>
 	<script type="text/javascript" language="javascript" src="lang_mapping.js"></script>
-	<script type="text/javascript" language="javascript" src="animation.js"></script>
 		
 	<script type="text/javascript" language="javascript">
 		if (Modernizr.flexbox) {
@@ -157,21 +155,20 @@
 		var elements;
 		
 		$(document).ready(function() {
-			$.each(LangMapping, function(key, value){
-				var like_text = value['like_text'];
-				var lang_text = value['lang_text'];
-
-				if( grouped_likes[like_text]==null ) {
-					grouped_likes[like_text] = {};
-				}
-
-				grouped_likes[like_text][key] = lang_text;
-				
-				console.log('done');
-
-			});
-			
-			
+			// $.each(LangMapping, function(key, value){
+			// 	var like_text = value['like_text'];
+			// 	var lang_text = value['lang_text'];
+			// 
+			// 	if( grouped_likes[like_text]==null ) {
+			// 		grouped_likes[like_text] = {};
+			// 	}
+			// 
+			// 	grouped_likes[like_text][key] = lang_text;
+			// 	
+			// 	console.log('done');
+			// 
+			// });
+						
 		});
 	
 		function trigger() {
