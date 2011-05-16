@@ -84,17 +84,16 @@ a:hover { color: #99CC00; }
 #main {
 	margin: 50px auto 60px auto;
 	width: 90%;
-	min-width: 1050px;
+	min-width: 950px;
 }
 #content {
-	width: 80%;
-	min-width: 820px;
+	width: 72%;
+	min-width: 600px;
 }
 #top_list {
 	position: relative;
-	width: 18%;
+	width: 235px;
 	margin-left: 20px;
-	min-width: 180px;
 	font-family: "Trade-Gothic-Bold-Con", sans-serif;
 }
 #top_list_title{
